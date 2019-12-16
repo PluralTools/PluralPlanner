@@ -1,0 +1,52 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug",
+            "program": "${workspaceFolder}/target/debug/doit",
+            "cwd": "${workspaceFolder}",
+            "preLaunchTask": "build",
+            "sourceLanguages": [
+                "rust"
+            ]
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Release",
+            "program": "${workspaceFolder}/target/release/doit",
+            "cwd": "${workspaceFolder}",
+            "preLaunchTask": "build release",
+            "args": [
+                "--image",
+                "res/tile_set.png",
+                "--map",
+                "res/dungeon.ron",
+                "--release"
+              ],
+            "sourceLanguages": [
+                "rust"
+            ]
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug web",
+            "program": "cargo-node",
+            "cwd": "${workspaceFolder}",
+            "args": [
+                "run",
+                "--target",
+                "browser"
+              ],
+            "sourceLanguages": [
+                "rust"
+            ]
+        },
+    ]
+}
