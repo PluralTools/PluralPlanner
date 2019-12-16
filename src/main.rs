@@ -2,9 +2,11 @@ use orbtk::prelude::*;
 
 pub use self::main_state::*;
 pub use self::main_view::*;
+pub use self::task_list::*;
 
 mod main_state;
 mod main_view;
+mod task_list;
 
 fn main() {
     Application::new()
