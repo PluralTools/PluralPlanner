@@ -6,7 +6,7 @@ use serde_derive::{Deserialize, Serialize};
 pub struct Task {
     pub text: String,
 
-    pub checked: bool,
+    pub selected: bool,
 }
 
 #[derive(Default, Clone, Debug, Serialize, Deserialize)]
@@ -15,6 +15,14 @@ pub struct TaskList {
 }
 
 impl TaskList {
+    pub fn push(&mut self, task: Task) {
+        self.list.push(task);
+    }
+
+    pub fn remove(&mut self, index: usize) {
+        self.list.remove(index);
+    }
+
     pub fn get(&self, index: usize) -> Option<&Task> {
         self.list.get(index)
     }

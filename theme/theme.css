@@ -1,0 +1,30 @@
+text-box.inplace {
+    color: #dfebf5;
+    background: transparent;
+    border-color: transparent;
+    border-width: 1;
+    border-radius: 2;
+    padding: 6;
+}
+
+text-box.inplace:focus {
+    background: #3b434a;
+    border-color: #f8de4c;;
+}
+
+text-box.inplace:empty {
+    color: #9E9E9E
+}
+
+button.icon_only {
+    background: transparent;
+}
+
+button.icon_only:active {
+    background: #516475;
+    icon-color: #dfebf5;
+}
+
+items-widget {
+    border-color: transparent;
+}

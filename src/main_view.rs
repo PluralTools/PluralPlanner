@@ -1,6 +1,6 @@
 use orbtk::prelude::*;
 
-use crate::{MainState, TaskList};
+use crate::{Action, MainState, TaskList};
 
 widget!(MainView<MainState> {
     tasks: TaskList,
@@ -11,27 +11,68 @@ widget!(MainView<MainState> {
 impl Template for MainView {
     fn template(self, id: Entity, ctx: &mut BuildContext) -> Self {
         let items_widget = ItemsWidget::create()
+            .vertical_alignment("start")
             .items_builder(move |ctx, index| {
                 let mut text = "".to_string();
-                let mut checked = false;
-                
-                if let Some(task) = ctx.get_widget(id).get::<TaskList>("tasks").get(index).clone() {
+                let mut selected = false;
+
+                if let Some(task) = ctx
+                    .get_widget(id)
+                    .get::<TaskList>("tasks")
+                    .get(index)
+                    .clone()
+                {
                     text = task.text.clone();
-                    checked = task.checked;
+                    selected = task.selected;
                 }
 
-                TextBlock::create().text(text).build(ctx)
-              
-              
-
-                // Button::create()
-                //     .margin((0.0, 0.0, 0.0, 2.0))
-                //     .text(text)
-                //     .build(bc)
+                Grid::create()
+                    .margin((0.0, 0.0, 0.0, 0.4))
+                    .columns(
+                        Columns::create()
+                            .column("Auto")
+                            .column("*")
+                            .column(4.0)
+                            .column(32.0)
+                            .build(),
+                    )
+                    .child(
+                        CheckBox::create()
+                            .attach(Grid::column(0))
+                            .vertical_alignment("center")
+                            .selected(selected)
+                            .build(ctx),
+                    )
+                    .child(
+                        TextBox::create()
+                            .water_mark("Insert text...")
+                            .selector(Selector::from("text-box").class("inplace"))
+                            .attach(Grid::column(1))
+                            .text(text)
+                            .build(ctx),
+                    )
+                    .child(
+                        Button::create()
+                            .selector(Selector::from("button").class("icon_only"))
+                            .attach(Grid::column(3))
+                            .min_size(32.0, 32.0)
+                            .vertical_alignment("center")
+                            .icon(material_font_icons::MINUS_FONT_ICON)
+                            .on_click(move |ctx, _| {
+                                ctx.get_mut::<MainState>(id).action(Action::RemoveEntry(index));
+                                true
+                            })
+                            .build(ctx),
+                    )
+                    .build(ctx)
             })
             .count(("task_count", id))
             .build(ctx);
-        let scroll_viewer = ScrollViewer::create().build(ctx);
+
+        let scroll_viewer = ScrollViewer::create()
+            .scroll_viewer_mode(("disabled", "auto"))
+            .child(items_widget)
+            .build(ctx);
 
         self.name("MainView")
             .tasks(TaskList::default())
@@ -42,7 +83,6 @@ impl Template for MainView {
                     .child(
                         Container::create()
                             .attach(Grid::row(0))
-                            .child(items_widget)
                             .child(scroll_viewer)
                             .child(
                                 ScrollIndicator::create()
@@ -52,7 +92,15 @@ impl Template for MainView {
                             )
                             .build(ctx),
                     )
-                    .child(TextBox::create().attach(Grid::row(1)).build(ctx))
+                    .child(
+                        TextBox::create()
+                            .attach(Grid::row(1))
+                            .on_activate(move |ctx, entity| {
+                                ctx.get_mut::<MainState>(id)
+                                    .action(Action::CreateEntry(entity));
+                            })
+                            .build(ctx),
+                    )
                     .build(ctx),
             )
     }
