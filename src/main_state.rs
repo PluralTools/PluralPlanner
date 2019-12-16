@@ -8,6 +8,8 @@ use crate::{Task, TaskList};
 pub enum Action {
     CreateEntry(Entity),
     RemoveEntry(usize),
+    SelectionChanged(Entity, usize),
+    TextChanged(Entity, usize),
 }
 
 #[derive(Default, AsAny)]
@@ -22,7 +24,7 @@ impl MainState {
 
     pub fn create_entry(&self, text: String, ctx: &mut Context) {
         ctx.widget().get_mut::<TaskList>("tasks").push(Task {
-            text: text,
+            text,
             selected: false,
         });
         self.adjust_count(ctx);
@@ -50,6 +52,13 @@ impl MainState {
         let count = ctx.widget().get::<TaskList>("tasks").len();
         ctx.widget().set("task_count", count);
     }
+
+    fn save(&self, registry: &mut Registry, ctx: &mut Context) {
+        registry
+            .get::<Settings>("settings")
+            .save("tasks", ctx.widget().get::<TaskList>("tasks"))
+            .unwrap();
+    }
 }
 
 impl State for MainState {
@@ -58,11 +67,6 @@ impl State for MainState {
             .get::<Settings>("settings")
             .load::<TaskList>("tasks")
         {
-            // let mut task_list = TaskList::default();
-
-            // for _ in 0..3 {
-            //     task_list.push(Task { text: "blub".to_string(), selected: false});
-            // }
             ctx.widget().set("tasks", tasks);
         }
 
@@ -75,18 +79,30 @@ impl State for MainState {
                 Action::CreateEntry(entity) => {
                     if let Some(text) = self.fetch_text(ctx, entity) {
                         self.create_entry(text, ctx);
-                        registry
-                            .get::<Settings>("settings")
-                            .save("tasks", ctx.widget().get::<TaskList>("tasks"))
-                            .unwrap();
+                        self.save(registry, ctx);
                     }
                 }
                 Action::RemoveEntry(index) => {
                     self.remove_entry(index, ctx);
-                    registry
-                        .get::<Settings>("settings")
-                        .save("tasks", ctx.widget().get::<TaskList>("tasks"))
-                        .unwrap();
+                    self.save(registry, ctx);
+                }
+                Action::SelectionChanged(entity, index) => {
+                    let selected: bool = *ctx.get_widget(entity).get("selected");
+
+                    if let Some(task) = ctx.widget().get_mut::<TaskList>("tasks").get_mut(index) {
+                        task.selected = selected;
+                    }
+
+                    self.save(registry, ctx);
+                }
+                Action::TextChanged(entity, index) => {
+                    let text: String16 = ctx.get_widget(entity).clone("text");
+
+                    if let Some(task) = ctx.widget().get_mut::<TaskList>("tasks").get_mut(index) {
+                        task.text = text.to_string();
+                    }
+
+                    self.save(registry, ctx);
                 }
             }
         }

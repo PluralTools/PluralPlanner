@@ -18,7 +18,7 @@ opt-level = 1
 debug = ["orbtk/debug"]
 
 [dependencies]
-#orbtk = { git = "https://github.com/redox-os/orbtk.git", branch= "develop" }
-orbtk = { path = "../orbtk" }
+orbtk = { git = "https://github.com/redox-os/orbtk.git", branch= "develop" }
+#orbtk = { path = "../orbtk" }
 serde = "1.0.104"
 serde_derive = "1.0.104"

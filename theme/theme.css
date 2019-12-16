@@ -28,3 +28,7 @@ button.icon_only:active {
 items-widget {
     border-color: transparent;
 }
+
+bottom {
+    background: #444e55;
+}
