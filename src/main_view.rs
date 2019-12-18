@@ -86,6 +86,7 @@ impl Template for MainView {
             .attach(Grid::row(2))
             .vertical_alignment("center")
             .margin((4.0, 0.0, 0.0, 0.0))
+            .lost_focus_on_activation(false)
             .on_activate(move |ctx, entity| {
                 ctx.get_mut::<MainState>(id)
                     .action(Action::CreateEntry(entity));
