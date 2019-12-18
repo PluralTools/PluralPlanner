@@ -64,7 +64,9 @@ impl Template for MainView {
                             .attach(Grid::column(3))
                             .min_size(32.0, 32.0)
                             .vertical_alignment("center")
-                            .icon(material_font_icons::MINUS_FONT_ICON)
+                            // todo use remove from icons
+                            // .icon(material_font_icons::DELETE_FONT_ICON)
+                            .icon("")
                             .on_click(move |ctx, _| {
                                 ctx.get_mut::<MainState>(id)
                                     .action(Action::RemoveEntry(index));
