@@ -8,7 +8,7 @@ trigger:
     
 steps:
 - name: build
-  image: rustdocker/rust:stable
+  image: rust
   commands:
   - sudo apt update -y
   - sudo apt install npm -y
