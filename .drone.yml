@@ -36,7 +36,7 @@ trigger:
     
 steps:
 - name: build
-  image: rust
+  image: rustdocker/ubuntu
   commands:
   - apt install npm
   - cargo install --force cargo-node
