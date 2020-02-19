@@ -10,7 +10,7 @@ steps:
 - name: build
   image: rustdocker/rust:stable
   commands:
-  - sudo apt update
-  - sudo apt install npm
+  - sudo apt update -y
+  - sudo apt install npm -y
   - cargo install --force cargo-node
   - cargo-node build --target browser
