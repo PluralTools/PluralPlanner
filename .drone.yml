@@ -10,7 +10,7 @@ steps:
 - name: build
   image: rust
   commands:
-  - sudo apt update -y
-  - sudo apt install npm -y
+  - apt update -y
+  - apt install npm -y
   - cargo install --force cargo-node
   - cargo-node build --target browser
