@@ -10,6 +10,6 @@ steps:
 - name: build
   image: rustdocker/rust:stable
   commands:
-  - apt-get install nodejs
+  - apt-get install node
   - cargo install --force cargo-node
   - cargo-node build --target browser
