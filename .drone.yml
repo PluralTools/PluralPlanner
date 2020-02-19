@@ -1,13 +1,42 @@
 ---
 kind: pipeline
 type: docker
-name: default
+name: Build Linux
 trigger:
   branch:
     - master
     
 steps:
-- name: Build
+- name: build
   image: rust
   commands:
   - cargo build
+  
+---
+kind: pipeline
+type: docker
+name: Build Redox OS
+trigger:
+  branch:
+    - master
+    
+steps:
+- name: build
+  image: redoxos:redoxer
+  commands:
+  - redoxer build
+  
+---
+kind: pipeline
+type: docker
+name: Build wasm32
+trigger:
+  branch:
+    - master
+    
+steps:
+- name: build
+  image: node
+  commands:
+  - cargo install --force cargo-node
+  - cargo-node build --target browser
