@@ -39,5 +39,6 @@ steps:
   image: node
   commands:
   - curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+  - source $HOME/.cargo/env
   - cargo install --force cargo-node
   - cargo-node build --target browser
