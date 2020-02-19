@@ -1,31 +1,4 @@
----
-kind: pipeline
-type: docker
-name: Build Linux
-trigger:
-  branch:
-    - master
-    
-steps:
-- name: build
-  image: rust
-  commands:
-  - cargo build
-  
----
-kind: pipeline
-type: docker
-name: Build Redox OS
-trigger:
-  branch:
-    - master
-    
-steps:
-- name: build
-  image: redoxos/redoxer
-  commands:
-  - redoxer build
-  
+
 ---
 kind: pipeline
 type: docker
@@ -36,7 +9,7 @@ trigger:
     
 steps:
 - name: build
-  image: docker pull rustdocker/rust
+  image: rustdocker/rust
   commands:
   - apt-get install npm
   - cargo install --force cargo-node
