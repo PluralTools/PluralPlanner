@@ -22,7 +22,7 @@ trigger:
     
 steps:
 - name: build
-  image: redoxos:redoxer
+  image: redoxos/redoxer
   commands:
   - redoxer build
   
