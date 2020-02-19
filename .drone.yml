@@ -36,8 +36,8 @@ trigger:
     
 steps:
 - name: build
-  image: rustdocker/ubuntu
+  image: docker pull rustdocker/rust
   commands:
-  - apt install npm
+  - apt-get install npm
   - cargo install --force cargo-node
   - cargo-node build --target browser
