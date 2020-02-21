@@ -1,22 +1,44 @@
 ---
 kind: pipeline
 type: docker
-name: Build and deplox wasm32
+name: Build Linux
 trigger:
   branch:
     - master
     
 steps:
-- name: build and deploy
+- name: build
+  image: rust
+  commands:
+  - cargo build
+  
+---
+kind: pipeline
+type: docker
+name: Build Redox OS
+trigger:
+  branch:
+    - master
+    
+steps:
+- name: build
+  image: redoxos/redoxer
+  commands:
+  - redoxer build
+
+---
+kind: pipeline
+type: docker
+name: Build wasm32
+trigger:
+  branch:
+    - master
+    
+steps:
+- name: build
   image: rust
   commands:
   - apt update -y
   - apt install npm -y
   - cargo install --force cargo-node
-  - cargo-node deploy --target browser
-  - git clone git@codeberg.org:flovanco/pages.git
-  - cp -r target/doit-browser/ pages/doit/
-  - cd pages
-  - git add .
-  - git commit -a -m "doit deploy"
-  - git push
+  - cargo-node build --target browser
