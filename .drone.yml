@@ -20,9 +20,3 @@ steps:
   - git add .
   - git commit -a -m "doit deploy"
   - git push
-  environment:
-    SSH_KEY:
-      from_secret: drone_ssh_key
-    SSH_CONFIG:
-      from_secret: ssh_config
-
