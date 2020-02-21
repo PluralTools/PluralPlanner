@@ -29,16 +29,30 @@ steps:
 ---
 kind: pipeline
 type: docker
-name: Build wasm32
+name: Build and deplox wasm32
 trigger:
   branch:
     - master
     
 steps:
-- name: build
+- name: build and deploy
   image: rust
   commands:
   - apt update -y
   - apt install npm -y
   - cargo install --force cargo-node
-  - cargo-node build --target browser
+  - cargo-node deploy --target browser
+  - eval `ssh-agent -s`
+  - echo "$SSH_KEY" | ssh-add -
+  - mkdir -p ~/.ssh
+  - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+  - git clone git@codeberg.org:flovanco/pages.git
+  - cp -r target/doit-browser/ pages/doit/
+  - cd pages
+  - git add .
+  - git commit -a -m "doit deploy"
+  - git push
+  environment:
+    SSH_KEY:
+      from_secret: drone_ssh_key
+
