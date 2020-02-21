@@ -1,34 +1,6 @@
 ---
 kind: pipeline
 type: docker
-name: Build Linux
-trigger:
-  branch:
-    - master
-    
-steps:
-- name: build
-  image: rust
-  commands:
-  - cargo build
-  
----
-kind: pipeline
-type: docker
-name: Build Redox OS
-trigger:
-  branch:
-    - master
-    
-steps:
-- name: build
-  image: redoxos/redoxer
-  commands:
-  - redoxer build
-
----
-kind: pipeline
-type: docker
 name: Build and deplox wasm32
 trigger:
   branch:
