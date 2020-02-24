@@ -8,7 +8,7 @@ repository = "https://codeberg.org/pinhead-galaxy/doit"
 readme = "README.md"
 license = "GPLv3"
 keywords = [
-    "taks"
+    "tasks"
 ]
 
 [profile.dev]
