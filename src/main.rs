@@ -18,7 +18,7 @@ fn get_theme() -> ThemeValue {
 }
 
 fn main() {
-    Application::from_name("pinhead-galaxy.doit")
+    Application::from_name("flovanco.doit")
         .window(move |ctx| {
             Window::create()
                 .title("Do it")
