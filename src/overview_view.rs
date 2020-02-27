@@ -10,8 +10,7 @@ widget!(OverviewView<OverviewState> {
 
 impl Template for OverviewView {
     fn template(self, id: Entity, ctx: &mut BuildContext) -> Self {
-        let items_widget = ItemsWidget::create()
-            .vertical_alignment("start")
+        let list_view = ListView::create()
             .items_builder(move |ctx, index| {
                 let mut text = "".to_string();
 
@@ -22,18 +21,22 @@ impl Template for OverviewView {
                 {
                     text = task_overview.title.clone();
                 }
-
-                let text_box =    TextBox::create()
-                .water_mark("Insert text...")
-                .class("inplace")
-                .enabled(false)
-                .attach(Grid::column(0))
-                .text(text)
-                .on_changed(move |ctx, entity| {
-                    ctx.get_mut::<OverviewState>(id)
-                        .action(Action::TextChanged(entity, index));
-                })
-                .build(ctx);
+                let text_box = TextBox::create()
+                    .vertical_alignment("center")
+                    .water_mark("Insert text...")
+                    .class("inplace")
+                    .enabled(false)
+                    .attach(Grid::column(0))
+                    .text(text)
+                    .on_changed(move |ctx, entity| {
+                        ctx.get_mut::<OverviewState>(id)
+                            .action(Action::TextChanged(entity, index));
+                    })
+                    .on_activate(move |ctx, entity| {
+                        ctx.get_mut::<OverviewState>(id)
+                            .action(Action::RemoveFocus(entity));
+                    })
+                    .build(ctx);
 
                 Grid::create()
                     .margin((0.0, 0.0, 0.0, 0.4))
@@ -46,9 +49,7 @@ impl Template for OverviewView {
                             .column(32.0)
                             .build(),
                     )
-                    .child(
-                        text_box
-                    )
+                    .child(text_box)
                     .child(
                         Button::create()
                             .class("icon_only")
@@ -84,15 +85,14 @@ impl Template for OverviewView {
                     .build(ctx)
             })
             .count((PROP_COUNT, id))
-            .build(ctx);
-
-        let scroll_viewer = ScrollViewer::create()
-            .scroll_viewer_mode(("disabled", "auto"))
-            .child(items_widget)
+            .on_changed(move |ctx, entity| {
+                ctx.get_mut::<OverviewState>(id)
+                    .action(Action::OpenTaskList(entity));
+            })
             .build(ctx);
 
         let text_box = TextBox::create()
-            .attach(Grid::row(3))
+            .attach(Grid::row(2))
             .vertical_alignment("center")
             .margin((4.0, 0.0, 0.0, 0.0))
             .lost_focus_on_activation(false)
@@ -111,13 +111,22 @@ impl Template for OverviewView {
             .count(0)
             .child(
                 Grid::create()
-                    .rows(Rows::create().row(52.0).row("*").row(4.0).row(40.0).build())
+                    .rows(Rows::create().row("auto").row("*").row("auto").build())
                     .columns(
                         Columns::create()
                             .column("*")
                             .column(4.0)
                             .column(36.0)
                             .build(),
+                    )
+                    // Content
+                    .child(
+                        Container::create()
+                            .attach(Grid::row(1))
+                            .attach(Grid::column(0))
+                            .attach(Grid::column_span(3))
+                            .child(list_view)
+                            .build(ctx),
                     )
                     // Top Bar
                     .child(
@@ -130,24 +139,8 @@ impl Template for OverviewView {
                                 TextBlock::create()
                                     .class(CLASS_HEADER)
                                     .vertical_alignment("center")
-                                    .margin((88.0, 0.0, 0.0, 0.0))
+                                    .horizontal_alignment("center")
                                     .text("Overview")
-                                    .build(ctx),
-                            )
-                            .build(ctx),
-                    )
-                    // Content
-                    .child(
-                        Container::create()
-                            .attach(Grid::row(1))
-                            .attach(Grid::column(0))
-                            .attach(Grid::column_span(3))
-                            .child(scroll_viewer)
-                            .child(
-                                ScrollIndicator::create()
-                                    .padding((0.0, 4.0, 0.0, 0.0))
-                                    .content_id(items_widget.0)
-                                    .scroll_offset(scroll_viewer)
                                     .build(ctx),
                             )
                             .build(ctx),
@@ -156,7 +149,7 @@ impl Template for OverviewView {
                     .child(
                         Container::create()
                             .class(CLASS_BOTTOM_BAR)
-                            .attach(Grid::row(3))
+                            .attach(Grid::row(2))
                             .attach(Grid::column(0))
                             .attach(Grid::column_span(3))
                             .build(ctx),
@@ -166,7 +159,7 @@ impl Template for OverviewView {
                         Button::create()
                             .id(ID_OVERVIEW_ADD_BUTTON)
                             .class("icon_only")
-                            .attach(Grid::row(3))
+                            .attach(Grid::row(2))
                             .attach(Grid::column(2))
                             .margin((0.0, 0.0, 4.0, 0.0))
                             .enabled(false)

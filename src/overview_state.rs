@@ -14,6 +14,8 @@ pub enum Action {
     RemoveEntry(usize),
     TextChanged(Entity, usize),
     EditEntry(Entity),
+    RemoveFocus(Entity),
+    OpenTaskList(Entity)
 }
 
 #[derive(Default, AsAny)]
@@ -34,10 +36,20 @@ impl OverviewState {
         self.adjust_count(ctx);
     }
 
-    pub fn edit_entry(&self, text_box: Entity, ctx: &mut Context) {
-        ctx.get_widget(text_box).set("enabled", true);
+    pub fn remove_focus(&self, text_box: Entity, ctx: &mut Context) {
+        ctx.get_widget(text_box).set("enabled", false);
+        ctx.window().get_mut::<Global>("global").focused_widget = None;
+        ctx.get_widget(text_box).set("focused", false);
+        ctx.get_widget(text_box).update_theme_by_state(false);
+    }
 
+    pub fn edit_entry(&self, text_box: Entity, ctx: &mut Context) {
         if let Some(old_focused_element) = ctx.window().get::<Global>("global").focused_widget {
+            if old_focused_element == text_box {
+                self.remove_focus(text_box, ctx);
+                return;
+            }
+
             let mut old_focused_element = ctx.get_widget(old_focused_element);
             old_focused_element.set("focused", false);
             old_focused_element.update_theme_by_state(false);
@@ -47,6 +59,8 @@ impl OverviewState {
 
         ctx.get_widget(text_box).set("focused", true);
         ctx.get_widget(text_box).update_theme_by_state(false);
+        ctx.get_widget(text_box).set("enabled", true);
+
     }
 
     pub fn remove_entry(&self, index: usize, ctx: &mut Context) {
@@ -93,6 +107,10 @@ impl OverviewState {
                 ctx.widget().get::<TaskOverview>(PROP_TASK_OVERVIEW),
             )
             .unwrap();
+    }
+
+    fn open_task_list(&self, entity: Entity, ctx: &mut Context) {
+
     }
 }
 
@@ -142,6 +160,12 @@ impl State for OverviewState {
                 }
                 Action::EditEntry(text_box) => {
                     self.edit_entry(text_box, ctx);
+                }
+                Action::RemoveFocus(text_box) => {
+                    self.remove_focus(text_box, ctx);
+                }
+                Action::OpenTaskList(list_box) => {
+                    self.open_task_list(list_box, ctx);
                 }
             }
         }

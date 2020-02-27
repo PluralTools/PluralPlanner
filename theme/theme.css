@@ -1,4 +1,10 @@
-.top_bar, .bottom_bar {
+.top_bar {
+    min-height: 52;
+    background: #475b6e;
+}
+
+.bottom_bar {
+    height: 40;
     background: #475b6e;
 }
 
@@ -43,4 +49,8 @@ text-box.inplace:empty {
 
 items-widget {
     border-color: transparent;
+}
+
+list-view-item {
+    height: 38;
 }
