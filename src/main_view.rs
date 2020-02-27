@@ -49,7 +49,7 @@ impl Template for MainView {
                     .child(
                         TextBox::create()
                             .water_mark("Insert text...")
-                            .selector(Selector::from("text-box").class("inplace"))
+                            .class("inplace")
                             .attach(Grid::column(1))
                             .text(text)
                             .on_changed(move |ctx, entity| {
@@ -60,7 +60,7 @@ impl Template for MainView {
                     )
                     .child(
                         Button::create()
-                            .selector(Selector::from("button").class("icon_only"))
+                            .class("icon_only")
                             .attach(Grid::column(3))
                             .min_size(32.0, 32.0)
                             .vertical_alignment("center")
@@ -126,7 +126,7 @@ impl Template for MainView {
                     )
                     .child(
                         Container::create()
-                            .selector("bottom")
+                            .element("bottom")
                             .attach(Grid::row(2))
                             .attach(Grid::column(0))
                             .attach(Grid::column_span(3))
@@ -135,7 +135,7 @@ impl Template for MainView {
                     .child(text_box)
                     .child(
                         Button::create()
-                            .selector(Selector::from("button").class("icon_only"))
+                            .class("icon_only")
                             .attach(Grid::row(2))
                             .attach(Grid::column(2))
                             .min_size(32.0, 32.0)

@@ -603,7 +603,7 @@ dependencies = [
 [[package]]
 name = "orbtk"
 version = "0.3.1-alpha2"
-source = "git+https://github.com/redox-os/orbtk.git?branch=develop#6e3cdbf499f7af4da41c2c0f157b2ca0dba0a60d"
+source = "git+https://github.com/redox-os/orbtk.git?branch=develop#f069076f3e1c42415d27cf8836a333cd681e1c23"
 dependencies = [
  "dces",
  "orbtk-api",
@@ -620,7 +620,7 @@ dependencies = [
 [[package]]
 name = "orbtk-api"
 version = "0.3.1-alpha2"
-source = "git+https://github.com/redox-os/orbtk.git?branch=develop#6e3cdbf499f7af4da41c2c0f157b2ca0dba0a60d"
+source = "git+https://github.com/redox-os/orbtk.git?branch=develop#f069076f3e1c42415d27cf8836a333cd681e1c23"
 dependencies = [
  "dces",
  "derive_more",
@@ -642,7 +642,7 @@ dependencies = [
 [[package]]
 name = "orbtk-css-engine"
 version = "0.3.1-alpha2"
-source = "git+https://github.com/redox-os/orbtk.git?branch=develop#6e3cdbf499f7af4da41c2c0f157b2ca0dba0a60d"
+source = "git+https://github.com/redox-os/orbtk.git?branch=develop#f069076f3e1c42415d27cf8836a333cd681e1c23"
 dependencies = [
  "cssparser",
  "orbtk-utils",
@@ -651,7 +651,7 @@ dependencies = [
 [[package]]
 name = "orbtk-proc-macros"
 version = "0.3.1-alpha2"
-source = "git+https://github.com/redox-os/orbtk.git?branch=develop#6e3cdbf499f7af4da41c2c0f157b2ca0dba0a60d"
+source = "git+https://github.com/redox-os/orbtk.git?branch=develop#f069076f3e1c42415d27cf8836a333cd681e1c23"
 dependencies = [
  "quote 1.0.2",
  "syn 1.0.16",
@@ -660,7 +660,7 @@ dependencies = [
 [[package]]
 name = "orbtk-render"
 version = "0.3.1-alpha2"
-source = "git+https://github.com/redox-os/orbtk.git?branch=develop#6e3cdbf499f7af4da41c2c0f157b2ca0dba0a60d"
+source = "git+https://github.com/redox-os/orbtk.git?branch=develop#f069076f3e1c42415d27cf8836a333cd681e1c23"
 dependencies = [
  "image 0.23.0",
  "orbtk-utils",
@@ -672,7 +672,7 @@ dependencies = [
 [[package]]
 name = "orbtk-shell"
 version = "0.3.1-alpha2"
-source = "git+https://github.com/redox-os/orbtk.git?branch=develop#6e3cdbf499f7af4da41c2c0f157b2ca0dba0a60d"
+source = "git+https://github.com/redox-os/orbtk.git?branch=develop#f069076f3e1c42415d27cf8836a333cd681e1c23"
 dependencies = [
  "console_error_panic_hook",
  "image 0.22.5",
@@ -688,7 +688,7 @@ dependencies = [
 [[package]]
 name = "orbtk-theme"
 version = "0.3.1-alpha2"
-source = "git+https://github.com/redox-os/orbtk.git?branch=develop#6e3cdbf499f7af4da41c2c0f157b2ca0dba0a60d"
+source = "git+https://github.com/redox-os/orbtk.git?branch=develop#f069076f3e1c42415d27cf8836a333cd681e1c23"
 dependencies = [
  "lazy_static",
  "orbtk-css-engine",
@@ -697,7 +697,7 @@ dependencies = [
 [[package]]
 name = "orbtk-tree"
 version = "0.3.1-alpha2"
-source = "git+https://github.com/redox-os/orbtk.git?branch=develop#6e3cdbf499f7af4da41c2c0f157b2ca0dba0a60d"
+source = "git+https://github.com/redox-os/orbtk.git?branch=develop#f069076f3e1c42415d27cf8836a333cd681e1c23"
 dependencies = [
  "dces",
 ]
@@ -705,12 +705,12 @@ dependencies = [
 [[package]]
 name = "orbtk-utils"
 version = "0.3.1-alpha2"
-source = "git+https://github.com/redox-os/orbtk.git?branch=develop#6e3cdbf499f7af4da41c2c0f157b2ca0dba0a60d"
+source = "git+https://github.com/redox-os/orbtk.git?branch=develop#f069076f3e1c42415d27cf8836a333cd681e1c23"
 
 [[package]]
 name = "orbtk-widgets"
 version = "0.3.1-alpha2"
-source = "git+https://github.com/redox-os/orbtk.git?branch=develop#6e3cdbf499f7af4da41c2c0f157b2ca0dba0a60d"
+source = "git+https://github.com/redox-os/orbtk.git?branch=develop#f069076f3e1c42415d27cf8836a333cd681e1c23"
 dependencies = [
  "dces",
  "orbtk-api",
@@ -989,9 +989,9 @@ dependencies = [
 
 [[package]]
 name = "raqote"
-version = "0.7.12"
+version = "0.7.13"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "0b5c9e1c8b3f66942f8b5f97eae7f6fef3be73a0e085c8fd28ee85ebf798fa38"
+checksum = "aefbfa0f29b39bd2465f78475225ec2471accaf45a64a0391b4bfcdd5f0f7a00"
 dependencies = [
  "euclid",
  "lyon_geom",
@@ -1299,9 +1299,9 @@ checksum = "213701ba3370744dcd1a12960caa4843b3d68b4d1c0a5d575e0d65b2ee9d16c0"
 
 [[package]]
 name = "sw-composite"
-version = "0.7.5"
+version = "0.7.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "0e3b3ef31a0dc68672c8d2ddcc84f6775db748c6ceef3d3dac2ac6fe2a52c494"
+checksum = "489500b88acdc4007684adf921506e84057e232a7f8b76a0caa288169ab39b94"
 
 [[package]]
 name = "syn"

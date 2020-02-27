@@ -3,11 +3,19 @@ use orbtk::theme::DEFAULT_THEME_CSS;
 
 pub use self::main_state::*;
 pub use self::main_view::*;
+pub use self::overview_state::*;
+pub use self::overview_view::*;
 pub use self::task_list::*;
+pub use self::task_state::*;
+pub use self::task_view::*;
 
 mod main_state;
 mod main_view;
+mod overview_state;
+mod overview_view;
 mod task_list;
+mod task_state;
+mod task_view;
 
 static THEME: &str = include_str!("../theme/theme.css");
 
