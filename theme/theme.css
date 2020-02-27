@@ -1,3 +1,12 @@
+.top_bar, .bottom_bar {
+    background: #475b6e;
+}
+
+.header {
+    font-size: 24;
+    font-family: "Roboto Medium";
+}
+
 text-box.inplace {
     color: #dfebf5;
     background: transparent;
@@ -16,19 +25,22 @@ text-box.inplace:empty {
     color: #9E9E9E
 }
 
-button.icon_only {
+.icon_only {
+    icon-color: #dfebf5;
     background: transparent;
+    spacing: 0;
 }
 
-button.icon_only:active {
+.icon_only:active {
     background: #516475;
     icon-color: #dfebf5;
 }
 
-items-widget {
-    border-color: transparent;
+.icon_only:disabled {
+    icon-color: #949ca5;
+    background: transparent;
 }
 
-bottom {
-    background: #444e55;
+items-widget {
+    border-color: transparent;
 }

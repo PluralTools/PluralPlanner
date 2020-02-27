@@ -52,6 +52,13 @@ pub struct TaskList {
 }
 
 impl TaskList {
+    pub fn new (title: impl Into<String>) -> Self {
+        TaskList {
+            title: title.into(),
+            ..Default::default()
+        }
+    } 
+
     pub fn push(&mut self, task: Task) {
         self.list.push(task);
     }
@@ -81,4 +88,5 @@ impl TaskList {
     }
 }
 
+into_property_source!(TaskOverview);
 into_property_source!(TaskList);
