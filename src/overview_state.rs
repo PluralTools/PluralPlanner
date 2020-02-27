@@ -7,7 +7,7 @@ use crate::{
     keys::*,
 };
 
-#[derive(Debug)]
+#[derive(Debug, Copy, Clone)]
 pub enum Action {
     InputTextChanged(Entity),
     CreateEntry(Entity),
@@ -20,13 +20,14 @@ pub enum Action {
 
 #[derive(Default, AsAny)]
 pub struct OverviewState {
-    actions: VecDeque<Action>,
+    action: Option<Action>,
     add_button: Entity,
+    task_view: Entity
 }
 
 impl OverviewState {
     pub fn action(&mut self, action: Action) {
-        self.actions.push_front(action);
+        self.action = action.into();
     }
 
     pub fn create_entry(&self, text: String, ctx: &mut Context) {
@@ -44,22 +45,25 @@ impl OverviewState {
     }
 
     pub fn edit_entry(&self, text_box: Entity, ctx: &mut Context) {
-        if let Some(old_focused_element) = ctx.window().get::<Global>("global").focused_widget {
-            if old_focused_element == text_box {
-                self.remove_focus(text_box, ctx);
-                return;
-            }
+        if *ctx.get_widget(text_box).get::<bool>("enabled") {
+            self.remove_focus(text_box, ctx);
+            return;
+        }
 
+        ctx.get_widget(text_box).set("enabled", true);
+
+        if let Some(old_focused_element) = ctx.window().get::<Global>("global").focused_widget {
             let mut old_focused_element = ctx.get_widget(old_focused_element);
             old_focused_element.set("focused", false);
             old_focused_element.update_theme_by_state(false);
         }
+      
 
         ctx.window().get_mut::<Global>("global").focused_widget = Some(text_box);
 
         ctx.get_widget(text_box).set("focused", true);
         ctx.get_widget(text_box).update_theme_by_state(false);
-        ctx.get_widget(text_box).set("enabled", true);
+        
 
     }
 
@@ -110,7 +114,8 @@ impl OverviewState {
     }
 
     fn open_task_list(&self, entity: Entity, ctx: &mut Context) {
-
+        ctx.widget().set("visibility", Visibility::Collapsed);
+        ctx.get_widget(self.task_view).set("visibility", Visibility::Visible);
     }
 }
 
@@ -119,6 +124,8 @@ impl State for OverviewState {
         self.add_button = ctx
             .entity_of_child(ID_OVERVIEW_ADD_BUTTON)
             .expect("OverviewState.init: Add button child could not be found.");
+        self.task_view = (*ctx.widget().get::<u32>("task_view")).into();
+
         if let Ok(tasks) = registry
             .get::<Settings>("settings")
             .load::<TaskOverview>(PROP_TASK_OVERVIEW)
@@ -130,7 +137,7 @@ impl State for OverviewState {
     }
 
     fn update(&mut self, registry: &mut Registry, ctx: &mut Context) {
-        if let Some(action) = self.actions.pop_front() {
+        if let Some(action) = self.action {
             match action {
                 Action::InputTextChanged(text_box) => {
                     self.adjust_add_button_enabled(text_box, ctx);
@@ -169,5 +176,7 @@ impl State for OverviewState {
                 }
             }
         }
+
+        self.action = None;
     }
 }

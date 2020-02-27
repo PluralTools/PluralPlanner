@@ -4,8 +4,8 @@ use crate::{data::TaskOverview, keys::*, overview_state::*};
 
 widget!(OverviewView<OverviewState> {
     task_overview: TaskOverview,
-
-    count: usize
+    count: usize,
+    task_view: u32
 });
 
 impl Template for OverviewView {

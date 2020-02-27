@@ -108,3 +108,14 @@
 //         }
 //     }
 // }
+
+use orbtk::prelude::*;
+
+widget!(TaskView {});
+
+impl Template for TaskView {
+    fn template(self, _: Entity, ctx: &mut BuildContext) -> Self {
+        self.name("TaskView")
+            .child(TextBlock::create().text("Task view").build(ctx))
+    }
+}
