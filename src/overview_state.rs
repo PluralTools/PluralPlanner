@@ -15,7 +15,7 @@ pub enum Action {
     TextChanged(Entity, usize),
     EditEntry(Entity),
     RemoveFocus(Entity),
-    OpenTaskList(Entity),
+    OpenTaskList(usize),
 }
 
 /// Handles the requests of the `OverviewView`.
@@ -24,6 +24,9 @@ pub struct OverviewState {
     action: Option<Action>,
     add_button: Entity,
     task_view: Entity,
+    items_widget: Entity,
+    text_box: Entity,
+    last_focused: Option<Entity>,
 }
 
 impl BaseState for OverviewState {}
@@ -79,16 +82,24 @@ impl OverviewState {
     }
 
     // opens a task list.
-    fn open_task_list(&self, entity: Entity, ctx: &mut Context) {
+    fn open_task_list(&self, index: usize, ctx: &mut Context) {
+        ctx.get_widget(self.task_view)
+            .set("list_index", Some(index));
         self.navigate(self.task_view, ctx);
     }
 }
 
 impl State for OverviewState {
     fn init(&mut self, registry: &mut Registry, ctx: &mut Context) {
+        self.text_box = ctx
+            .entity_of_child(ID_OVERVIEW_TEXT_BOX)
+            .expect("OverviewState.init: Text box child could not be found.");
         self.add_button = ctx
             .entity_of_child(ID_OVERVIEW_ADD_BUTTON)
             .expect("OverviewState.init: Add button child could not be found.");
+        self.items_widget = ctx
+            .entity_of_child(ID_OVERVIEW_ITEMS_WIDGET)
+            .expect("OverviewState.init: Items widget child could not be found.");
         self.task_view = (*ctx.widget().get::<u32>("task_view")).into();
 
         if let Ok(tasks) = registry
@@ -102,6 +113,15 @@ impl State for OverviewState {
     }
 
     fn update(&mut self, registry: &mut Registry, ctx: &mut Context) {
+        // clear focus on focus moved
+        if self.last_focused != ctx.window().get::<Global>("global").focused_widget {
+            if let Some(last_focused) = self.last_focused {
+                ctx.get_widget(last_focused).set("focused", false);
+                ctx.get_widget(last_focused)
+                    .set("visibility", Visibility::Collapsed);
+            }
+        }
+
         if let Some(action) = self.action {
             match action {
                 Action::InputTextChanged(text_box) => {
@@ -131,13 +151,15 @@ impl State for OverviewState {
                     self.save(registry, ctx);
                 }
                 Action::EditEntry(text_box) => {
+                    self.last_focused = Some(text_box);
                     self.edit_entry(text_box, ctx);
                 }
                 Action::RemoveFocus(text_box) => {
+                    self.last_focused = None;
                     self.remove_focus(text_box, ctx);
                 }
-                Action::OpenTaskList(list_box) => {
-                    self.open_task_list(list_box, ctx);
+                Action::OpenTaskList(index) => {
+                    self.open_task_list(index, ctx);
                 }
             }
         }

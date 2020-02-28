@@ -111,7 +111,7 @@
 
 use orbtk::prelude::*;
 
-use crate::base_state::BaseState;
+use crate::{base_state::BaseState, data::TaskOverview, keys::*};
 
 /// Actions that can execute on the task view.
 #[derive(Debug, Copy, Clone)]
@@ -131,6 +131,8 @@ pub struct TaskState {
     action: Option<Action>,
     add_button: Entity,
     back_entity: Entity,
+    pub text_box: Entity,
+    open: bool,
 }
 
 impl BaseState for TaskState {}
@@ -141,21 +143,56 @@ impl TaskState {
         self.action = action.into();
     }
 
-    fn navigate_back(&self, ctx: &mut Context) {
+    fn navigate_back(&mut self, ctx: &mut Context) {
+        ctx.widget().set("enabled", false);
+        self.open = false;
+        ctx.widget().set::<Option<usize>>("list_index", None);
         self.navigate(self.back_entity, ctx);
+    }
+
+    // If input text is empty the add button is disabled, otherwise enabled.
+    fn adjust_add_button_enabled(&self, text_box: Entity, ctx: &mut Context) {
+        if ctx.get_widget(text_box).get::<String16>("text").is_empty() {
+            ctx.get_widget(self.add_button).set("enabled", false);
+        } else {
+            ctx.get_widget(self.add_button).set("enabled", true);
+        }
+
+        ctx.get_widget(self.add_button).update_theme_by_state(true);
+    }
+
+    pub fn open(&mut self, ctx: &mut Context) {
+        ctx.get_widget(self.text_box).set("enabled", true);
+        if let Some(index) = ctx.widget().clone::<Option<usize>>("list_index") {
+            let mut title: String16 = "".into();
+            if let Some(task_list) = ctx.widget().get::<TaskOverview>("task_overview").get(index) {
+                title = String16::from(task_list.title.as_str());
+            }
+            ctx.widget().set("title", title);
+            self.open = true;
+        }
     }
 }
 
 impl State for TaskState {
     fn init(&mut self, _: &mut Registry, ctx: &mut Context) {
         self.back_entity = (*ctx.widget().get::<u32>("back_entity")).into();
+        self.add_button = ctx
+            .entity_of_child(ID_TASK_ADD_BUTTON)
+            .expect("TaskState.init: Add button child could not be found.");
+        self.text_box = ctx
+            .entity_of_child(ID_TASK_TEXT_BOX)
+            .expect("TaskState.init: Add text box could not be found.");
     }
 
     fn update(&mut self, registry: &mut Registry, ctx: &mut Context) {
+        if !self.open {
+            self.open(ctx);
+        }
         if let Some(action) = self.action {
             match action {
                 Action::InputTextChanged(text_box) => {
-                    // self.adjust_add_button_enabled(text_box, ctx);
+                    self.adjust_add_button_enabled(text_box, ctx);
                 }
                 Action::CreateEntry(entity) => {
                     // if let Some(text) = self.fetch_text(ctx, entity) {

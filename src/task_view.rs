@@ -111,14 +111,44 @@
 
 use orbtk::prelude::*;
 
-use crate::{data::TaskOverview, keys::*, overview_state::*, task_state::{Action, TaskState}};
+use crate::{
+    data::TaskOverview,
+    keys::*,
+    overview_state::*,
+    task_state::{Action, TaskState},
+};
+
+type ListIndex = Option<usize>;
 
 widget!(TaskView<TaskState> {
-    back_entity: u32
+    back_entity: u32,
+
+    list_index: ListIndex,
+
+    task_overview: TaskOverview,
+
+    title: String16
 });
 
 impl Template for TaskView {
     fn template(self, id: Entity, ctx: &mut BuildContext) -> Self {
+        let task_text_box = TextBox::create()
+            .id(ID_TASK_TEXT_BOX)
+            .enabled(false)
+            .attach(Grid::row(2))
+            .vertical_alignment("center")
+            .margin((4.0, 0.0, 0.0, 0.0))
+            .lost_focus_on_activation(false)
+            .on_activate(move |ctx, entity| {
+                ctx.get_mut::<TaskState>(id)
+                    .action(Action::CreateEntry(entity));
+            })
+            .on_changed(move |ctx, entity| {
+                ctx.get_mut::<TaskState>(id)
+                    .action(Action::InputTextChanged(entity));
+            })
+            .build(ctx);
+
         self.name("TaskView")
             // .task_overview(TaskOverview::default())
             // .count(0)
@@ -178,7 +208,7 @@ impl Template for TaskView {
                                             .attach(Grid::column(2))
                                             .vertical_alignment("center")
                                             .horizontal_alignment("center")
-                                            .text("Placeholder")
+                                            .text(("title", id))
                                             .build(ctx),
                                     )
                                     .build(ctx),
@@ -194,10 +224,10 @@ impl Template for TaskView {
                             .attach(Grid::column_span(3))
                             .build(ctx),
                     )
-                    // .child(text_box)
+                    .child(task_text_box)
                     .child(
                         Button::create()
-                            .id(ID_OVERVIEW_ADD_BUTTON)
+                            .id(ID_TASK_ADD_BUTTON)
                             .class(CLASS_ICON_ONLY)
                             .attach(Grid::row(2))
                             .attach(Grid::column(2))
@@ -206,11 +236,11 @@ impl Template for TaskView {
                             .min_size(32.0, 32.0)
                             .vertical_alignment("center")
                             .icon(material_font_icons::ADD_FONT_ICON)
-                            // .on_click(move |ctx, _| {
-                            //     ctx.get_mut::<OverviewState>(id)
-                            //         .action(Action::CreateEntry(text_box));
-                            //     true
-                            // })
+                            .on_click(move |ctx, _| {
+                                ctx.get_mut::<TaskState>(id)
+                                    .action(Action::CreateEntry(task_text_box));
+                                true
+                            })
                             .build(ctx),
                     )
                     .build(ctx),

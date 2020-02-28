@@ -50,9 +50,31 @@ text-box.inplace:empty {
 }
 
 items-widget {
+    padding: 0;
     border-color: transparent;
 }
 
 list-view-item {
+    padding-left: 0;
+    padding-right: 0;
     height: 38;
+}
+
+list-view-item:active {
+    background: #516475;
+}
+
+.transparent {
+    icon-color: transparent;
+    background: transparent;
+}
+
+.transparent:active {
+    icon-color: transparent;
+    background: transparent;
+}
+
+.item_button {
+    background: transparent;
+    border-radius: 0;
 }
