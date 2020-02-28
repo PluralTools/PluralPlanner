@@ -7,6 +7,7 @@ use orbtk::theme::DEFAULT_THEME_CSS;
 // pub use self::task_state::*;
 // pub use self::task_view::*;
 
+pub mod base_state;
 pub mod data;
 pub mod keys;
 pub mod main_state;

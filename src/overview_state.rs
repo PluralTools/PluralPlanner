@@ -1,6 +1,7 @@
 use orbtk::prelude::*;
 
 use crate::{
+    base_state::BaseState,
     data::{TaskList, TaskOverview},
     keys::*,
 };
@@ -14,7 +15,7 @@ pub enum Action {
     TextChanged(Entity, usize),
     EditEntry(Entity),
     RemoveFocus(Entity),
-    OpenTaskList(Entity)
+    OpenTaskList(Entity),
 }
 
 /// Handles the requests of the `OverviewView`.
@@ -22,8 +23,10 @@ pub enum Action {
 pub struct OverviewState {
     action: Option<Action>,
     add_button: Entity,
-    task_view: Entity
+    task_view: Entity,
 }
+
+impl BaseState for OverviewState {}
 
 impl OverviewState {
     /// Sets a new action.
@@ -39,56 +42,12 @@ impl OverviewState {
         self.adjust_count(ctx);
     }
 
-    // Removes the focus of a text box
-    fn remove_focus(&self, text_box: Entity, ctx: &mut Context) {
-        ctx.get_widget(text_box).set("enabled", false);
-        ctx.window().get_mut::<Global>("global").focused_widget = None;
-        ctx.get_widget(text_box).set("focused", false);
-        ctx.get_widget(text_box).update_theme_by_state(false);
-    }
-
-    // Set the given text box to edit mode.
-    fn edit_entry(&self, text_box: Entity, ctx: &mut Context) {
-        if *ctx.get_widget(text_box).get::<bool>("enabled") {
-            self.remove_focus(text_box, ctx);
-            return;
-        }
-
-        ctx.get_widget(text_box).set("enabled", true);
-
-        if let Some(old_focused_element) = ctx.window().get::<Global>("global").focused_widget {
-            let mut old_focused_element = ctx.get_widget(old_focused_element);
-            old_focused_element.set("focused", false);
-            old_focused_element.update_theme_by_state(false);
-        }
-      
-
-        ctx.window().get_mut::<Global>("global").focused_widget = Some(text_box);
-
-        ctx.get_widget(text_box).set("focused", true);
-        ctx.get_widget(text_box).update_theme_by_state(false);      
-    }
-
     // removes a task list.
     fn remove_entry(&self, index: usize, ctx: &mut Context) {
         ctx.widget()
             .get_mut::<TaskOverview>(PROP_TASK_OVERVIEW)
             .remove(index);
         self.adjust_count(ctx);
-    }
-
-    // Fetches the text of a widget.
-    fn fetch_text(&self, ctx: &mut Context, entity: Entity) -> Option<String> {
-        let mut widget = ctx.get_widget(entity);
-
-        let entry = widget.get_mut::<String16>("text");
-        if entry.is_empty() {
-            return None;
-        }
-
-        let copy = entry.to_string();
-        entry.clear();
-        Some(copy)
     }
 
     // If input text is empty the add button is disabled, otherwise enabled.
@@ -121,8 +80,7 @@ impl OverviewState {
 
     // opens a task list.
     fn open_task_list(&self, entity: Entity, ctx: &mut Context) {
-        ctx.widget().set("visibility", Visibility::Collapsed);
-        ctx.get_widget(self.task_view).set("visibility", Visibility::Visible);
+        self.navigate(self.task_view, ctx);
     }
 }
 

@@ -115,7 +115,7 @@ impl Template for OverviewView {
             .count(0)
             .child(
                 Grid::create()
-                    .rows(Rows::create().row("auto").row("*").row("auto").build())
+                    .rows(Rows::create().row(52.0).row("*").row("auto").build())
                     .columns(
                         Columns::create()
                             .column("*")

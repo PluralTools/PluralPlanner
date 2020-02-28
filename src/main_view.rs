@@ -16,7 +16,10 @@ impl Template for MainView {
             .count(id)
             .task_overview(id)
             .build(ctx);
-        let task_view = TaskView::create().visibility("collapsed").build(ctx);
+        let task_view = TaskView::create()
+            .back_entity(overview_view.0)
+            .visibility("collapsed")
+            .build(ctx);
 
         self.name("MainView")
             .task_view(task_view.0)

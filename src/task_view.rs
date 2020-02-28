@@ -111,12 +111,14 @@
 
 use orbtk::prelude::*;
 
-use crate::{data::TaskOverview, keys::*, overview_state::*};
+use crate::{data::TaskOverview, keys::*, overview_state::*, task_state::{Action, TaskState}};
 
-widget!(TaskView {});
+widget!(TaskView<TaskState> {
+    back_entity: u32
+});
 
 impl Template for TaskView {
-    fn template(self, _: Entity, ctx: &mut BuildContext) -> Self {
+    fn template(self, id: Entity, ctx: &mut BuildContext) -> Self {
         self.name("TaskView")
             // .task_overview(TaskOverview::default())
             // .count(0)
@@ -154,7 +156,7 @@ impl Template for TaskView {
                                             .column(4.0)
                                             .column("*")
                                             .column(4.0)
-                                            .column(32.0) 
+                                            .column(32.0)
                                             .build(),
                                     )
                                     .child(
@@ -163,6 +165,11 @@ impl Template for TaskView {
                                             .icon("")
                                             .class(CLASS_ICON_ONLY)
                                             .vertical_alignment("center")
+                                            .on_click(move |ctx, _| {
+                                                ctx.get_mut::<TaskState>(id)
+                                                    .action(Action::NavigateBack());
+                                                true
+                                            })
                                             .build(ctx),
                                     )
                                     .child(
