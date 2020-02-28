@@ -1,4 +1,6 @@
 .top_bar {
+    padding-left: 4;
+    padding-right: 4;
     min-height: 52;
     background: #475b6e;
 }

@@ -1,5 +1,3 @@
-use std::collections::VecDeque;
-
 use orbtk::prelude::*;
 
 use crate::{
@@ -7,6 +5,7 @@ use crate::{
     keys::*,
 };
 
+/// Actions that can execute on the overview.
 #[derive(Debug, Copy, Clone)]
 pub enum Action {
     InputTextChanged(Entity),
@@ -18,6 +17,7 @@ pub enum Action {
     OpenTaskList(Entity)
 }
 
+/// Handles the requests of the `OverviewView`.
 #[derive(Default, AsAny)]
 pub struct OverviewState {
     action: Option<Action>,
@@ -26,25 +26,29 @@ pub struct OverviewState {
 }
 
 impl OverviewState {
+    /// Sets a new action.
     pub fn action(&mut self, action: Action) {
         self.action = action.into();
     }
 
-    pub fn create_entry(&self, text: String, ctx: &mut Context) {
+    // Creates a new task list.
+    fn create_entry(&self, text: String, ctx: &mut Context) {
         ctx.widget()
             .get_mut::<TaskOverview>(PROP_TASK_OVERVIEW)
             .push(TaskList::new(text));
         self.adjust_count(ctx);
     }
 
-    pub fn remove_focus(&self, text_box: Entity, ctx: &mut Context) {
+    // Removes the focus of a text box
+    fn remove_focus(&self, text_box: Entity, ctx: &mut Context) {
         ctx.get_widget(text_box).set("enabled", false);
         ctx.window().get_mut::<Global>("global").focused_widget = None;
         ctx.get_widget(text_box).set("focused", false);
         ctx.get_widget(text_box).update_theme_by_state(false);
     }
 
-    pub fn edit_entry(&self, text_box: Entity, ctx: &mut Context) {
+    // Set the given text box to edit mode.
+    fn edit_entry(&self, text_box: Entity, ctx: &mut Context) {
         if *ctx.get_widget(text_box).get::<bool>("enabled") {
             self.remove_focus(text_box, ctx);
             return;
@@ -62,18 +66,18 @@ impl OverviewState {
         ctx.window().get_mut::<Global>("global").focused_widget = Some(text_box);
 
         ctx.get_widget(text_box).set("focused", true);
-        ctx.get_widget(text_box).update_theme_by_state(false);
-        
-
+        ctx.get_widget(text_box).update_theme_by_state(false);      
     }
 
-    pub fn remove_entry(&self, index: usize, ctx: &mut Context) {
+    // removes a task list.
+    fn remove_entry(&self, index: usize, ctx: &mut Context) {
         ctx.widget()
             .get_mut::<TaskOverview>(PROP_TASK_OVERVIEW)
             .remove(index);
         self.adjust_count(ctx);
     }
 
+    // Fetches the text of a widget.
     fn fetch_text(&self, ctx: &mut Context, entity: Entity) -> Option<String> {
         let mut widget = ctx.get_widget(entity);
 
@@ -98,11 +102,13 @@ impl OverviewState {
         ctx.get_widget(self.add_button).update_theme_by_state(true);
     }
 
+    // Adjusts the task list count.
     fn adjust_count(&self, ctx: &mut Context) {
         let count = ctx.widget().get::<TaskOverview>(PROP_TASK_OVERVIEW).len();
         ctx.widget().set(PROP_COUNT, count);
     }
 
+    // Save the data.
     fn save(&self, registry: &mut Registry, ctx: &mut Context) {
         registry
             .get::<Settings>("settings")
@@ -113,6 +119,7 @@ impl OverviewState {
             .unwrap();
     }
 
+    // opens a task list.
     fn open_task_list(&self, entity: Entity, ctx: &mut Context) {
         ctx.widget().set("visibility", Visibility::Collapsed);
         ctx.get_widget(self.task_view).set("visibility", Visibility::Visible);

@@ -2,14 +2,18 @@ use orbtk::prelude::*;
 
 use crate::{data::TaskOverview, keys::*, overview_state::*};
 
-widget!(OverviewView<OverviewState> {
-    task_overview: TaskOverview,
-    count: usize,
-    task_view: u32
-});
+widget!(
+    /// Represents the start page with the overview of task lists.
+    OverviewView<OverviewState> {
+        task_overview: TaskOverview,
+        count: usize,
+        task_view: u32
+    }
+);
 
 impl Template for OverviewView {
     fn template(self, id: Entity, ctx: &mut BuildContext) -> Self {
+        // list of tasks
         let list_view = ListView::create()
             .items_builder(move |ctx, index| {
                 let mut text = "".to_string();
@@ -52,7 +56,7 @@ impl Template for OverviewView {
                     .child(text_box)
                     .child(
                         Button::create()
-                            .class("icon_only")
+                            .class(CLASS_ICON_ONLY)
                             .attach(Grid::column(2))
                             .min_size(32.0, 32.0)
                             .vertical_alignment("center")
@@ -130,17 +134,21 @@ impl Template for OverviewView {
                     )
                     // Top Bar
                     .child(
-                        Grid::create()
+                        Container::create()
                             .class(CLASS_TOP_BAR)
                             .attach(Grid::row(0))
                             .attach(Grid::column(0))
                             .attach(Grid::column_span(3))
                             .child(
-                                TextBlock::create()
-                                    .class(CLASS_HEADER)
-                                    .vertical_alignment("center")
-                                    .horizontal_alignment("center")
-                                    .text("Overview")
+                                Grid::create()
+                                    .child(
+                                        TextBlock::create()
+                                            .class(CLASS_HEADER)
+                                            .vertical_alignment("center")
+                                            .horizontal_alignment("center")
+                                            .text("Overview")
+                                            .build(ctx),
+                                    )
                                     .build(ctx),
                             )
                             .build(ctx),
@@ -158,7 +166,7 @@ impl Template for OverviewView {
                     .child(
                         Button::create()
                             .id(ID_OVERVIEW_ADD_BUTTON)
-                            .class("icon_only")
+                            .class(CLASS_ICON_ONLY)
                             .attach(Grid::row(2))
                             .attach(Grid::column(2))
                             .margin((0.0, 0.0, 4.0, 0.0))

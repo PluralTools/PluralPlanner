@@ -111,11 +111,102 @@
 
 use orbtk::prelude::*;
 
+use crate::{data::TaskOverview, keys::*, overview_state::*};
+
 widget!(TaskView {});
 
 impl Template for TaskView {
     fn template(self, _: Entity, ctx: &mut BuildContext) -> Self {
         self.name("TaskView")
-            .child(TextBlock::create().text("Task view").build(ctx))
+            // .task_overview(TaskOverview::default())
+            // .count(0)
+            .child(
+                Grid::create()
+                    .rows(Rows::create().row("auto").row("*").row("auto").build())
+                    .columns(
+                        Columns::create()
+                            .column("*")
+                            .column(4.0)
+                            .column(36.0)
+                            .build(),
+                    )
+                    // Content
+                    .child(
+                        Container::create()
+                            .attach(Grid::row(1))
+                            .attach(Grid::column(0))
+                            .attach(Grid::column_span(3))
+                            // .child(list_view)
+                            .build(ctx),
+                    )
+                    // Top Bar
+                    .child(
+                        Container::create()
+                            .class(CLASS_TOP_BAR)
+                            .attach(Grid::row(0))
+                            .attach(Grid::column(0))
+                            .attach(Grid::column_span(3))
+                            .child(
+                                Grid::create()
+                                    .columns(
+                                        Columns::create()
+                                            .column(32.0)
+                                            .column(4.0)
+                                            .column("*")
+                                            .column(4.0)
+                                            .column(32.0) 
+                                            .build(),
+                                    )
+                                    .child(
+                                        Button::create()
+                                            .height(32.0)
+                                            .icon("")
+                                            .class(CLASS_ICON_ONLY)
+                                            .vertical_alignment("center")
+                                            .build(ctx),
+                                    )
+                                    .child(
+                                        TextBlock::create()
+                                            .class(CLASS_HEADER)
+                                            .attach(Grid::column(2))
+                                            .vertical_alignment("center")
+                                            .horizontal_alignment("center")
+                                            .text("Placeholder")
+                                            .build(ctx),
+                                    )
+                                    .build(ctx),
+                            )
+                            .build(ctx),
+                    )
+                    // Bottom bar
+                    .child(
+                        Container::create()
+                            .class(CLASS_BOTTOM_BAR)
+                            .attach(Grid::row(2))
+                            .attach(Grid::column(0))
+                            .attach(Grid::column_span(3))
+                            .build(ctx),
+                    )
+                    // .child(text_box)
+                    .child(
+                        Button::create()
+                            .id(ID_OVERVIEW_ADD_BUTTON)
+                            .class(CLASS_ICON_ONLY)
+                            .attach(Grid::row(2))
+                            .attach(Grid::column(2))
+                            .margin((0.0, 0.0, 4.0, 0.0))
+                            .enabled(false)
+                            .min_size(32.0, 32.0)
+                            .vertical_alignment("center")
+                            .icon(material_font_icons::ADD_FONT_ICON)
+                            // .on_click(move |ctx, _| {
+                            //     ctx.get_mut::<OverviewState>(id)
+                            //         .action(Action::CreateEntry(text_box));
+                            //     true
+                            // })
+                            .build(ctx),
+                    )
+                    .build(ctx),
+            )
     }
 }
