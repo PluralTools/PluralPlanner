@@ -111,7 +111,11 @@
 
 use orbtk::prelude::*;
 
-use crate::{base_state::BaseState, data::TaskOverview, keys::*};
+use crate::{
+    base_state::BaseState,
+    data::{Task, TaskOverview},
+    keys::*,
+};
 
 /// Actions that can execute on the task view.
 #[derive(Debug, Copy, Clone)]
@@ -131,6 +135,7 @@ pub struct TaskState {
     action: Option<Action>,
     add_button: Entity,
     back_entity: Entity,
+    last_focused: Option<Entity>,
     pub text_box: Entity,
     open: bool,
 }
@@ -143,8 +148,40 @@ impl TaskState {
         self.action = action.into();
     }
 
+    fn create_entry(&self, text: String, ctx: &mut Context) {
+        let index = ctx.widget().clone::<Option<usize>>("list_index");
+
+        if let Some(index) = index {
+            if let Some(task_list) = ctx
+                .widget()
+                .get_mut::<TaskOverview>("task_overview")
+                .get_mut(index)
+            {
+                task_list.push(Task {
+                    text,
+                    selected: false,
+                });
+            }
+
+            self.adjust_count(ctx);
+        }
+    }
+
+    fn adjust_count(&self, ctx: &mut Context) {
+        if let Some(index) = ctx.widget().clone::<Option<usize>>("list_index") {
+            if let Some(task_list) = ctx
+                .widget()
+                .clone::<TaskOverview>("task_overview")
+                .get(index)
+            {
+                ctx.widget().set("count", task_list.len());
+            }
+        }
+    }
+
     fn navigate_back(&mut self, ctx: &mut Context) {
-        ctx.widget().set("enabled", false);
+        ctx.get_widget(self.text_box)
+            .set("text", String16::from(""));
         self.open = false;
         ctx.widget().set::<Option<usize>>("list_index", None);
         self.navigate(self.back_entity, ctx);
@@ -162,13 +199,15 @@ impl TaskState {
     }
 
     pub fn open(&mut self, ctx: &mut Context) {
-        ctx.get_widget(self.text_box).set("enabled", true);
         if let Some(index) = ctx.widget().clone::<Option<usize>>("list_index") {
             let mut title: String16 = "".into();
+            let mut count = 0;
             if let Some(task_list) = ctx.widget().get::<TaskOverview>("task_overview").get(index) {
                 title = String16::from(task_list.title.as_str());
+                count = task_list.len();
             }
             ctx.widget().set("title", title);
+            ctx.widget().set("count", count);
             self.open = true;
         }
     }
@@ -195,10 +234,10 @@ impl State for TaskState {
                     self.adjust_add_button_enabled(text_box, ctx);
                 }
                 Action::CreateEntry(entity) => {
-                    // if let Some(text) = self.fetch_text(ctx, entity) {
-                    //     self.create_entry(text, ctx);
-                    //     self.save(registry, ctx);
-                    // }
+                    if let Some(text) = self.fetch_text(ctx, entity) {
+                        self.create_entry(text, ctx);
+                        self.save(registry, ctx);
+                    }
                 }
                 Action::RemoveEntry(index) => {
                     // self.remove_entry(index, ctx);
@@ -218,7 +257,8 @@ impl State for TaskState {
                     // self.save(registry, ctx);
                 }
                 Action::EditEntry(text_box) => {
-                    // self.edit_entry(text_box, ctx);
+                    self.last_focused = Some(text_box);
+                    self.edit_entry(text_box, ctx);
                 }
                 Action::RemoveFocus(text_box) => {
                     // self.remove_focus(text_box, ctx);

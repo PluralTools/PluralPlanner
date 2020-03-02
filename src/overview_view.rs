@@ -13,7 +13,7 @@ widget!(
 
 impl Template for OverviewView {
     fn template(self, id: Entity, ctx: &mut BuildContext) -> Self {
-        // list of tasks
+        // list of task lists
         let items_widget = ItemsWidget::create()
             .id(ID_OVERVIEW_ITEMS_WIDGET)
             .vertical_alignment("start")

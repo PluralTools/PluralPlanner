@@ -15,9 +15,13 @@
     font-family: "Roboto Medium";
 }
 
+.inplace {
+    background: #3b434a;
+}
+
 text-box.inplace {
     color: #dfebf5;
-    background: transparent;
+    background: #3b434a;
     border-color: transparent;
     border-width: 1;
     border-radius: 2;

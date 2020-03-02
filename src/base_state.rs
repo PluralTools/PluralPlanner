@@ -1,23 +1,24 @@
 use orbtk::prelude::*;
 
+use crate::{keys::*, data::TaskOverview};
+
 /// Provides shared operations of `OverviewState` and `TaskState`.
 pub trait BaseState {
     /// Removes the focus of a text box
     fn remove_focus(&self, text_box: Entity, ctx: &mut Context) {
         ctx.get_widget(text_box)
             .set("visibility", Visibility::Collapsed);
-    
         ctx.window().get_mut::<Global>("global").focused_widget = None;
         ctx.get_widget(text_box).set("focused", false);
         ctx.get_widget(text_box).update_theme_by_state(false);
     }
-
+ 
     /// Set the given text box to edit mode.
     fn edit_entry(&self, text_box: Entity, ctx: &mut Context) {
         if *ctx.get_widget(text_box).get::<Visibility>("visibility") == Visibility::Visible {
             self.remove_focus(text_box, ctx);
-            return; 
-        }
+            return;
+        } 
         ctx.get_widget(text_box)
             .set("visibility", Visibility::Visible);
 
@@ -55,5 +56,16 @@ pub trait BaseState {
         let copy = entry.to_string();
         entry.clear();
         Some(copy)
+    }
+
+    // Save the data.
+    fn save(&self, registry: &mut Registry, ctx: &mut Context) {
+        registry
+            .get::<Settings>("settings")
+            .save(
+                PROP_TASK_OVERVIEW,
+                ctx.widget().get::<TaskOverview>(PROP_TASK_OVERVIEW),
+            )
+            .unwrap();
     }
 }

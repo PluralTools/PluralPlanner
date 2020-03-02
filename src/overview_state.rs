@@ -70,19 +70,9 @@ impl OverviewState {
         ctx.widget().set(PROP_COUNT, count);
     }
 
-    // Save the data.
-    fn save(&self, registry: &mut Registry, ctx: &mut Context) {
-        registry
-            .get::<Settings>("settings")
-            .save(
-                PROP_TASK_OVERVIEW,
-                ctx.widget().get::<TaskOverview>(PROP_TASK_OVERVIEW),
-            )
-            .unwrap();
-    }
-
     // opens a task list.
     fn open_task_list(&self, index: usize, ctx: &mut Context) {
+        ctx.get_widget(self.text_box).set("text", String16::from(""));
         ctx.get_widget(self.task_view)
             .set("list_index", Some(index));
         self.navigate(self.task_view, ctx);
