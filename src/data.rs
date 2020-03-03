@@ -4,7 +4,7 @@ use serde_derive::{Deserialize, Serialize};
 
 #[derive(Default, Clone, Debug, Serialize, Deserialize)]
 pub struct TaskOverview {
-    pub task_lists: Vec<TaskList>
+    pub task_lists: Vec<TaskList>,
 }
 
 impl TaskOverview {
@@ -30,7 +30,7 @@ impl TaskOverview {
 
     pub fn len(&self) -> usize {
         self.task_lists.len()
-    }
+    } 
 
     pub fn is_empty(&self) -> bool {
         self.task_lists.is_empty()
@@ -47,17 +47,17 @@ pub struct Task {
 #[derive(Default, Clone, Debug, Serialize, Deserialize)]
 pub struct TaskList {
     pub title: String,
-    
+
     pub list: Vec<Task>,
 }
 
 impl TaskList {
-    pub fn new (title: impl Into<String>) -> Self {
+    pub fn new(title: impl Into<String>) -> Self {
         TaskList {
             title: title.into(),
             ..Default::default()
         }
-    } 
+    }
 
     pub fn push(&mut self, task: Task) {
         self.list.push(task);

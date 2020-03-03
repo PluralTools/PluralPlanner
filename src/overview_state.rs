@@ -38,19 +38,21 @@ impl OverviewState {
     }
 
     // Creates a new task list.
-    fn create_entry(&self, text: String, ctx: &mut Context) {
+    fn create_entry(&self, text: String, registry: &mut Registry, ctx: &mut Context) {
         ctx.widget()
             .get_mut::<TaskOverview>(PROP_TASK_OVERVIEW)
             .push(TaskList::new(text));
         self.adjust_count(ctx);
+        self.save(registry, ctx);
     }
 
     // removes a task list.
-    fn remove_entry(&self, index: usize, ctx: &mut Context) {
+    fn remove_entry(&self, index: usize, registry: &mut Registry, ctx: &mut Context) {
         ctx.widget()
             .get_mut::<TaskOverview>(PROP_TASK_OVERVIEW)
             .remove(index);
         self.adjust_count(ctx);
+        self.save(registry, ctx);
     }
 
     // If input text is empty the add button is disabled, otherwise enabled.
@@ -72,10 +74,39 @@ impl OverviewState {
 
     // opens a task list.
     fn open_task_list(&self, index: usize, ctx: &mut Context) {
-        ctx.get_widget(self.text_box).set("text", String16::from(""));
+        ctx.get_widget(self.text_box)
+            .set("text", String16::from(""));
         ctx.get_widget(self.task_view)
             .set("list_index", Some(index));
         self.navigate(self.task_view, ctx);
+    }
+
+    /// Removes the focus of a text box
+    fn remove_focus(&self, text_box: Entity, ctx: &mut Context) {
+        ctx.get_widget(text_box)
+            .set("visibility", Visibility::Collapsed);
+        ctx.window().get_mut::<Global>("global").focused_widget = None;
+        ctx.get_widget(text_box).set("focused", false);
+        ctx.get_widget(text_box).update_theme_by_state(false);
+    }
+
+    /// Set the given text box to edit mode.
+    fn edit_entry(&self, text_box: Entity, ctx: &mut Context) {
+        if *ctx.get_widget(text_box).get::<Visibility>("visibility") == Visibility::Visible {
+            self.remove_focus(text_box, ctx);
+            return;
+        }
+        ctx.get_widget(text_box)
+            .set("visibility", Visibility::Visible);
+
+        if let Some(old_focused_element) = ctx.window().get::<Global>("global").focused_widget {
+            let mut old_focused_element = ctx.get_widget(old_focused_element);
+            old_focused_element.set("focused", false);
+            old_focused_element.update_theme_by_state(false);
+        }
+        ctx.window().get_mut::<Global>("global").focused_widget = Some(text_box);
+        ctx.get_widget(text_box).set("focused", true);
+        ctx.get_widget(text_box).update_theme_by_state(false);
     }
 }
 
@@ -119,13 +150,11 @@ impl State for OverviewState {
                 }
                 Action::CreateEntry(entity) => {
                     if let Some(text) = self.fetch_text(ctx, entity) {
-                        self.create_entry(text, ctx);
-                        self.save(registry, ctx);
+                        self.create_entry(text, registry, ctx);
                     }
                 }
                 Action::RemoveEntry(index) => {
-                    self.remove_entry(index, ctx);
-                    self.save(registry, ctx);
+                    self.remove_entry(index, registry, ctx);
                 }
                 Action::TextChanged(entity, index) => {
                     let text: String16 = ctx.get_widget(entity).clone("text");

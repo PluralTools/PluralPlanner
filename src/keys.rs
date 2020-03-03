@@ -14,4 +14,4 @@ pub static ID_TASK_TEXT_BOX: &str = "task_text_box";
 
 // Properties
 pub static PROP_TASK_OVERVIEW: &str = "task_overview";
-pub static PROP_COUNT: &str = "count";   
+pub static PROP_COUNT: &str = "count";

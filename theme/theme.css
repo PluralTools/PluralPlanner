@@ -15,13 +15,9 @@
     font-family: "Roboto Medium";
 }
 
-.inplace {
-    background: #3b434a;
-}
-
 text-box.inplace {
     color: #dfebf5;
-    background: #3b434a;
+    background: transparent;
     border-color: transparent;
     border-width: 1;
     border-radius: 2;
@@ -61,7 +57,7 @@ items-widget {
 list-view-item {
     padding-left: 0;
     padding-right: 0;
-    height: 38;
+    height: 62;
 }
 
 list-view-item:active {

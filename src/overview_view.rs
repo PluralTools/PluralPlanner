@@ -29,6 +29,7 @@ impl Template for OverviewView {
                 }
 
                 let helper_button = Button::create()
+                    .min_height(48.0)
                     .class(CLASS_ITEM_BUTTON)
                     .attach(Grid::column(0))
                     .attach(Grid::column_span(6))
@@ -41,7 +42,7 @@ impl Template for OverviewView {
 
                 let text_block = TextBlock::create()
                     .foreground(helper_button)
-                    .margin((10.0, 0.0, 0.0, 0.0))
+                    .margin((14.0, 0.0, 0.0, 0.0))
                     .vertical_alignment("center")
                     .attach(Grid::column(0))
                     .text(text)
@@ -49,11 +50,10 @@ impl Template for OverviewView {
                     .build(ctx);
 
                 let text_box = TextBox::create()
-                    .margin((4.0, 0.0, 0.0, 0.0))
+                    .margin((8.0, 0.0, 0.0, 0.0))
                     .visibility("collapsed")
                     .vertical_alignment("center")
                     .water_mark("Insert text...")
-                    .class("inplace")
                     .attach(Grid::column(0))
                     .text(text_block)
                     .on_changed(move |ctx, entity| {
@@ -67,14 +67,15 @@ impl Template for OverviewView {
                     .build(ctx);
 
                 Grid::create()
+                    .height(48.0)
                     .columns(
                         Columns::create()
                             .column("*")
-                            .column(4.0)
+                            .column(8.0)
                             .column(32.0)
                             .column(4.0)
                             .column(32.0)
-                            .column(4.0)
+                            .column(8.0)
                             .build(),
                     )
                     .child(helper_button)

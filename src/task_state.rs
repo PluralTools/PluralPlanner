@@ -1,114 +1,3 @@
-// use std::collections::VecDeque;
-
-// use orbtk::prelude::*;
-
-// use crate::{Task, TaskList};
-
-// #[derive(Debug)]
-// pub enum Action {
-//     CreateEntry(Entity),
-//     RemoveEntry(usize),
-//     SelectionChanged(Entity, usize),
-//     TextChanged(Entity, usize),
-// }
-
-// #[derive(Default, AsAny)]
-// pub struct MainState {
-//     actions: VecDeque<Action>,
-// }
-
-// impl MainState {
-//     pub fn action(&mut self, action: Action) {
-//         self.actions.push_front(action);
-//     }
-
-//     pub fn create_entry(&self, text: String, ctx: &mut Context) {
-//         ctx.widget().get_mut::<TaskList>("tasks").push(Task {
-//             text,
-//             selected: false,
-//         });
-//         self.adjust_count(ctx);
-//     }
-
-//     pub fn remove_entry(&self, index: usize, ctx: &mut Context) {
-//         ctx.widget().get_mut::<TaskList>("tasks").remove(index);
-//         self.adjust_count(ctx);
-//     }
-
-//     fn fetch_text(&self, ctx: &mut Context, entity: Entity) -> Option<String> {
-//         let mut widget = ctx.get_widget(entity);
-
-//         let entry = widget.get_mut::<String16>("text");
-//         if entry.is_empty() {
-//             return None;
-//         }
-
-//         let copy = entry.to_string();
-//         entry.clear();
-//         Some(copy)
-//     }
-
-//     fn adjust_count(&self, ctx: &mut Context) {
-//         let count = ctx.widget().get::<TaskList>("tasks").len();
-//         ctx.widget().set("task_count", count);
-//     }
-
-//     fn save(&self, registry: &mut Registry, ctx: &mut Context) {
-//         registry
-//             .get::<Settings>("settings")
-//             .save("tasks", ctx.widget().get::<TaskList>("tasks"))
-//             .unwrap();
-//     }
-// }
-
-// impl State for MainState {
-//     fn init(&mut self, registry: &mut Registry, ctx: &mut Context) {
-//         if let Ok(tasks) = registry
-//             .get::<Settings>("settings")
-//             .load::<TaskList>("tasks")
-//         {
-//             ctx.widget().set("tasks", tasks);
-//         }
-
-//         self.adjust_count(ctx);
-//     }
-
-//     fn update(&mut self, registry: &mut Registry, ctx: &mut Context) {
-//         if let Some(action) = self.actions.pop_front() {
-//             match action {
-//                 Action::CreateEntry(entity) => {
-//                     if let Some(text) = self.fetch_text(ctx, entity) {
-//                         self.create_entry(text, ctx);
-//                         self.save(registry, ctx);
-//                     }
-//                 }
-//                 Action::RemoveEntry(index) => {
-//                     self.remove_entry(index, ctx);
-//                     self.save(registry, ctx);
-//                 }
-//                 Action::SelectionChanged(entity, index) => {
-//                     let selected: bool = *ctx.get_widget(entity).get("selected");
-
-//                     if let Some(task) = ctx.widget().get_mut::<TaskList>("tasks").get_mut(index) {
-//                         task.selected = selected;
-//                     }
-
-//                     self.save(registry, ctx);
-//                 }
-//                 Action::TextChanged(entity, index) => {
-//                     let text: String16 = ctx.get_widget(entity).clone("text");
-
-//                     if let Some(task) = ctx.widget().get_mut::<TaskList>("tasks").get_mut(index) {
-//                         task.text = text.to_string();
-//                     }
-
-//                     self.save(registry, ctx);
-//                 }
-//             }
-//         }
-//     }
-// }
-
 use orbtk::prelude::*;
 
 use crate::{
@@ -126,6 +15,7 @@ pub enum Action {
     TextChanged(Entity, usize),
     EditEntry(Entity),
     RemoveFocus(Entity),
+    SelectionChanged(Entity, usize),
     NavigateBack(),
 }
 
@@ -148,7 +38,7 @@ impl TaskState {
         self.action = action.into();
     }
 
-    fn create_entry(&self, text: String, ctx: &mut Context) {
+    fn create_entry(&self, text: String, registry: &mut Registry, ctx: &mut Context) {
         let index = ctx.widget().clone::<Option<usize>>("list_index");
 
         if let Some(index) = index {
@@ -165,6 +55,8 @@ impl TaskState {
 
             self.adjust_count(ctx);
         }
+
+        self.save(registry, ctx);
     }
 
     fn adjust_count(&self, ctx: &mut Context) {
@@ -184,6 +76,7 @@ impl TaskState {
             .set("text", String16::from(""));
         self.open = false;
         ctx.widget().set::<Option<usize>>("list_index", None);
+        ctx.widget().set("count", 0 as usize);
         self.navigate(self.back_entity, ctx);
     }
 
@@ -198,6 +91,30 @@ impl TaskState {
         ctx.get_widget(self.add_button).update_theme_by_state(true);
     }
 
+    fn toggle_selection(
+        &self,
+        entry: Entity,
+        index: usize,
+        registry: &mut Registry,
+        ctx: &mut Context,
+    ) {
+        let selected: bool = *ctx.get_widget(entry).get("selected");
+
+        if let Some(idx) = ctx.widget().clone::<Option<usize>>("list_index") {
+            if let Some(task_list) = ctx
+                .widget()
+                .get_mut::<TaskOverview>("task_overview")
+                .get_mut(idx)
+            {
+                if let Some(task) = task_list.get_mut(index) {
+                    task.selected = selected;
+                }
+            }
+        }
+
+        self.save(registry, ctx);
+    }
+
     pub fn open(&mut self, ctx: &mut Context) {
         if let Some(index) = ctx.widget().clone::<Option<usize>>("list_index") {
             let mut title: String16 = "".into();
@@ -210,6 +127,74 @@ impl TaskState {
             ctx.widget().set("count", count);
             self.open = true;
         }
+    }
+
+    /// Removes the focus of a text box
+    fn remove_focus(&self, text_box: Entity, ctx: &mut Context) {
+        ctx.window().get_mut::<Global>("global").focused_widget = None;
+        ctx.get_widget(text_box).set("enabled", false);
+        ctx.get_widget(text_box).set("focused", false);
+        ctx.get_widget(text_box).update_theme_by_state(false);
+    }
+
+    // Set the given text box to edit mode.
+    fn edit_entry(&self, text_box: Entity, ctx: &mut Context) {
+        if *ctx.get_widget(text_box).get::<bool>("focused") {
+            ctx.get_widget(text_box).set("enabled", false);
+            self.remove_focus(text_box, ctx);
+            return;
+        }
+
+        if let Some(old_focused_element) = ctx.window().get::<Global>("global").focused_widget {
+            let mut old_focused_element = ctx.get_widget(old_focused_element);
+            old_focused_element.set("focused", false);
+            old_focused_element.update_theme_by_state(false);
+        }
+
+        ctx.get_widget(text_box).set("enabled", true);
+        ctx.window().get_mut::<Global>("global").focused_widget = Some(text_box);
+        ctx.get_widget(text_box).set("focused", true);
+        ctx.get_widget(text_box).update_theme_by_state(false);
+    }
+
+    fn remove_entry(&self, index: usize, registry: &mut Registry, ctx: &mut Context) {
+        if let Some(idx) = ctx.widget().clone::<Option<usize>>("list_index") {
+            if let Some(task_list) = ctx
+                .widget()
+                .get_mut::<TaskOverview>("task_overview")
+                .get_mut(idx)
+            {
+                task_list.remove(index);
+            }
+        }
+
+        self.adjust_count(ctx);
+
+        self.save(registry, ctx);
+    }
+
+    fn update_entry(
+        &self,
+        text_box: Entity,
+        index: usize,
+        registry: &mut Registry,
+        ctx: &mut Context,
+    ) {
+        let text: String16 = ctx.get_widget(text_box).clone("text");
+
+        if let Some(idx) = ctx.widget().clone::<Option<usize>>("list_index") {
+            if let Some(task_list) = ctx
+                .widget()
+                .get_mut::<TaskOverview>("task_overview")
+                .get_mut(idx)
+            {
+                if let Some(task) = task_list.get_mut(index) {
+                    task.text = text.to_string();
+                }
+            }
+        }
+
+        self.save(registry, ctx);
     }
 }
 
@@ -235,33 +220,24 @@ impl State for TaskState {
                 }
                 Action::CreateEntry(entity) => {
                     if let Some(text) = self.fetch_text(ctx, entity) {
-                        self.create_entry(text, ctx);
-                        self.save(registry, ctx);
+                        self.create_entry(text, registry, ctx);
                     }
                 }
                 Action::RemoveEntry(index) => {
-                    // self.remove_entry(index, ctx);
-                    // self.save(registry, ctx);
+                    self.remove_entry(index, registry, ctx);
+                }
+                Action::SelectionChanged(entity, index) => {
+                    self.toggle_selection(entity, index, registry, ctx);
                 }
                 Action::TextChanged(entity, index) => {
-                    // let text: String16 = ctx.get_widget(entity).clone("text");
-
-                    // if let Some(overview) = ctx
-                    //     .widget()
-                    //     .get_mut::<TaskOverview>("task_overview")
-                    //     .get_mut(index)
-                    // {
-                    //     overview.title = text.to_string();
-                    // }
-
-                    // self.save(registry, ctx);
+                    self.update_entry(entity, index, registry, ctx);
                 }
                 Action::EditEntry(text_box) => {
                     self.last_focused = Some(text_box);
                     self.edit_entry(text_box, ctx);
                 }
                 Action::RemoveFocus(text_box) => {
-                    // self.remove_focus(text_box, ctx);
+                    self.remove_focus(text_box, ctx);
                 }
                 Action::NavigateBack() => {
                     self.navigate_back(ctx);

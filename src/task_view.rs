@@ -155,21 +155,13 @@ impl Template for TaskView {
                     }
                 }
 
-                let text_block = TextBlock::create()
-                    .margin((8.0, 0.0, 0.0, 0.0))
-                    .vertical_alignment("center")
-                    .attach(Grid::column(3))
-                    .text(text)
-                    .element("text-box")
-                    .build(ctx);
-
                 let text_box = TextBox::create()
-                    .visibility("collapsed")
+                    .text(text)
+                    .enabled(false)
                     .vertical_alignment("center")
                     .water_mark("Insert text...")
                     .class("inplace")
                     .attach(Grid::column(3))
-                    .text(text_block)
                     .on_changed(move |ctx, entity| {
                         ctx.get_mut::<TaskState>(id)
                             .action(Action::TextChanged(entity, index));
@@ -181,17 +173,18 @@ impl Template for TaskView {
                     .build(ctx);
 
                 Grid::create()
+                    .height(48.0)
                     .columns(
                         Columns::create()
                             .column(10.0)
                             .column(24.0)
-                            .column(4.0)
+                            .column(8.0)
                             .column("*")
-                            .column(4.0)
+                            .column(8.0)
                             .column(32.0)
                             .column(4.0)
                             .column(32.0)
-                            .column(4.0)
+                            .column(8.0)
                             .build(),
                     )
                     .child(
@@ -200,13 +193,12 @@ impl Template for TaskView {
                             .vertical_alignment("center")
                             .selected(selected)
                             .on_changed(move |ctx, entity| {
-                                // ctx.get_mut::<TaskState>(id)
-                                //     .action(Action::SelectionChanged(entity, index));
+                                ctx.get_mut::<TaskState>(id)
+                                    .action(Action::SelectionChanged(entity, index));
                             })
                             .build(ctx),
                     )
                     .child(text_box)
-                    .child(text_block)
                     .child(
                         ToggleButton::create()
                             .selected(("focused", text_box))
@@ -218,7 +210,6 @@ impl Template for TaskView {
                     )
                     .child(
                         Button::create()
-                            // .selected(("focused", text_box))
                             .class(CLASS_ICON_ONLY)
                             .attach(Grid::column(5))
                             .min_size(32.0, 32.0)
