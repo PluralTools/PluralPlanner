@@ -137,7 +137,7 @@ impl Template for OverviewView {
 
         let over_view_text_box = TextBox::create()
             .id(ID_OVERVIEW_TEXT_BOX)
-            .attach(Grid::row(2))
+            .attach(Grid::row(4))
             .vertical_alignment("center")
             .margin((4.0, 0.0, 0.0, 0.0))
             .lost_focus_on_activation(false)
@@ -156,7 +156,7 @@ impl Template for OverviewView {
             .count(0)
             .child(
                 Grid::create()
-                    .rows(Rows::create().row(52.0).row("*").row(40.0).build())
+                    .rows(Rows::create().row(52.0).row(1.0).row("*").row(1.0).row(40.0).build())
                     .columns(
                         Columns::create()
                             .column("*")
@@ -167,7 +167,7 @@ impl Template for OverviewView {
                     // Content
                     .child(
                         Container::create()
-                            .attach(Grid::row(1))
+                            .attach(Grid::row(2))
                             .attach(Grid::column(0))
                             .attach(Grid::column_span(3))
                             .child(scroll_viewer)
@@ -201,11 +201,25 @@ impl Template for OverviewView {
                             )
                             .build(ctx),
                     )
+                    .child(
+                        Container::create()
+                            .class("separator")
+                            .attach(Grid::row(1))
+                            .attach(Grid::column_span(3))
+                            .build(ctx),
+                    )
+                    .child(
+                        Container::create()
+                            .class("separator")
+                            .attach(Grid::row(3))
+                            .attach(Grid::column_span(3))
+                            .build(ctx),
+                    )
                     // Bottom bar
                     .child(
                         Container::create()
                             .class(CLASS_BOTTOM_BAR)
-                            .attach(Grid::row(2))
+                            .attach(Grid::row(4))
                             .attach(Grid::column(0))
                             .attach(Grid::column_span(3))
                             .build(ctx),
@@ -213,7 +227,7 @@ impl Template for OverviewView {
                     .child(
                         // workaround, todo fix scroll viewer mouse behavior in OrbTk
                         Button::create()
-                            .attach(Grid::row(2))
+                            .attach(Grid::row(4))
                             .attach(Grid::column(0))
                             .attach(Grid::column_span(3))
                             .on_mouse_down(|_, _| true)
@@ -227,7 +241,7 @@ impl Template for OverviewView {
                         Button::create()
                             .id(ID_OVERVIEW_ADD_BUTTON)
                             .class(CLASS_ICON_ONLY)
-                            .attach(Grid::row(2))
+                            .attach(Grid::row(4))
                             .attach(Grid::column(2))
                             .margin((0.0, 0.0, 4.0, 0.0))
                             .enabled(false)

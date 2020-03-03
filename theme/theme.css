@@ -78,3 +78,7 @@ list-view-item:active {
     background: transparent;
     border-radius: 0;
 }
+
+.separator {
+    background: #212121;
+}
