@@ -1,13 +1,21 @@
 use orbtk::prelude::*;
 use orbtk::theme::DEFAULT_THEME_CSS;
 
-pub use self::main_state::*;
-pub use self::main_view::*;
-pub use self::task_list::*;
+// pub use self::main_state::*;
+// pub use self::main_view::*;
+// pub use self::task_list::*;
+// pub use self::task_state::*;
+// pub use self::task_view::*;
 
-mod main_state;
-mod main_view;
-mod task_list;
+pub mod base_state;
+pub mod data;
+pub mod keys;
+pub mod main_state;
+pub mod main_view;
+pub mod overview_state;
+pub mod overview_view;
+pub mod task_state;
+pub mod task_view;
 
 static THEME: &str = include_str!("../theme/theme.css");
 
@@ -18,7 +26,7 @@ fn get_theme() -> ThemeValue {
 }
 
 fn main() {
-    Application::from_name("pinhead-galaxy.doit")
+    Application::from_name("flovanco.doit")
         .window(move |ctx| {
             Window::create()
                 .title("Do it")
@@ -26,7 +34,7 @@ fn main() {
                 .size(372.0, 768.0)
                 .resizeable(true)
                 .theme(get_theme())
-                .child(MainView::create().build(ctx))
+                .child(main_view::MainView::create().build(ctx))
                 .build(ctx)
         })
         .run();

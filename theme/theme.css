@@ -1,3 +1,20 @@
+.top_bar {
+    padding-left: 4;
+    padding-right: 4;
+    min-height: 52;
+    background: #475b6e;
+}
+
+.bottom_bar {
+    height: 40;
+    background: #475b6e;
+}
+
+.header {
+    font-size: 24;
+    font-family: "Roboto Medium";
+}
+
 text-box.inplace {
     color: #dfebf5;
     background: transparent;
@@ -16,19 +33,52 @@ text-box.inplace:empty {
     color: #9E9E9E
 }
 
-button.icon_only {
+.icon_only {
+    icon-color: #dfebf5;
     background: transparent;
+    spacing: 0;
 }
 
-button.icon_only:active {
+.icon_only:active {
     background: #516475;
     icon-color: #dfebf5;
 }
 
+.icon_only:disabled {
+    icon-color: #949ca5;
+    background: transparent;
+}
+
 items-widget {
+    padding: 0;
     border-color: transparent;
 }
 
-bottom {
-    background: #444e55;
+list-view-item {
+    padding-left: 0;
+    padding-right: 0;
+    height: 62;
+}
+
+list-view-item:active {
+    background: #516475;
+}
+
+.transparent {
+    icon-color: transparent;
+    background: transparent;
+}
+
+.transparent:active {
+    icon-color: transparent;
+    background: transparent;
+}
+
+.item_button {
+    background: transparent;
+    border-radius: 0;
+}
+
+.separator {
+    background: #212121;
 }
