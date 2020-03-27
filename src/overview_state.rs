@@ -81,32 +81,28 @@ impl OverviewState {
         self.navigate(self.task_view, ctx);
     }
 
-    /// Removes the focus of a text box
-    fn remove_focus(&self, text_box: Entity, ctx: &mut Context) {
-        ctx.get_widget(text_box)
-            .set("visibility", Visibility::Collapsed);
-        ctx.window().get_mut::<Global>("global").focused_widget = None;
-        ctx.get_widget(text_box).set("focused", false);
-        ctx.get_widget(text_box).update_theme_by_state(false);
-    }
-
     /// Set the given text box to edit mode.
     fn edit_entry(&self, text_box: Entity, ctx: &mut Context) {
         if *ctx.get_widget(text_box).get::<Visibility>("visibility") == Visibility::Visible {
-            self.remove_focus(text_box, ctx);
+            ctx.push_event_by_window(FocusEvent::RemoveFocus(text_box));
             return;
         }
+
         ctx.get_widget(text_box)
             .set("visibility", Visibility::Visible);
 
         if let Some(old_focused_element) = ctx.window().get::<Global>("global").focused_widget {
-            let mut old_focused_element = ctx.get_widget(old_focused_element);
-            old_focused_element.set("focused", false);
-            old_focused_element.update_theme_by_state(false);
+            ctx.push_event_by_window(FocusEvent::RemoveFocus(old_focused_element));
         }
-        ctx.window().get_mut::<Global>("global").focused_widget = Some(text_box);
-        ctx.get_widget(text_box).set("focused", true);
-        ctx.get_widget(text_box).update_theme_by_state(false);
+
+        // select all
+        ctx.get_widget(text_box)
+            .get_mut::<TextSelection>("text_selection")
+            .start_index = 0;
+        ctx.get_widget(text_box)
+            .get_mut::<TextSelection>("text_selection")
+            .length = ctx.get_widget(text_box).get::<String16>("text").len();
+        ctx.push_event_by_window(FocusEvent::RequestFocus(text_box));
     }
 }
 
@@ -175,7 +171,7 @@ impl State for OverviewState {
                 }
                 Action::RemoveFocus(text_box) => {
                     self.last_focused = None;
-                    self.remove_focus(text_box, ctx);
+                    ctx.push_event_by_window(FocusEvent::RemoveFocus(text_box));
                 }
                 Action::OpenTaskList(index) => {
                     self.open_task_list(index, ctx);

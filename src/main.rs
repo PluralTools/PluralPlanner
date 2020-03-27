@@ -1,16 +1,9 @@
 use orbtk::prelude::*;
 use orbtk::theme::DEFAULT_THEME_CSS;
 
-// pub use self::main_state::*;
-// pub use self::main_view::*;
-// pub use self::task_list::*;
-// pub use self::task_state::*;
-// pub use self::task_view::*;
-
 pub mod base_state;
 pub mod data;
 pub mod keys;
-pub mod main_state;
 pub mod main_view;
 pub mod overview_state;
 pub mod overview_view;

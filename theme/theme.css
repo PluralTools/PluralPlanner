@@ -15,7 +15,7 @@
     font-family: "Roboto Medium";
 }
 
-text-box.inplace {
+text_box.inplace {
     color: #dfebf5;
     background: transparent;
     border-color: transparent;
@@ -24,12 +24,12 @@ text-box.inplace {
     padding: 6;
 }
 
-text-box.inplace:focus {
+text_box.inplace:focus {
     background: #3b434a;
     border-color: #f8de4c;;
 }
 
-text-box.inplace:empty {
+text_box.inplace:empty {
     color: #9E9E9E
 }
 

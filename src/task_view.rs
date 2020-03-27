@@ -4,7 +4,6 @@ use orbtk::prelude::*;
 use crate::{
     data::TaskOverview,
     keys::*,
-    overview_state::*,
     task_state::{Action, TaskState},
 };
 

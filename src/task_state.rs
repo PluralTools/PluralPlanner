@@ -129,32 +129,28 @@ impl TaskState {
         }
     }
 
-    /// Removes the focus of a text box
-    fn remove_focus(&self, text_box: Entity, ctx: &mut Context) {
-        ctx.window().get_mut::<Global>("global").focused_widget = None;
-        ctx.get_widget(text_box).set("enabled", false);
-        ctx.get_widget(text_box).set("focused", false);
-        ctx.get_widget(text_box).update_theme_by_state(false);
-    }
-
     // Set the given text box to edit mode.
     fn edit_entry(&self, text_box: Entity, ctx: &mut Context) {
         if *ctx.get_widget(text_box).get::<bool>("focused") {
             ctx.get_widget(text_box).set("enabled", false);
-            self.remove_focus(text_box, ctx);
+            ctx.push_event_by_window(FocusEvent::RemoveFocus(text_box));
             return;
         }
 
         if let Some(old_focused_element) = ctx.window().get::<Global>("global").focused_widget {
-            let mut old_focused_element = ctx.get_widget(old_focused_element);
-            old_focused_element.set("focused", false);
-            old_focused_element.update_theme_by_state(false);
+            ctx.push_event_by_window(FocusEvent::RemoveFocus(old_focused_element));
         }
 
         ctx.get_widget(text_box).set("enabled", true);
-        ctx.window().get_mut::<Global>("global").focused_widget = Some(text_box);
-        ctx.get_widget(text_box).set("focused", true);
-        ctx.get_widget(text_box).update_theme_by_state(false);
+
+        // select all
+        ctx.get_widget(text_box)
+            .get_mut::<TextSelection>("text_selection")
+            .start_index = 0;
+        ctx.get_widget(text_box)
+            .get_mut::<TextSelection>("text_selection")
+            .length = ctx.get_widget(text_box).get::<String16>("text").len();
+        ctx.push_event_by_window(FocusEvent::RequestFocus(text_box));
     }
 
     fn remove_entry(&self, index: usize, registry: &mut Registry, ctx: &mut Context) {
@@ -237,7 +233,8 @@ impl State for TaskState {
                     self.edit_entry(text_box, ctx);
                 }
                 Action::RemoveFocus(text_box) => {
-                    self.remove_focus(text_box, ctx);
+                    ctx.get_widget(text_box).set("enabled", false);
+                    ctx.push_event_by_window(FocusEvent::RemoveFocus(text_box));
                 }
                 Action::NavigateBack() => {
                     self.navigate_back(ctx);

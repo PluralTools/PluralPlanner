@@ -79,9 +79,9 @@ dependencies = [
 
 [[package]]
 name = "bumpalo"
-version = "3.2.0"
+version = "3.2.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1f359dc14ff8911330a51ef78022d376f25ed00248912803b58f00cb1c27f742"
+checksum = "12ae9db68ad7fac5fe51304d20f016c911539251075a214f8e663babefa35187"
 
 [[package]]
 name = "bytemuck"
@@ -94,15 +94,6 @@ name = "byteorder"
 version = "1.3.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "08c48aae112d48ed9f069b33538ea9e3e90aa263cfa3d1c24309612b1f7472de"
-
-[[package]]
-name = "c2-chacha"
-version = "0.2.3"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "214238caa1bf3a496ec3392968969cab8549f96ff30652c9e56885329315f6bb"
-dependencies = [
- "ppv-lite86",
-]
 
 [[package]]
 name = "cast"
@@ -235,8 +226,8 @@ dependencies = [
  "phf_codegen",
  "proc-macro2 1.0.9",
  "procedural-masquerade",
- "quote 1.0.2",
- "syn 1.0.16",
+ "quote 1.0.3",
+ "syn 1.0.17",
 ]
 
 [[package]]
@@ -255,14 +246,24 @@ dependencies = [
 ]
 
 [[package]]
+name = "deflate"
+version = "0.8.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "050ef6de42a33903b30a7497b76b40d3d58691d4d3eec355348c122444a388f0"
+dependencies = [
+ "adler32",
+ "byteorder",
+]
+
+[[package]]
 name = "derive_more"
 version = "0.99.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "a806e96c59a76a5ba6e18735b6cf833344671e61e7863f2edb5c518ea2cac95c"
 dependencies = [
  "proc-macro2 1.0.9",
- "quote 1.0.2",
- "syn 1.0.16",
+ "quote 1.0.3",
+ "syn 1.0.17",
 ]
 
 [[package]]
@@ -371,16 +372,16 @@ dependencies = [
  "num-iter",
  "num-rational",
  "num-traits",
- "png",
+ "png 0.15.3",
  "scoped_threadpool",
  "tiff 0.3.1",
 ]
 
 [[package]]
 name = "image"
-version = "0.23.0"
+version = "0.23.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ef4e336ec01a678e7ab692914c641181528e8656451e6252f8f9e33728882eaf"
+checksum = "9062b90712d25bc6bb165d110aa59c6b47c849246e341e7b86a98daff9d49f60"
 dependencies = [
  "bytemuck",
  "byteorder",
@@ -389,7 +390,7 @@ dependencies = [
  "num-iter",
  "num-rational",
  "num-traits",
- "png",
+ "png 0.16.1",
  "scoped_threadpool",
  "tiff 0.4.0",
 ]
@@ -427,9 +428,9 @@ checksum = "e2abad23fbc42b3700f2f279844dc832adb2b2eb069b2df918f455c4e18cc646"
 
 [[package]]
 name = "libc"
-version = "0.2.67"
+version = "0.2.68"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "eb147597cdf94ed43ab7a9038716637d2d1bf2bc571da995d0028dec06bd3018"
+checksum = "dea0c0405123bba743ee3f91f49b1c7cfb684eef0da0a50110f758ccf24cdff0"
 
 [[package]]
 name = "log"
@@ -442,9 +443,9 @@ dependencies = [
 
 [[package]]
 name = "lyon_geom"
-version = "0.15.0"
+version = "0.15.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9e2a8bde54788e0eb4f1b9f072910bfa1cba95688698f7bb206d13a2f8fd06b3"
+checksum = "76579b1f0a1ab9c3565c48faf951152d772d67ea35292fa9d36a991916b19a21"
 dependencies = [
  "arrayvec",
  "euclid",
@@ -471,11 +472,11 @@ checksum = "60302e4db3a61da70c0cb7991976248362f30319e88850c487b9b95bbf059e00"
 
 [[package]]
 name = "memoffset"
-version = "0.5.3"
+version = "0.5.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "75189eb85871ea5c2e2c15abbdd541185f63b408415e5051f5cac122d8c774b9"
+checksum = "b4fc2c02a7e374099d4ee95a193111f72d2110197fe200272371758f6c3643d8"
 dependencies = [
- "rustc_version",
+ "autocfg 1.0.0",
 ]
 
 [[package]]
@@ -562,9 +563,9 @@ dependencies = [
 
 [[package]]
 name = "num-rational"
-version = "0.2.3"
+version = "0.2.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "da4dc79f9e6c81bef96148c8f6b8e72ad4541caa4a24373e900a36da07de03a3"
+checksum = "5c000134b5dbf44adc5cb772486d335293351644b801551abe8f75c84cfa4aef"
 dependencies = [
  "autocfg 1.0.0",
  "num-integer",
@@ -603,7 +604,7 @@ dependencies = [
 [[package]]
 name = "orbtk"
 version = "0.3.1-alpha2"
-source = "git+https://github.com/redox-os/orbtk.git?branch=develop#79b8b243fe0439c4248c2391208bd937eae22b9a"
+source = "git+https://github.com/redox-os/orbtk.git?branch=develop#c0bc377b0b8c780fd3211a480d63945e86eb0b67"
 dependencies = [
  "dces",
  "orbtk-api",
@@ -620,7 +621,7 @@ dependencies = [
 [[package]]
 name = "orbtk-api"
 version = "0.3.1-alpha2"
-source = "git+https://github.com/redox-os/orbtk.git?branch=develop#79b8b243fe0439c4248c2391208bd937eae22b9a"
+source = "git+https://github.com/redox-os/orbtk.git?branch=develop#c0bc377b0b8c780fd3211a480d63945e86eb0b67"
 dependencies = [
  "dces",
  "derive_more",
@@ -642,7 +643,7 @@ dependencies = [
 [[package]]
 name = "orbtk-css-engine"
 version = "0.3.1-alpha2"
-source = "git+https://github.com/redox-os/orbtk.git?branch=develop#79b8b243fe0439c4248c2391208bd937eae22b9a"
+source = "git+https://github.com/redox-os/orbtk.git?branch=develop#c0bc377b0b8c780fd3211a480d63945e86eb0b67"
 dependencies = [
  "cssparser",
  "orbtk-utils",
@@ -651,18 +652,18 @@ dependencies = [
 [[package]]
 name = "orbtk-proc-macros"
 version = "0.3.1-alpha2"
-source = "git+https://github.com/redox-os/orbtk.git?branch=develop#79b8b243fe0439c4248c2391208bd937eae22b9a"
+source = "git+https://github.com/redox-os/orbtk.git?branch=develop#c0bc377b0b8c780fd3211a480d63945e86eb0b67"
 dependencies = [
- "quote 1.0.2",
- "syn 1.0.16",
+ "quote 1.0.3",
+ "syn 1.0.17",
 ]
 
 [[package]]
 name = "orbtk-render"
 version = "0.3.1-alpha2"
-source = "git+https://github.com/redox-os/orbtk.git?branch=develop#79b8b243fe0439c4248c2391208bd937eae22b9a"
+source = "git+https://github.com/redox-os/orbtk.git?branch=develop#c0bc377b0b8c780fd3211a480d63945e86eb0b67"
 dependencies = [
- "image 0.23.0",
+ "image 0.23.2",
  "orbtk-utils",
  "raqote",
  "rusttype",
@@ -672,7 +673,7 @@ dependencies = [
 [[package]]
 name = "orbtk-shell"
 version = "0.3.1-alpha2"
-source = "git+https://github.com/redox-os/orbtk.git?branch=develop#79b8b243fe0439c4248c2391208bd937eae22b9a"
+source = "git+https://github.com/redox-os/orbtk.git?branch=develop#c0bc377b0b8c780fd3211a480d63945e86eb0b67"
 dependencies = [
  "console_error_panic_hook",
  "image 0.22.5",
@@ -688,7 +689,7 @@ dependencies = [
 [[package]]
 name = "orbtk-theme"
 version = "0.3.1-alpha2"
-source = "git+https://github.com/redox-os/orbtk.git?branch=develop#79b8b243fe0439c4248c2391208bd937eae22b9a"
+source = "git+https://github.com/redox-os/orbtk.git?branch=develop#c0bc377b0b8c780fd3211a480d63945e86eb0b67"
 dependencies = [
  "lazy_static",
  "orbtk-css-engine",
@@ -697,7 +698,7 @@ dependencies = [
 [[package]]
 name = "orbtk-tree"
 version = "0.3.1-alpha2"
-source = "git+https://github.com/redox-os/orbtk.git?branch=develop#79b8b243fe0439c4248c2391208bd937eae22b9a"
+source = "git+https://github.com/redox-os/orbtk.git?branch=develop#c0bc377b0b8c780fd3211a480d63945e86eb0b67"
 dependencies = [
  "dces",
 ]
@@ -705,12 +706,12 @@ dependencies = [
 [[package]]
 name = "orbtk-utils"
 version = "0.3.1-alpha2"
-source = "git+https://github.com/redox-os/orbtk.git?branch=develop#79b8b243fe0439c4248c2391208bd937eae22b9a"
+source = "git+https://github.com/redox-os/orbtk.git?branch=develop#c0bc377b0b8c780fd3211a480d63945e86eb0b67"
 
 [[package]]
 name = "orbtk-widgets"
 version = "0.3.1-alpha2"
-source = "git+https://github.com/redox-os/orbtk.git?branch=develop#79b8b243fe0439c4248c2391208bd937eae22b9a"
+source = "git+https://github.com/redox-os/orbtk.git?branch=develop#c0bc377b0b8c780fd3211a480d63945e86eb0b67"
 dependencies = [
  "dces",
  "orbtk-api",
@@ -782,7 +783,19 @@ checksum = "ef859a23054bbfee7811284275ae522f0434a3c8e7f4b74bd4a35ae7e1c4a283"
 dependencies = [
  "bitflags",
  "crc32fast",
- "deflate",
+ "deflate 0.7.20",
+ "inflate",
+]
+
+[[package]]
+name = "png"
+version = "0.16.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "46060468187c21c00ffa2a920690b29997d7fd543f5a4d400461e4a7d4fccde8"
+dependencies = [
+ "bitflags",
+ "crc32fast",
+ "deflate 0.8.3",
  "inflate",
 ]
 
@@ -833,9 +846,9 @@ dependencies = [
 
 [[package]]
 name = "quote"
-version = "1.0.2"
+version = "1.0.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "053a8c8bcc71fcce321828dc897a98ab9760bef03a4fc36693c231e5b3216cfe"
+checksum = "2bdc6c187c65bca4260c9011c9e3132efe4909da44726bad24cf7572ae338d7f"
 dependencies = [
  "proc-macro2 1.0.9",
 ]
@@ -867,7 +880,7 @@ checksum = "6a6b1679d49b24bbfe0c803429aa1874472f50d9b363131f0e89fc356b544d03"
 dependencies = [
  "getrandom",
  "libc",
- "rand_chacha 0.2.1",
+ "rand_chacha 0.2.2",
  "rand_core 0.5.1",
  "rand_hc 0.2.0",
 ]
@@ -884,11 +897,11 @@ dependencies = [
 
 [[package]]
 name = "rand_chacha"
-version = "0.2.1"
+version = "0.2.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "03a2a90da8c7523f554344f921aa97283eadf6ac484a6d2a7d0212fa7f8d6853"
+checksum = "f4c8ed856279c9737206bf725bf36935d8666ead7aa69b52be55af369d193402"
 dependencies = [
- "c2-chacha",
+ "ppv-lite86",
  "rand_core 0.5.1",
 ]
 
@@ -989,13 +1002,13 @@ dependencies = [
 
 [[package]]
 name = "raqote"
-version = "0.7.13"
+version = "0.7.14"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "aefbfa0f29b39bd2465f78475225ec2471accaf45a64a0391b4bfcdd5f0f7a00"
+checksum = "5e8400fa875bc4d584d9145cef72074df4d51d106dcc52678d4bf4214ba52eae"
 dependencies = [
  "euclid",
  "lyon_geom",
- "png",
+ "png 0.15.3",
  "sw-composite",
  "typed-arena",
 ]
@@ -1114,9 +1127,9 @@ dependencies = [
 
 [[package]]
 name = "ryu"
-version = "1.0.2"
+version = "1.0.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "bfa8506c1de11c9c4e4c38863ccbe02a305c8188e85a05a784c9e11e1c3910c8"
+checksum = "535622e6be132bccd223f4bb2b8ac8d53cda3c7a6394944d3b2b33fb974f9d76"
 
 [[package]]
 name = "scoped_threadpool"
@@ -1171,22 +1184,22 @@ checksum = "388a1df253eca08550bef6c72392cfe7c30914bf41df5269b68cbd6ff8f570a3"
 
 [[package]]
 name = "serde"
-version = "1.0.104"
+version = "1.0.105"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "414115f25f818d7dfccec8ee535d76949ae78584fc4f79a6f45a904bf8ab4449"
+checksum = "e707fbbf255b8fc8c3b99abb91e7257a622caeb20a9818cbadbeeede4e0932ff"
 dependencies = [
  "serde_derive",
 ]
 
 [[package]]
 name = "serde_derive"
-version = "1.0.104"
+version = "1.0.105"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "128f9e303a5a29922045a830221b8f78ec74a5f544944f3d5984f8ec3895ef64"
+checksum = "ac5d00fc561ba2724df6758a17de23df5914f20e41cb00f94d5b7ae42fffaff8"
 dependencies = [
  "proc-macro2 1.0.9",
- "quote 1.0.2",
- "syn 1.0.16",
+ "quote 1.0.3",
+ "syn 1.0.17",
 ]
 
 [[package]]
@@ -1269,10 +1282,10 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "c87a60a40fccc84bef0652345bbbbbe20a605bf5d0ce81719fc476f5c03b50ef"
 dependencies = [
  "proc-macro2 1.0.9",
- "quote 1.0.2",
+ "quote 1.0.3",
  "serde",
  "serde_derive",
- "syn 1.0.16",
+ "syn 1.0.17",
 ]
 
 [[package]]
@@ -1283,12 +1296,12 @@ checksum = "58fa5ff6ad0d98d1ffa8cb115892b6e69d67799f6763e162a1c9db421dc22e11"
 dependencies = [
  "base-x",
  "proc-macro2 1.0.9",
- "quote 1.0.2",
+ "quote 1.0.3",
  "serde",
  "serde_derive",
  "serde_json",
  "sha1",
- "syn 1.0.16",
+ "syn 1.0.17",
 ]
 
 [[package]]
@@ -1327,12 +1340,12 @@ dependencies = [
 
 [[package]]
 name = "syn"
-version = "1.0.16"
+version = "1.0.17"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "123bd9499cfb380418d509322d7a6d52e5315f064fe4b3ad18a53d6b92c07859"
+checksum = "0df0eb663f387145cab623dea85b09c2c5b4b0aef44e945d928e682fce71bb03"
 dependencies = [
  "proc-macro2 1.0.9",
- "quote 1.0.2",
+ "quote 1.0.3",
  "unicode-xid 0.2.0",
 ]
 
@@ -1429,9 +1442,9 @@ checksum = "cccddf32554fecc6acb585f82a32a72e28b48f8c4c1883ddfeeeaa96f7d8e519"
 
 [[package]]
 name = "wasm-bindgen"
-version = "0.2.58"
+version = "0.2.59"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5205e9afdf42282b192e2310a5b463a6d1c1d774e30dc3c791ac37ab42d2616c"
+checksum = "3557c397ab5a8e347d434782bcd31fc1483d927a6826804cec05cc792ee2519d"
 dependencies = [
  "cfg-if",
  "wasm-bindgen-macro",
@@ -1439,47 +1452,47 @@ dependencies = [
 
 [[package]]
 name = "wasm-bindgen-backend"
-version = "0.2.58"
+version = "0.2.59"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "11cdb95816290b525b32587d76419facd99662a07e59d3cdb560488a819d9a45"
+checksum = "e0da9c9a19850d3af6df1cb9574970b566d617ecfaf36eb0b706b6f3ef9bd2f8"
 dependencies = [
  "bumpalo",
  "lazy_static",
  "log",
  "proc-macro2 1.0.9",
- "quote 1.0.2",
- "syn 1.0.16",
+ "quote 1.0.3",
+ "syn 1.0.17",
  "wasm-bindgen-shared",
 ]
 
 [[package]]
 name = "wasm-bindgen-macro"
-version = "0.2.58"
+version = "0.2.59"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "574094772ce6921576fb6f2e3f7497b8a76273b6db092be18fc48a082de09dc3"
+checksum = "0f6fde1d36e75a714b5fe0cffbb78978f222ea6baebb726af13c78869fdb4205"
 dependencies = [
- "quote 1.0.2",
+ "quote 1.0.3",
  "wasm-bindgen-macro-support",
 ]
 
 [[package]]
 name = "wasm-bindgen-macro-support"
-version = "0.2.58"
+version = "0.2.59"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e85031354f25eaebe78bb7db1c3d86140312a911a106b2e29f9cc440ce3e7668"
+checksum = "25bda4168030a6412ea8a047e27238cadf56f0e53516e1e83fec0a8b7c786f6d"
 dependencies = [
  "proc-macro2 1.0.9",
- "quote 1.0.2",
- "syn 1.0.16",
+ "quote 1.0.3",
+ "syn 1.0.17",
  "wasm-bindgen-backend",
  "wasm-bindgen-shared",
 ]
 
 [[package]]
 name = "wasm-bindgen-shared"
-version = "0.2.58"
+version = "0.2.59"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f5e7e61fc929f4c0dddb748b102ebf9f632e2b8d739f2016542b4de2965a9601"
+checksum = "fc9f36ad51f25b0219a3d4d13b90eb44cd075dff8b6280cca015775d7acaddd8"
 
 [[package]]
 name = "wayland-client"
@@ -1527,7 +1540,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "43ea5ea1a117137d72c0c197431d198d69783b5e8ca996b0583c98e10b44d426"
 dependencies = [
  "proc-macro2 1.0.9",
- "quote 1.0.2",
+ "quote 1.0.3",
  "xml-rs",
 ]
 

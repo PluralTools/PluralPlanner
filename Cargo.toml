@@ -22,3 +22,9 @@ orbtk = { git = "https://github.com/redox-os/orbtk.git", branch= "develop" }
 # orbtk = { path = "../orbtk" }
 serde = "1.0.104"
 serde_derive = "1.0.104"
+
+
+[package.metadata.bundle]
+name = "Doit"
+identifier = "flovanco.doit"
+short_description = "Task app based on OrbTk."
