@@ -2,7 +2,7 @@
 [![Build Status](https://h2869596.stratoserver.net/api/badges/flovanco/doit/status.svg)](https://h2869596.stratoserver.net/flovanco/doit)
 [![GPL 3 licensed](https://img.shields.io/badge/license-GPL3-darkgreen.svg)](./LICENSE)
 
-Task app based on OrbTk https://gitlab.redox-os.org/redox-os/orbtk.
+Task app based on OrbTk https://github.com/redox-os/orbtk.
 
 <img alt="Space Editor" width="420" src="https://codeberg.org/flovanco/assets/raw/branch/master/doit.png">
 
