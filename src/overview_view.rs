@@ -14,9 +14,9 @@ widget!(
 impl Template for OverviewView {
     fn template(self, id: Entity, ctx: &mut BuildContext) -> Self {
         // list of task lists
-        let items_widget = ItemsWidget::create()
+        let items_widget = ItemsWidget::new()
             .id(ID_OVERVIEW_ITEMS_WIDGET)
-            .vertical_alignment("start")
+            .v_align("start")
             .items_builder(move |ctx, index| {
                 let mut text = "".to_string();
 
@@ -28,9 +28,9 @@ impl Template for OverviewView {
                     text = task_overview.title.clone();
                 }
 
-                let helper_button = Button::create()
-                    .min_height(48.0)
-                    .class(CLASS_ITEM_BUTTON)
+                let helper_button = Button::new()
+                    .min_height(48)
+                    .style(STYLE_ITEM_BUTTON)
                     .attach(Grid::column(0))
                     .attach(Grid::column_span(6))
                     .on_click(move |ctx, _| {
@@ -40,19 +40,19 @@ impl Template for OverviewView {
                     })
                     .build(ctx);
 
-                let text_block = TextBlock::create()
+                let text_block = TextBlock::new()
                     .foreground(helper_button)
-                    .margin((14.0, 0.0, 0.0, 0.0))
-                    .vertical_alignment("center")
+                    .margin((14, 0, 0, 0))
+                    .v_align("center")
                     .attach(Grid::column(0))
                     .text(text)
-                    .element("text-box")
+                    .style("text_box")
                     .build(ctx);
 
-                let text_box = TextBox::create()
-                    .margin((8.0, 0.0, 0.0, 0.0))
+                let text_box = TextBox::new()
+                    .margin((8, 0, 0, 0))
                     .visibility("collapsed")
-                    .vertical_alignment("center")
+                    .v_align("center")
                     .water_mark("Insert text...")
                     .attach(Grid::column(0))
                     .text(text_block)
@@ -66,37 +66,28 @@ impl Template for OverviewView {
                     })
                     .build(ctx);
 
-                Grid::create()
-                    .height(48.0)
-                    .columns(
-                        Columns::create()
-                            .column("*")
-                            .column(8.0)
-                            .column(32.0)
-                            .column(4.0)
-                            .column(32.0)
-                            .column(8.0)
-                            .build(),
-                    )
+                Grid::new()
+                    .height(48)
+                    .columns(Columns::new().add("*").add(8).add(32).add(4).add(32).add(8))
                     .child(helper_button)
                     .child(text_box)
                     .child(text_block)
                     .child(
-                        ToggleButton::create()
+                        ToggleButton::new()
+                            .style(STYLE_ICON_ONLY)
                             .selected(("focused", text_box))
-                            .class(CLASS_ICON_ONLY)
                             .attach(Grid::column(2))
-                            .min_size(32.0, 32.0)
-                            .vertical_alignment("center")
+                            .min_size(32, 32)
+                            .v_align("center")
                             .build(ctx),
                     )
                     .child(
-                        Button::create()
+                        Button::new()
                             // .selected(("focused", text_box))
-                            .class(CLASS_ICON_ONLY)
+                            .style(STYLE_ICON_ONLY)
                             .attach(Grid::column(2))
-                            .min_size(32.0, 32.0)
-                            .vertical_alignment("center")
+                            .min_size(32, 32)
+                            .v_align("center")
                             // todo use remove from icons
                             // .icon(material_font_icons::DELETE_FONT_ICON)
                             .icon("")
@@ -109,11 +100,11 @@ impl Template for OverviewView {
                             .build(ctx),
                     )
                     .child(
-                        Button::create()
-                            .class("icon_only")
+                        Button::new()
+                            .style("icon_only")
                             .attach(Grid::column(4))
-                            .min_size(32.0, 32.0)
-                            .vertical_alignment("center")
+                            .min_size(32, 32)
+                            .v_align("center")
                             // todo use remove from icons
                             // .icon(material_font_icons::DELETE_FONT_ICON)
                             .icon("")
@@ -130,20 +121,20 @@ impl Template for OverviewView {
             .count((PROP_COUNT, id))
             .build(ctx);
 
-        let scroll_viewer = ScrollViewer::create()
+        let scroll_viewer = ScrollViewer::new()
             .scroll_viewer_mode(("disabled", "auto"))
             .child(items_widget)
             .build(ctx);
 
-        let over_view_text_box = TextBox::create()
+        let over_view_text_box = TextBox::new()
             .id(ID_OVERVIEW_TEXT_BOX)
             .attach(Grid::row(4))
-            .vertical_alignment("center")
-            .margin((4.0, 0.0, 0.0, 0.0))
+            .v_align("center")
+            .margin((4, 0, 0, 0))
             .lost_focus_on_activation(false)
             .on_activate(move |ctx, entity| {
                 ctx.get_mut::<OverviewState>(id)
-                    .action(Action::CreateEntry(entity));
+                    .action(Action::newEntry(entity));
             })
             .on_changed(move |ctx, entity| {
                 ctx.get_mut::<OverviewState>(id)
@@ -155,25 +146,19 @@ impl Template for OverviewView {
             .task_overview(TaskOverview::default())
             .count(0)
             .child(
-                Grid::create()
-                    .rows(Rows::create().row(52.0).row(1.0).row("*").row(1.0).row(40.0).build())
-                    .columns(
-                        Columns::create()
-                            .column("*")
-                            .column(4.0)
-                            .column(36.0)
-                            .build(),
-                    )
+                Grid::new()
+                    .rows(Rows::new().add(52).add(1).add("*").add(1).add(40).build())
+                    .columns(Columns::new().add("*").add(4).add(36).build())
                     // Content
                     .child(
-                        Container::create()
+                        Container::new()
                             .attach(Grid::row(2))
                             .attach(Grid::column(0))
                             .attach(Grid::column_span(3))
                             .child(scroll_viewer)
                             .child(
-                                ScrollIndicator::create()
-                                    .padding((0.0, 4.0, 0.0, 0.0))
+                                ScrollIndicator::new()
+                                    .padding((0, 4, 0, 0))
                                     .content_id(items_widget.0)
                                     .scroll_offset(scroll_viewer)
                                     .build(ctx),
@@ -182,17 +167,17 @@ impl Template for OverviewView {
                     )
                     // Top Bar
                     .child(
-                        Container::create()
-                            .class(CLASS_TOP_BAR)
+                        Container::new()
+                            .style(STYLE_TOP_BAR)
                             .attach(Grid::row(0))
                             .attach(Grid::column(0))
                             .attach(Grid::column_span(3))
                             .child(
-                                Grid::create()
+                                Grid::new()
                                     .child(
-                                        TextBlock::create()
-                                            .class(CLASS_HEADER)
-                                            .vertical_alignment("center")
+                                        TextBlock::new()
+                                            .style(STYLE_HEADER)
+                                            .v_align("center")
                                             .horizontal_alignment("center")
                                             .text("Overview")
                                             .build(ctx),
@@ -202,23 +187,23 @@ impl Template for OverviewView {
                             .build(ctx),
                     )
                     .child(
-                        Container::create()
-                            .class("separator")
+                        Container::new()
+                            .style("separator")
                             .attach(Grid::row(1))
                             .attach(Grid::column_span(3))
                             .build(ctx),
                     )
                     .child(
-                        Container::create()
-                            .class("separator")
+                        Container::new()
+                            .style("separator")
                             .attach(Grid::row(3))
                             .attach(Grid::column_span(3))
                             .build(ctx),
                     )
                     // Bottom bar
                     .child(
-                        Container::create()
-                            .class(CLASS_BOTTOM_BAR)
+                        Container::new()
+                            .style(STYLE_BOTTOM_BAR)
                             .attach(Grid::row(4))
                             .attach(Grid::column(0))
                             .attach(Grid::column_span(3))
@@ -226,31 +211,31 @@ impl Template for OverviewView {
                     )
                     .child(
                         // workaround, todo fix scroll viewer mouse behavior in OrbTk
-                        Button::create()
+                        Button::new()
                             .attach(Grid::row(4))
                             .attach(Grid::column(0))
                             .attach(Grid::column_span(3))
                             .on_mouse_down(|_, _| true)
                             .on_mouse_up(|_, _| true)
                             .on_click(|_, _| true)
-                            .class(CLASS_TRANSPARENT)
+                            .style(STYLE_TRANSPARENT)
                             .build(ctx),
                     )
                     .child(over_view_text_box)
                     .child(
-                        Button::create()
+                        Button::new()
                             .id(ID_OVERVIEW_ADD_BUTTON)
-                            .class(CLASS_ICON_ONLY)
+                            .style(STYLE_ICON_ONLY)
                             .attach(Grid::row(4))
                             .attach(Grid::column(2))
-                            .margin((0.0, 0.0, 4.0, 0.0))
+                            .margin((0, 0, 4, 0))
                             .enabled(false)
-                            .min_size(32.0, 32.0)
-                            .vertical_alignment("center")
-                            .icon(material_font_icons::ADD_FONT_ICON)
+                            .min_size(32, 32)
+                            .v_align("center")
+                            .icon(material_icons_font::MD_ADD)
                             .on_click(move |ctx, _| {
                                 ctx.get_mut::<OverviewState>(id)
-                                    .action(Action::CreateEntry(over_view_text_box));
+                                    .action(Action::newEntry(over_view_text_box));
                                 true
                             })
                             .build(ctx),

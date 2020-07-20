@@ -11,12 +11,12 @@ widget!(MainView {
 
 impl Template for MainView {
     fn template(self, id: Entity, ctx: &mut BuildContext) -> Self {
-        let overview_view = OverviewView::create()
+        let overview_view = OverviewView::new()
             .task_view(id)
             .count(id)
             .task_overview(id)
             .build(ctx);
-        let task_view = TaskView::create()
+        let task_view = TaskView::new()
             .back_entity(overview_view.0)
             .task_overview(id)
             .visibility("collapsed")

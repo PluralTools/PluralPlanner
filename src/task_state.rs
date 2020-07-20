@@ -10,7 +10,7 @@ use crate::{
 #[derive(Debug, Copy, Clone)]
 pub enum Action {
     InputTextChanged(Entity),
-    CreateEntry(Entity),
+    newEntry(Entity),
     RemoveEntry(usize),
     TextChanged(Entity, usize),
     EditEntry(Entity),
@@ -38,7 +38,7 @@ impl TaskState {
         self.action = action.into();
     }
 
-    fn create_entry(&self, text: String, registry: &mut Registry, ctx: &mut Context) {
+    fn new_entry(&self, text: String, registry: &mut Registry, ctx: &mut Context) {
         let index = ctx.widget().clone::<Option<usize>>("list_index");
 
         if let Some(index) = index {
@@ -88,7 +88,7 @@ impl TaskState {
             ctx.get_widget(self.add_button).set("enabled", true);
         }
 
-        ctx.get_widget(self.add_button).update_theme_by_state(true);
+        ctx.get_widget(self.add_button).update(true);
     }
 
     fn toggle_selection(
@@ -214,9 +214,9 @@ impl State for TaskState {
                 Action::InputTextChanged(text_box) => {
                     self.adjust_add_button_enabled(text_box, ctx);
                 }
-                Action::CreateEntry(entity) => {
+                Action::newEntry(entity) => {
                     if let Some(text) = self.fetch_text(ctx, entity) {
-                        self.create_entry(text, registry, ctx);
+                        self.new_entry(text, registry, ctx);
                     }
                 }
                 Action::RemoveEntry(index) => {

@@ -9,7 +9,7 @@ pub trait BaseState {
         if let Some(old_focused_element) = ctx.window().get::<Global>("global").focused_widget {
             let mut old_focused_element = ctx.get_widget(old_focused_element);
             old_focused_element.set("focused", false);
-            old_focused_element.update_theme_by_state(false);
+            old_focused_element.update(false);
         }
         ctx.window().get_mut::<Global>("global").focused_widget = None;
         ctx.widget().set("visibility", Visibility::Collapsed);

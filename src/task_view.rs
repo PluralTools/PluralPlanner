@@ -1,4 +1,3 @@
-
 use orbtk::prelude::*;
 
 use crate::{
@@ -24,9 +23,9 @@ widget!(TaskView<TaskState> {
 impl Template for TaskView {
     fn template(self, id: Entity, ctx: &mut BuildContext) -> Self {
         // list of task lists
-        let items_widget = ItemsWidget::create()
+        let items_widget = ItemsWidget::new()
             .id(ID_TASK_ITEMS_WIDGET)
-            .vertical_alignment("start")
+            .v_align("start")
             .items_builder(move |ctx, index| {
                 let mut text = "".to_string();
                 let mut selected = false;
@@ -44,12 +43,12 @@ impl Template for TaskView {
                     }
                 }
 
-                let text_box = TextBox::create()
+                let text_box = TextBox::new()
                     .text(text)
                     .enabled(false)
-                    .vertical_alignment("center")
+                    .v_align("center")
                     .water_mark("Insert text...")
-                    .class("inplace")
+                    .style("inplace")
                     .attach(Grid::column(3))
                     .on_changed(move |ctx, entity| {
                         ctx.get_mut::<TaskState>(id)
@@ -61,25 +60,25 @@ impl Template for TaskView {
                     })
                     .build(ctx);
 
-                Grid::create()
-                    .height(48.0)
+                Grid::new()
+                    .height(48)
                     .columns(
-                        Columns::create()
-                            .column(10.0)
-                            .column(24.0)
-                            .column(8.0)
-                            .column("*")
-                            .column(8.0)
-                            .column(32.0)
-                            .column(4.0)
-                            .column(32.0)
-                            .column(8.0)
+                        Columns::new()
+                            .add(10)
+                            .add(24)
+                            .add(8)
+                            .add("*")
+                            .add(8)
+                            .add(32)
+                            .add(4)
+                            .add(32)
+                            .add(8)
                             .build(),
                     )
                     .child(
-                        CheckBox::create()
+                        CheckBox::new()
                             .attach(Grid::column(1))
-                            .vertical_alignment("center")
+                            .v_align("center")
                             .selected(selected)
                             .on_changed(move |ctx, entity| {
                                 ctx.get_mut::<TaskState>(id)
@@ -89,20 +88,20 @@ impl Template for TaskView {
                     )
                     .child(text_box)
                     .child(
-                        ToggleButton::create()
+                        ToggleButton::new()
                             .selected(("focused", text_box))
-                            .class(CLASS_ICON_ONLY)
+                            .style(STYLE_ICON_ONLY)
                             .attach(Grid::column(5))
-                            .min_size(32.0, 32.0)
-                            .vertical_alignment("center")
+                            .min_size(32, 32)
+                            .v_align("center")
                             .build(ctx),
                     )
                     .child(
-                        Button::create()
-                            .class(CLASS_ICON_ONLY)
+                        Button::new()
+                            .style(STYLE_ICON_ONLY)
                             .attach(Grid::column(5))
-                            .min_size(32.0, 32.0)
-                            .vertical_alignment("center")
+                            .min_size(32, 32)
+                            .v_align("center")
                             // todo use remove from icons
                             // .icon(material_font_icons::DELETE_FONT_ICON)
                             .icon("")
@@ -115,11 +114,11 @@ impl Template for TaskView {
                             .build(ctx),
                     )
                     .child(
-                        Button::create()
-                            .class("icon_only")
+                        Button::new()
+                            .style("icon_only")
                             .attach(Grid::column(7))
-                            .min_size(32.0, 32.0)
-                            .vertical_alignment("center")
+                            .min_size(32, 32)
+                            .v_align("center")
                             // todo use remove from icons
                             // .icon(material_font_icons::DELETE_FONT_ICON)
                             .icon("")
@@ -136,20 +135,20 @@ impl Template for TaskView {
             .count((PROP_COUNT, id))
             .build(ctx);
 
-        let scroll_viewer = ScrollViewer::create()
+        let scroll_viewer = ScrollViewer::new()
             .scroll_viewer_mode(("disabled", "auto"))
             .child(items_widget)
             .build(ctx);
 
-        let task_text_box = TextBox::create()
+        let task_text_box = TextBox::new()
             .id(ID_TASK_TEXT_BOX)
             .attach(Grid::row(4))
-            .vertical_alignment("center")
-            .margin((4.0, 0.0, 0.0, 0.0))
+            .v_align("center")
+            .margin((4, 0, 0, 0))
             .lost_focus_on_activation(false)
             .on_activate(move |ctx, entity| {
                 ctx.get_mut::<TaskState>(id)
-                    .action(Action::CreateEntry(entity));
+                    .action(Action::newEntry(entity));
             })
             .on_changed(move |ctx, entity| {
                 ctx.get_mut::<TaskState>(id)
@@ -158,33 +157,27 @@ impl Template for TaskView {
             .build(ctx);
 
         self.name("TaskView").child(
-            Grid::create()
+            Grid::new()
                 .rows(
-                    Rows::create()
-                        .row(52.0)
-                        .row(1.0)
-                        .row("*")
-                        .row(1.0)
-                        .row("auto")
+                    Rows::new()
+                        .add(52)
+                        .add(1)
+                        .add("*")
+                        .add(1)
+                        .add("auto")
                         .build(),
                 )
-                .columns(
-                    Columns::create()
-                        .column("*")
-                        .column(4.0)
-                        .column(36.0)
-                        .build(),
-                )
+                .columns(Columns::new().add("*").add(4).add(36).build())
                 // Content
                 .child(
-                    Container::create()
+                    Container::new()
                         .attach(Grid::row(2))
                         .attach(Grid::column(0))
                         .attach(Grid::column_span(3))
                         .child(scroll_viewer)
                         .child(
-                            ScrollIndicator::create()
-                                .padding((0.0, 4.0, 0.0, 0.0))
+                            ScrollIndicator::new()
+                                .padding((0, 4, 0, 0))
                                 .content_id(items_widget.0)
                                 .scroll_offset(scroll_viewer)
                                 .build(ctx),
@@ -193,28 +186,28 @@ impl Template for TaskView {
                 )
                 // Top Bar
                 .child(
-                    Container::create()
-                        .class(CLASS_TOP_BAR)
+                    Container::new()
+                        .style(STYLE_TOP_BAR)
                         .attach(Grid::row(0))
                         .attach(Grid::column(0))
                         .attach(Grid::column_span(3))
                         .child(
-                            Grid::create()
+                            Grid::new()
                                 .columns(
-                                    Columns::create()
-                                        .column(32.0)
-                                        .column(4.0)
-                                        .column("*")
-                                        .column(4.0)
-                                        .column(32.0)
+                                    Columns::new()
+                                        .add(32)
+                                        .add(4)
+                                        .add("*")
+                                        .add(4)
+                                        .add(32)
                                         .build(),
                                 )
                                 .child(
-                                    Button::create()
-                                        .height(32.0)
+                                    Button::new()
+                                        .height(32)
                                         .icon("")
-                                        .class(CLASS_ICON_ONLY)
-                                        .vertical_alignment("center")
+                                        .style(STYLE_ICON_ONLY)
+                                        .v_align("center")
                                         .on_click(move |ctx, _| {
                                             ctx.get_mut::<TaskState>(id)
                                                 .action(Action::NavigateBack());
@@ -223,10 +216,10 @@ impl Template for TaskView {
                                         .build(ctx),
                                 )
                                 .child(
-                                    TextBlock::create()
-                                        .class(CLASS_HEADER)
+                                    TextBlock::new()
+                                        .style(STYLE_HEADER)
                                         .attach(Grid::column(2))
-                                        .vertical_alignment("center")
+                                        .v_align("center")
                                         .horizontal_alignment("center")
                                         .text(("title", id))
                                         .build(ctx),
@@ -236,23 +229,23 @@ impl Template for TaskView {
                         .build(ctx),
                 )
                 .child(
-                    Container::create()
-                        .class("separator")
+                    Container::new()
+                        .style("separator")
                         .attach(Grid::row(1))
                         .attach(Grid::column_span(3))
                         .build(ctx),
                 )
                 .child(
-                    Container::create()
-                        .class("separator")
+                    Container::new()
+                        .style("separator")
                         .attach(Grid::row(3))
                         .attach(Grid::column_span(3))
                         .build(ctx),
                 )
                 // Bottom bar
                 .child(
-                    Container::create()
-                        .class(CLASS_BOTTOM_BAR)
+                    Container::new()
+                        .style(STYLE_BOTTOM_BAR)
                         .attach(Grid::row(4))
                         .attach(Grid::column(0))
                         .attach(Grid::column_span(3))
@@ -260,19 +253,19 @@ impl Template for TaskView {
                 )
                 .child(task_text_box)
                 .child(
-                    Button::create()
+                    Button::new()
                         .id(ID_TASK_ADD_BUTTON)
-                        .class(CLASS_ICON_ONLY)
+                        .style(STYLE_ICON_ONLY)
                         .attach(Grid::row(4))
                         .attach(Grid::column(2))
-                        .margin((0.0, 0.0, 4.0, 0.0))
+                        .margin((0, 0, 4, 0))
                         .enabled(false)
-                        .min_size(32.0, 32.0)
-                        .vertical_alignment("center")
-                        .icon(material_font_icons::ADD_FONT_ICON)
+                        .min_size(32, 32)
+                        .v_align("center")
+                        .icon(material_icons_font::MD_ADD)
                         .on_click(move |ctx, _| {
                             ctx.get_mut::<TaskState>(id)
-                                .action(Action::CreateEntry(task_text_box));
+                                .action(Action::newEntry(task_text_box));
                             true
                         })
                         .build(ctx),

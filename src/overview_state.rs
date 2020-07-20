@@ -10,7 +10,7 @@ use crate::{
 #[derive(Debug, Copy, Clone)]
 pub enum Action {
     InputTextChanged(Entity),
-    CreateEntry(Entity),
+    newEntry(Entity),
     RemoveEntry(usize),
     TextChanged(Entity, usize),
     EditEntry(Entity),
@@ -37,8 +37,8 @@ impl OverviewState {
         self.action = action.into();
     }
 
-    // Creates a new task list.
-    fn create_entry(&self, text: String, registry: &mut Registry, ctx: &mut Context) {
+    // news a new task list.
+    fn new_entry(&self, text: String, registry: &mut Registry, ctx: &mut Context) {
         ctx.widget()
             .get_mut::<TaskOverview>(PROP_TASK_OVERVIEW)
             .push(TaskList::new(text));
@@ -63,7 +63,7 @@ impl OverviewState {
             ctx.get_widget(self.add_button).set("enabled", true);
         }
 
-        ctx.get_widget(self.add_button).update_theme_by_state(true);
+        ctx.get_widget(self.add_button).update(true);
     }
 
     // Adjusts the task list count.
@@ -144,9 +144,9 @@ impl State for OverviewState {
                 Action::InputTextChanged(text_box) => {
                     self.adjust_add_button_enabled(text_box, ctx);
                 }
-                Action::CreateEntry(entity) => {
+                Action::newEntry(entity) => {
                     if let Some(text) = self.fetch_text(ctx, entity) {
-                        self.create_entry(text, registry, ctx);
+                        self.new_entry(text, registry, ctx);
                     }
                 }
                 Action::RemoveEntry(index) => {
