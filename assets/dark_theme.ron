@@ -48,7 +48,9 @@ Theme (
             properties: {
                 "icon_brush": "$LINK_WATER",
                 "background": "transparent",
-                "spacing": 0
+                "spacing": 0,
+                "width": 32,
+                "height": 32
             },
             states: {
                  "pressed": {
@@ -64,7 +66,7 @@ Theme (
                 "background": "transparent",
                 "border_radius": 0,
                 "height": 48
-            },
+            }
         )
     }
 )

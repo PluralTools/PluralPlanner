@@ -76,7 +76,6 @@ impl Template for OverviewView {
                             .style(STYLE_ICON_ONLY)
                             .selected(("focused", text_box))
                             .attach(Grid::column(2))
-                            .min_size(32, 32)
                             .v_align("center")
                             .build(ctx),
                     )
@@ -85,7 +84,6 @@ impl Template for OverviewView {
                             // .selected(("focused", text_box))
                             .style(STYLE_ICON_ONLY)
                             .attach(Grid::column(2))
-                            .min_size(32, 32)
                             .v_align("center")
                             // todo use remove from icons
                             // .icon(material_font_icons::DELETE_FONT_ICON)
@@ -102,7 +100,6 @@ impl Template for OverviewView {
                         Button::new()
                             .style("icon_only")
                             .attach(Grid::column(4))
-                            .min_size(32, 32)
                             .v_align("center")
                             // todo use remove from icons
                             // .icon(material_font_icons::DELETE_FONT_ICON)
@@ -215,7 +212,7 @@ impl Template for OverviewView {
                             .attach(Grid::column(0))
                             .attach(Grid::column_span(3))
                             .on_mouse_down(|_, _| true)
-                            .on_mouse_up(|_, _| true)
+                            //.on_mouse_up(|_, _| true)
                             .on_click(|_, _| true)
                             .style(STYLE_TRANSPARENT)
                             .build(ctx),

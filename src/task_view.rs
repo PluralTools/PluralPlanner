@@ -167,7 +167,7 @@ impl Template for TaskView {
                         .add("auto")
                         .build(),
                 )
-                .columns(Columns::new().add("*").add(4).add(36).build())
+                .columns(Columns::new().add("*").add(4).add(36))
                 // Content
                 .child(
                     Container::new()
@@ -193,20 +193,11 @@ impl Template for TaskView {
                         .attach(Grid::column_span(3))
                         .child(
                             Grid::new()
-                                .columns(
-                                    Columns::new()
-                                        .add(32)
-                                        .add(4)
-                                        .add("*")
-                                        .add(4)
-                                        .add(32)
-                                        .build(),
-                                )
+                                .columns(Columns::new().add(32).add(4).add("*").add(4).add(32))
                                 .child(
                                     Button::new()
-                                        .height(32)
-                                        .icon("")
                                         .style(STYLE_ICON_ONLY)
+                                        .icon(material_icons_font::MD_ARROW_BACK)
                                         .v_align("center")
                                         .on_click(move |ctx, _| {
                                             ctx.get_mut::<TaskState>(id)

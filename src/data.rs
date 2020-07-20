@@ -30,7 +30,7 @@ impl TaskOverview {
 
     pub fn len(&self) -> usize {
         self.task_lists.len()
-    } 
+    }
 
     pub fn is_empty(&self) -> bool {
         self.task_lists.is_empty()
