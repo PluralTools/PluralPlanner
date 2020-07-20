@@ -1,0 +1,70 @@
+Theme (
+    styles: {
+        "top_bar": (
+            properties: {
+                "padding_left": 4,
+                "padding_right": 4,
+                "min_height": 52,
+                "background": "$FIORD"
+            }
+        ),
+        "bottom_bar": (
+              properties: {
+                "padding_left": 4,
+                "padding_right": 4,
+                "min_height": 52,
+                "background": "$FIORD"
+              }
+        ),
+        "bottom_bar": (
+            base: "base",
+            properties: {
+                "font_size": "$FONT_SIZE_24",
+            }
+        ),
+        "inplace": (
+            base: "text_box",
+            properties: {
+                "foreground": "$LINK_WATER",
+                "background": "transparent",
+                "border_brush": "transparent",
+                "border_thickness": 1,
+                "border_radius": 2,
+                "padding": 6
+            },
+            states: {
+                 "focused": {
+                    "background": "$BRIGHT_GRAY",
+                },
+                "empty": {
+                    "foreground": "$SILVER_CHALICE",
+                },
+                "empty_focused": {
+                    "background": "$BRIGHT_GRAY",
+                }
+            }
+        ),
+        "icon_only": (
+            properties: {
+                "icon_brush": "$LINK_WATER",
+                "background": "transparent",
+                "spacing": 0
+            },
+            states: {
+                 "pressed": {
+                    "background": "$BLUE_BAYOUX",
+                },
+                "disabled": {
+                    "icon_brush": "$MANATEE",
+                },
+            }
+        ),
+        "item_button": (
+             properties: {
+                "background": "transparent",
+                "border_radius": 0,
+                "height": 48
+            },
+        )
+    }
+)

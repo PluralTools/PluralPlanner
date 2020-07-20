@@ -44,11 +44,11 @@ impl Template for TaskView {
                 }
 
                 let text_box = TextBox::new()
+                    .style("inplace")
                     .text(text)
                     .enabled(false)
                     .v_align("center")
                     .water_mark("Insert text...")
-                    .style("inplace")
                     .attach(Grid::column(3))
                     .on_changed(move |ctx, entity| {
                         ctx.get_mut::<TaskState>(id)
@@ -220,7 +220,7 @@ impl Template for TaskView {
                                         .style(STYLE_HEADER)
                                         .attach(Grid::column(2))
                                         .v_align("center")
-                                        .horizontal_alignment("center")
+                                        .h_align("center")
                                         .text(("title", id))
                                         .build(ctx),
                                 )

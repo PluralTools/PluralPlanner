@@ -29,7 +29,6 @@ impl Template for OverviewView {
                 }
 
                 let helper_button = Button::new()
-                    .min_height(48)
                     .style(STYLE_ITEM_BUTTON)
                     .attach(Grid::column(0))
                     .attach(Grid::column_span(6))
@@ -178,7 +177,7 @@ impl Template for OverviewView {
                                         TextBlock::new()
                                             .style(STYLE_HEADER)
                                             .v_align("center")
-                                            .horizontal_alignment("center")
+                                            .h_align("center")
                                             .text("Overview")
                                             .build(ctx),
                                     )

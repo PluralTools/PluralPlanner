@@ -1,4 +1,8 @@
-use orbtk::prelude::*;
+use orbtk::{
+    prelude::*,
+    theme::{COLORS_RON, DARK_THEME_RON, FONTS_RON},
+    theming::config::ThemeConfig,
+};
 
 pub mod base_state;
 pub mod data;
@@ -9,8 +13,20 @@ pub mod overview_view;
 pub mod task_state;
 pub mod task_view;
 
+static DARK_EXT: &'static str = include_str!("../assets/dark_theme.ron");
+
+fn theme() -> Theme {
+    Theme::from_config(
+        ThemeConfig::from(DARK_THEME_RON)
+            .extend(ThemeConfig::from(DARK_EXT))
+            .extend(ThemeConfig::from(COLORS_RON))
+            .extend(ThemeConfig::from(FONTS_RON)),
+    )
+}
+
 fn main() {
     Application::from_name("flovanco.doit")
+        .theme(theme())
         .window(move |ctx| {
             Window::new()
                 .title("Do it")
