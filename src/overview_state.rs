@@ -10,7 +10,7 @@ use crate::{
 #[derive(Debug, Copy, Clone)]
 pub enum Action {
     InputTextChanged(Entity),
-    newEntry(Entity),
+    NewEntry(Entity),
     RemoveEntry(usize),
     TextChanged(Entity, usize),
     EditEntry(Entity),
@@ -83,17 +83,17 @@ impl OverviewState {
 
     /// Set the given text box to edit mode.
     fn edit_entry(&self, text_box: Entity, ctx: &mut Context) {
-        if *ctx.get_widget(text_box).get::<Visibility>("visibility") == Visibility::Visible {
-            ctx.push_event_by_window(FocusEvent::RemoveFocus(text_box));
-            return;
-        }
+        // if *ctx.get_widget(text_box).get::<Visibility>("visibility") == Visibility::Visible {
+        //     ctx.push_event_by_window(FocusEvent::RemoveFocus(text_box));
+        //     return;
+        // }
 
-        ctx.get_widget(text_box)
-            .set("visibility", Visibility::Visible);
+        // // ctx.get_widget(text_box)
+        // //     .set("visibility", Visibility::Visible);
 
-        if let Some(old_focused_element) = ctx.window().get::<Global>("global").focused_widget {
-            ctx.push_event_by_window(FocusEvent::RemoveFocus(old_focused_element));
-        }
+        // if let Some(old_focused_element) = ctx.window().get::<Global>("global").focused_widget {
+        //     ctx.push_event_by_window(FocusEvent::RemoveFocus(old_focused_element));
+        // }
 
         // select all
         ctx.get_widget(text_box)
@@ -144,7 +144,7 @@ impl State for OverviewState {
                 Action::InputTextChanged(text_box) => {
                     self.adjust_add_button_enabled(text_box, ctx);
                 }
-                Action::newEntry(entity) => {
+                Action::NewEntry(entity) => {
                     if let Some(text) = self.fetch_text(ctx, entity) {
                         self.new_entry(text, registry, ctx);
                     }

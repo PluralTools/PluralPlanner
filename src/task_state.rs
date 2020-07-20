@@ -10,7 +10,7 @@ use crate::{
 #[derive(Debug, Copy, Clone)]
 pub enum Action {
     InputTextChanged(Entity),
-    newEntry(Entity),
+    NewEntry(Entity),
     RemoveEntry(usize),
     TextChanged(Entity, usize),
     EditEntry(Entity),
@@ -214,7 +214,7 @@ impl State for TaskState {
                 Action::InputTextChanged(text_box) => {
                     self.adjust_add_button_enabled(text_box, ctx);
                 }
-                Action::newEntry(entity) => {
+                Action::NewEntry(entity) => {
                     if let Some(text) = self.fetch_text(ctx, entity) {
                         self.new_entry(text, registry, ctx);
                     }

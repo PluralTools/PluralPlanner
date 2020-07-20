@@ -148,7 +148,7 @@ impl Template for TaskView {
             .lost_focus_on_activation(false)
             .on_activate(move |ctx, entity| {
                 ctx.get_mut::<TaskState>(id)
-                    .action(Action::newEntry(entity));
+                    .action(Action::NewEntry(entity));
             })
             .on_changed(move |ctx, entity| {
                 ctx.get_mut::<TaskState>(id)
@@ -256,7 +256,7 @@ impl Template for TaskView {
                         .icon(material_icons_font::MD_ADD)
                         .on_click(move |ctx, _| {
                             ctx.get_mut::<TaskState>(id)
-                                .action(Action::newEntry(task_text_box));
+                                .action(Action::NewEntry(task_text_box));
                             true
                         })
                         .build(ctx),

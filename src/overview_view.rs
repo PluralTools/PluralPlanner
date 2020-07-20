@@ -35,26 +35,17 @@ impl Template for OverviewView {
                     .on_click(move |ctx, _| {
                         ctx.get_mut::<OverviewState>(id)
                             .action(Action::OpenTaskList(index));
-                        true
+                        false
                     })
                     .build(ctx);
 
-                let text_block = TextBlock::new()
-                    .foreground(helper_button)
-                    .margin((14, 0, 0, 0))
-                    .v_align("center")
-                    .attach(Grid::column(0))
-                    .text(text)
-                    .style("text_box")
-                    .build(ctx);
-
                 let text_box = TextBox::new()
+                    .style("text_box_inline")
                     .margin((8, 0, 0, 0))
-                    .visibility("collapsed")
                     .v_align("center")
                     .water_mark("Insert text...")
                     .attach(Grid::column(0))
-                    .text(text_block)
+                    .text(text)
                     .on_changed(move |ctx, entity| {
                         ctx.get_mut::<OverviewState>(id)
                             .action(Action::TextChanged(entity, index));
@@ -70,24 +61,13 @@ impl Template for OverviewView {
                     .columns(Columns::new().add("*").add(8).add(32).add(4).add(32).add(8))
                     .child(helper_button)
                     .child(text_box)
-                    .child(text_block)
                     .child(
                         ToggleButton::new()
-                            .style(STYLE_ICON_ONLY)
                             .selected(("focused", text_box))
-                            .attach(Grid::column(2))
-                            .v_align("center")
-                            .build(ctx),
-                    )
-                    .child(
-                        Button::new()
-                            // .selected(("focused", text_box))
                             .style(STYLE_ICON_ONLY)
-                            .attach(Grid::column(2))
+                            .attach(Grid::column(1))
                             .v_align("center")
-                            // todo use remove from icons
-                            // .icon(material_font_icons::DELETE_FONT_ICON)
-                            .icon("")
+                            .icon(material_icons_font::MD_EDIT)
                             .on_mouse_down(|_, _| true)
                             .on_click(move |ctx, _| {
                                 ctx.get_mut::<OverviewState>(id)
@@ -99,11 +79,9 @@ impl Template for OverviewView {
                     .child(
                         Button::new()
                             .style("icon_only")
-                            .attach(Grid::column(4))
+                            .attach(Grid::column(3))
                             .v_align("center")
-                            // todo use remove from icons
-                            // .icon(material_font_icons::DELETE_FONT_ICON)
-                            .icon("")
+                            .icon(material_icons_font::MD_DELETE)
                             .on_mouse_down(|_, _| true)
                             .on_click(move |ctx, _| {
                                 ctx.get_mut::<OverviewState>(id)
@@ -130,7 +108,7 @@ impl Template for OverviewView {
             .lost_focus_on_activation(false)
             .on_activate(move |ctx, entity| {
                 ctx.get_mut::<OverviewState>(id)
-                    .action(Action::newEntry(entity));
+                    .action(Action::NewEntry(entity));
             })
             .on_changed(move |ctx, entity| {
                 ctx.get_mut::<OverviewState>(id)
@@ -231,7 +209,7 @@ impl Template for OverviewView {
                             .icon(material_icons_font::MD_ADD)
                             .on_click(move |ctx, _| {
                                 ctx.get_mut::<OverviewState>(id)
-                                    .action(Action::newEntry(over_view_text_box));
+                                    .action(Action::NewEntry(over_view_text_box));
                                 true
                             })
                             .build(ctx),
