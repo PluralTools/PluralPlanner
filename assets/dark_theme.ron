@@ -169,6 +169,11 @@ Theme (
             properties: {
                 "font_size": "$FONT_SIZE_24",
             },
+            states: {
+                "empty": {
+                    "foreground": "$LINK_WATER",
+                }
+            }
         ),
     }
 )
