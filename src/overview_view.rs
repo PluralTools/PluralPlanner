@@ -16,6 +16,7 @@ impl Template for OverviewView {
         // list of task lists
         let list_view = ListView::new()
             .id(ID_OVERVIEW_ITEMS_WIDGET)
+            .style(STYLE_LIST_VIEW_BORDER_LESS)
             .attach(Grid::row(2))
             .items_builder(move |ctx, index| {
                 let mut text = "".to_string();
@@ -68,7 +69,7 @@ impl Template for OverviewView {
             .count(0)
             .child(
                 Grid::new()
-                    .rows(Rows::new().add(52).add(1).add("*").add(25).build())
+                    .rows(Rows::new().add(52).add(1).add("*").add(25))
                     // Top Bar
                     .child(
                         Container::new()
@@ -90,7 +91,7 @@ impl Template for OverviewView {
                     )
                     .child(
                         Container::new()
-                            .style("separator")
+                            .style(STYLE_SEPARATOR)
                             .attach(Grid::row(1))
                             .build(ctx),
                     )
@@ -107,8 +108,7 @@ impl Template for OverviewView {
                             .h_align("end")
                             .icon(material_icons_font::MD_ADD)
                             .on_click(move |ctx, _| {
-                                // ctx.get_mut::<OverviewState>(id)
-                                //     .action(Action::NewEntry(over_view_text_box));
+                                ctx.get_mut::<OverviewState>(id).action(Action::NewEntry);
                                 true
                             })
                             .build(ctx),

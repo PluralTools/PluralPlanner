@@ -89,6 +89,12 @@ Theme (
                 "background": "transparent",
             }
         ),
+        "list_view_border_less": (
+            base: "list_view",
+            properties: {
+                "border_width": 0
+            }
+        ),
         "list_view_item": (
              properties: {
                 "padding_left": 8,
@@ -107,11 +113,10 @@ Theme (
             properties: {
                 "width": 42,
                 "height": 42,
-                "foreground": "$LINK_WATER",
-                "icon_brush": "$LINK_WATER",
-                "background": "$LYNCH",
+                "icon_brush": "$BRIGHT_GRAY",
+                "background": "$GOLDEN_DREAM",
                 "border_radius": 21,
-                "spacing": 0
+                "spacing": 0,
             }, 
             states: {
                 "pressed": {
@@ -126,6 +131,11 @@ Theme (
                     "icon_brush": "$BRIGHT_GRAY",
                 },
             },
+        ),
+        "separator": (
+            properties: {
+                "background": "$MINE_SHAFT"
+            }
         )
     }
 )

@@ -7,6 +7,8 @@ pub static STYLE_TRANSPARENT: &str = "transparent";
 pub static STYLE_ITEM_BUTTON: &str = "item_button";
 pub static STYLE_TITLE: &str = "title";
 pub static STYLE_BUTTON_FLOAT: &str = "button_float";
+pub static STYLE_LIST_VIEW_BORDER_LESS: &str = "list_view_border_less";
+pub static STYLE_SEPARATOR: &str = "separator";
 
 // Ids
 pub static ID_OVERVIEW_ADD_BUTTON: &str = "overview_add_button";

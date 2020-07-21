@@ -9,7 +9,7 @@ use crate::{
 /// Actions that can execute on the overview.
 #[derive(Debug, Copy, Clone)]
 pub enum Action {
-    NewEntry(Entity),
+    NewEntry,
     RemoveEntry(usize),
     OpenTaskList(usize),
 }
@@ -31,12 +31,15 @@ impl OverviewState {
     }
 
     // news a new task list.
-    fn new_entry(&self, text: String, registry: &mut Registry, ctx: &mut Context) {
+    fn new_entry(&self, registry: &mut Registry, ctx: &mut Context) {
         ctx.widget()
             .get_mut::<TaskOverview>(PROP_TASK_OVERVIEW)
-            .push(TaskList::new(text));
+            .push(TaskList::new("New entry"));
         self.adjust_count(ctx);
         self.save(registry, ctx);
+
+        let index = ctx.widget().get::<TaskOverview>(PROP_TASK_OVERVIEW).len() - 1;
+        self.open_task_list(ctx, index);
     }
 
     // removes a task list.
@@ -56,9 +59,8 @@ impl OverviewState {
 
     // opens a task list.
     fn open_task_list(&self, ctx: &mut Context, index: usize) {
-        let mut index = Some(index);
-
-        ctx.get_widget(self.task_view).set("list_index", index);
+        ctx.get_widget(self.task_view)
+            .set("list_index", Some(index));
         self.navigate(self.task_view, ctx);
     }
 }
@@ -83,10 +85,8 @@ impl State for OverviewState {
     fn update(&mut self, registry: &mut Registry, ctx: &mut Context) {
         if let Some(action) = self.action {
             match action {
-                Action::NewEntry(entity) => {
-                    if let Some(text) = self.fetch_text(ctx, entity) {
-                        self.new_entry(text, registry, ctx);
-                    }
+                Action::NewEntry => {
+                    self.new_entry(registry, ctx);
                 }
                 Action::RemoveEntry(index) => {
                     self.remove_entry(index, registry, ctx);
