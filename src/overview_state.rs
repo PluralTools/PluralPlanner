@@ -10,7 +10,6 @@ use crate::{
 #[derive(Debug, Copy, Clone)]
 pub enum Action {
     NewEntry,
-    RemoveEntry(usize),
     OpenTaskList(usize),
 }
 
@@ -39,16 +38,8 @@ impl OverviewState {
         self.save(registry, ctx);
 
         let index = ctx.widget().get::<TaskOverview>(PROP_TASK_OVERVIEW).len() - 1;
+        ctx.get_widget(self.task_view).set("create", true);
         self.open_task_list(ctx, index);
-    }
-
-    // removes a task list.
-    fn remove_entry(&self, index: usize, registry: &mut Registry, ctx: &mut Context) {
-        ctx.widget()
-            .get_mut::<TaskOverview>(PROP_TASK_OVERVIEW)
-            .remove(index);
-        self.adjust_count(ctx);
-        self.save(registry, ctx);
     }
 
     // Adjusts the task list count.
@@ -87,9 +78,6 @@ impl State for OverviewState {
             match action {
                 Action::NewEntry => {
                     self.new_entry(registry, ctx);
-                }
-                Action::RemoveEntry(index) => {
-                    self.remove_entry(index, registry, ctx);
                 }
 
                 Action::OpenTaskList(index) => {

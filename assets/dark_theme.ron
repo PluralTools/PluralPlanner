@@ -12,13 +12,14 @@ Theme (
               properties: {
                 "padding_left": 4,
                 "padding_right": 4,
-                "height": 52,
+                "height": 42,
                 "background": "$FIORD"
               }
         ),
         "header": (
             base: "base",
             properties: {
+                "foreground": "$LINK_WATER",
                 "font_size": "$FONT_SIZE_24",
             }
         ),
@@ -57,7 +58,7 @@ Theme (
                 }
             }
         ),
-        "icon_only": (
+        "button_icon_only": (
             base: "button",
             properties: {
                 "icon_brush": "$LINK_WATER",
@@ -97,7 +98,7 @@ Theme (
         ),
         "list_view_item": (
              properties: {
-                "padding_left": 8,
+                "padding_left": 36,
                 "padding_right": 8,
                 "height": 48,
                 "background": "transparent",
@@ -136,6 +137,38 @@ Theme (
             properties: {
                 "background": "$MINE_SHAFT"
             }
-        )
+        ),
+        "text_box_inline": (
+            base: "base",
+            properties: {
+                "height": 32,
+                "foreground": "$PERIWINKLE_GRAY",
+                "background": "transparent",
+                "border_brush": "transparent",
+                "border_width": 0,
+                "border_radius": 3,
+                "padding": 6,
+            },
+            states: {
+                "focused": {
+                    "border_brush": "$GOLDEN_DREAM",
+                     "border_width": 1,
+                },
+                "empty": {
+                    "foreground": "$SILVER_CHALICE",
+                },
+                "empty_focused": {
+                    "foreground": "$SILVER_CHALICE",
+                    "border_brush": "$GOLDEN_DREAM",
+                    "border_width": 1,
+                }
+            },
+        ),
+        "text_box_header": (
+            base: "text_box_inline",
+            properties: {
+                "font_size": "$FONT_SIZE_24",
+            },
+        ),
     }
 )

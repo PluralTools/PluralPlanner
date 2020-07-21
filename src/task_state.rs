@@ -12,11 +12,12 @@ pub enum Action {
     InputTextChanged(Entity),
     NewEntry(Entity),
     RemoveEntry(usize),
-    TextChanged(Entity, usize),
-    EditEntry(Entity),
+    RemoteList,
+    UpdateEntry(Entity, usize),
     RemoveFocus(Entity),
     SelectionChanged(Entity, usize),
-    NavigateBack(),
+    NavigateBack,
+    Rename,
 }
 
 /// Handles the requests of the `OverviewView`.
@@ -24,8 +25,8 @@ pub enum Action {
 pub struct TaskState {
     action: Option<Action>,
     add_button: Entity,
-    back_entity: Entity,
-    last_focused: Option<Entity>,
+    overview: Entity,
+    header_text_box: Entity,
     pub text_box: Entity,
     open: bool,
 }
@@ -77,7 +78,12 @@ impl TaskState {
         self.open = false;
         ctx.widget().set::<Option<usize>>("list_index", None);
         ctx.widget().set("count", 0 as usize);
-        self.navigate(self.back_entity, ctx);
+        ctx.push_event_by_window(FocusEvent::RemoveFocus(self.header_text_box));
+        ctx.get_widget(self.header_text_box)
+            .get_mut::<Selector>("selector")
+            .clear_state();
+        ctx.get_widget(self.text_box).update(false);
+        self.navigate(self.overview, ctx);
     }
 
     // If input text is empty the add button is disabled, otherwise enabled.
@@ -129,30 +135,6 @@ impl TaskState {
         }
     }
 
-    // Set the given text box to edit mode.
-    fn edit_entry(&self, text_box: Entity, ctx: &mut Context) {
-        if *ctx.get_widget(text_box).get::<bool>("focused") {
-            ctx.get_widget(text_box).set("enabled", false);
-            ctx.push_event_by_window(FocusEvent::RemoveFocus(text_box));
-            return;
-        }
-
-        if let Some(old_focused_element) = ctx.window().get::<Global>("global").focused_widget {
-            ctx.push_event_by_window(FocusEvent::RemoveFocus(old_focused_element));
-        }
-
-        ctx.get_widget(text_box).set("enabled", true);
-
-        // select all
-        ctx.get_widget(text_box)
-            .get_mut::<TextSelection>("text_selection")
-            .start_index = 0;
-        ctx.get_widget(text_box)
-            .get_mut::<TextSelection>("text_selection")
-            .length = ctx.get_widget(text_box).get::<String16>("text").len();
-        ctx.push_event_by_window(FocusEvent::RequestFocus(text_box));
-    }
-
     fn remove_entry(&self, index: usize, registry: &mut Registry, ctx: &mut Context) {
         if let Some(idx) = ctx.widget().clone::<Option<usize>>("list_index") {
             if let Some(task_list) = ctx
@@ -165,8 +147,24 @@ impl TaskState {
         }
 
         self.adjust_count(ctx);
-
         self.save(registry, ctx);
+    }
+
+    // removes a task list.
+    fn remove_list(&mut self, registry: &mut Registry, ctx: &mut Context) {
+        let index = ctx.widget().get::<Option<usize>>("list_index").unwrap();
+        ctx.widget()
+            .get_mut::<TaskOverview>(PROP_TASK_OVERVIEW)
+            .remove(index);
+        self.save(registry, ctx);
+
+        let count = ctx
+            .get_widget(self.overview)
+            .get::<TaskOverview>(PROP_TASK_OVERVIEW)
+            .len();
+        ctx.get_widget(self.overview).set(PROP_COUNT, count);
+        ctx.send_window_request(shell::WindowRequest::Redraw);
+        self.navigate_back(ctx);
     }
 
     fn update_entry(
@@ -192,23 +190,55 @@ impl TaskState {
 
         self.save(registry, ctx);
     }
+
+    fn rename(&self, registry: &mut Registry, ctx: &mut Context) {
+        let title = ctx
+            .get_widget(self.header_text_box)
+            .get::<String16>("text")
+            .to_string();
+
+        if let Some(idx) = ctx.widget().clone::<Option<usize>>("list_index") {
+            if let Some(task_list) = ctx
+                .widget()
+                .get_mut::<TaskOverview>("task_overview")
+                .get_mut(idx)
+            {
+                task_list.title = title;
+            }
+        }
+
+        ctx.get_widget(self.overview).set("list_dirty", true);
+
+        self.save(registry, ctx);
+    }
 }
 
 impl State for TaskState {
     fn init(&mut self, _: &mut Registry, ctx: &mut Context) {
-        self.back_entity = (*ctx.widget().get::<u32>("back_entity")).into();
+        self.overview = (*ctx.widget().get::<u32>("overview")).into();
         self.add_button = ctx
             .entity_of_child(ID_TASK_ADD_BUTTON)
             .expect("TaskState.init: Add button child could not be found.");
         self.text_box = ctx
             .entity_of_child(ID_TASK_TEXT_BOX)
             .expect("TaskState.init: Add text box could not be found.");
+        self.header_text_box = ctx
+            .entity_of_child(ID_TASK_HEADER_TEXT_BOX)
+            .expect("TaskState.init: Header text box could not be found.");
     }
 
     fn update(&mut self, registry: &mut Registry, ctx: &mut Context) {
         if !self.open {
             self.open(ctx);
         }
+
+        // create new item
+        if *ctx.widget().get::<bool>("create") {
+            ctx.widget().set("create", false);
+            ctx.get_widget(self.header_text_box)
+                .set("request_focus", true);
+        }
+
         if let Some(action) = self.action {
             match action {
                 Action::InputTextChanged(text_box) => {
@@ -225,19 +255,21 @@ impl State for TaskState {
                 Action::SelectionChanged(entity, index) => {
                     self.toggle_selection(entity, index, registry, ctx);
                 }
-                Action::TextChanged(entity, index) => {
+                Action::UpdateEntry(entity, index) => {
                     self.update_entry(entity, index, registry, ctx);
-                }
-                Action::EditEntry(text_box) => {
-                    self.last_focused = Some(text_box);
-                    self.edit_entry(text_box, ctx);
                 }
                 Action::RemoveFocus(text_box) => {
                     ctx.get_widget(text_box).set("enabled", false);
                     ctx.push_event_by_window(FocusEvent::RemoveFocus(text_box));
                 }
-                Action::NavigateBack() => {
+                Action::NavigateBack => {
                     self.navigate_back(ctx);
+                }
+                Action::RemoteList => {
+                    self.remove_list(registry, ctx);
+                }
+                Action::Rename => {
+                    self.rename(registry, ctx);
                 }
             }
         }

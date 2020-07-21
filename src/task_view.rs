@@ -9,15 +9,12 @@ use crate::{
 type ListIndex = Option<usize>;
 
 widget!(TaskView<TaskState> {
-    back_entity: u32,
-
+    overview: u32,
     list_index: ListIndex,
-
     task_overview: TaskOverview,
-
     count: usize,
-
-    title: String16
+    title: String16,
+    create: bool
 });
 
 impl Template for TaskView {
@@ -43,41 +40,12 @@ impl Template for TaskView {
                     }
                 }
 
-                let text_box = TextBox::new()
-                    .style("inplace")
-                    .text(text)
-                    .enabled(false)
-                    .v_align("center")
-                    .water_mark("Insert text...")
-                    .attach(Grid::column(3))
-                    .on_changed(move |ctx, entity| {
-                        ctx.get_mut::<TaskState>(id)
-                            .action(Action::TextChanged(entity, index));
-                    })
-                    .on_activate(move |ctx, entity| {
-                        ctx.get_mut::<TaskState>(id)
-                            .action(Action::RemoveFocus(entity));
-                    })
-                    .build(ctx);
-
                 Grid::new()
                     .height(48)
-                    .columns(
-                        Columns::new()
-                            .add(10)
-                            .add(24)
-                            .add(8)
-                            .add("*")
-                            .add(8)
-                            .add(32)
-                            .add(4)
-                            .add(32)
-                            .add(8)
-                            .build(),
-                    )
+                    .margin((8, 0))
+                    .columns(Columns::new().add(24).add(4).add("*").add(4).add(32))
                     .child(
                         CheckBox::new()
-                            .attach(Grid::column(1))
                             .v_align("center")
                             .selected(selected)
                             .on_changed(move |ctx, entity| {
@@ -86,42 +54,25 @@ impl Template for TaskView {
                             })
                             .build(ctx),
                     )
-                    .child(text_box)
                     .child(
-                        ToggleButton::new()
-                            .selected(("focused", text_box))
-                            .style(STYLE_ICON_ONLY)
-                            .attach(Grid::column(5))
-                            .min_size(32, 32)
+                        TextBox::new()
+                            .style(STYLE_TEXT_BOX_INLINE)
+                            .text(text)
                             .v_align("center")
-                            .build(ctx),
-                    )
-                    .child(
-                        Button::new()
-                            .style(STYLE_ICON_ONLY)
-                            .attach(Grid::column(5))
-                            .min_size(32, 32)
-                            .v_align("center")
-                            // todo use remove from icons
-                            // .icon(material_font_icons::DELETE_FONT_ICON)
-                            .icon("")
-                            .on_mouse_down(|_, _| true)
-                            .on_click(move |ctx, _| {
+                            .water_mark("Insert text...")
+                            .attach(Grid::column(2))
+                            .on_activate(move |ctx, entity| {
                                 ctx.get_mut::<TaskState>(id)
-                                    .action(Action::EditEntry(text_box));
-                                true
+                                    .action(Action::UpdateEntry(entity, index));
                             })
                             .build(ctx),
                     )
                     .child(
                         Button::new()
-                            .style("icon_only")
-                            .attach(Grid::column(7))
-                            .min_size(32, 32)
+                            .style(STYLE_BUTTON_ICON_ONLY)
+                            .attach(Grid::column(3))
                             .v_align("center")
-                            // todo use remove from icons
-                            // .icon(material_font_icons::DELETE_FONT_ICON)
-                            .icon("")
+                            .icon(material_icons_font::MD_DELETE)
                             .on_mouse_down(|_, _| true)
                             .on_click(move |ctx, _| {
                                 ctx.get_mut::<TaskState>(id)
@@ -144,7 +95,7 @@ impl Template for TaskView {
             .id(ID_TASK_TEXT_BOX)
             .attach(Grid::row(4))
             .v_align("center")
-            .margin((4, 0, 0, 0))
+            .margin((8, 0, 0, 0))
             .lost_focus_on_activation(false)
             .on_activate(move |ctx, entity| {
                 ctx.get_mut::<TaskState>(id)
@@ -193,26 +144,42 @@ impl Template for TaskView {
                         .attach(Grid::column_span(3))
                         .child(
                             Grid::new()
+                                .margin((4, 0))
                                 .columns(Columns::new().add(32).add(4).add("*").add(4).add(32))
                                 .child(
                                     Button::new()
-                                        .style(STYLE_ICON_ONLY)
+                                        .style(STYLE_BUTTON_ICON_ONLY)
                                         .icon(material_icons_font::MD_ARROW_BACK)
                                         .v_align("center")
                                         .on_click(move |ctx, _| {
                                             ctx.get_mut::<TaskState>(id)
-                                                .action(Action::NavigateBack());
+                                                .action(Action::NavigateBack);
                                             true
                                         })
                                         .build(ctx),
                                 )
                                 .child(
-                                    TextBlock::new()
-                                        .style(STYLE_HEADER)
+                                    TextBox::new()
+                                        .id(ID_TASK_HEADER_TEXT_BOX)
+                                        .style(STYLE_TEXT_BOX_HEADER)
                                         .attach(Grid::column(2))
                                         .v_align("center")
-                                        .h_align("center")
                                         .text(("title", id))
+                                        .on_activate(move |ctx, _| {
+                                            ctx.get_mut::<TaskState>(id).action(Action::Rename);
+                                        })
+                                        .build(ctx),
+                                )
+                                .child(
+                                    Button::new()
+                                        .attach(Grid::column(4))
+                                        .style(STYLE_BUTTON_ICON_ONLY)
+                                        .icon(material_icons_font::MD_DELETE)
+                                        .v_align("center")
+                                        .on_click(move |ctx, _| {
+                                            ctx.get_mut::<TaskState>(id).action(Action::RemoteList);
+                                            true
+                                        })
                                         .build(ctx),
                                 )
                                 .build(ctx),
@@ -246,7 +213,7 @@ impl Template for TaskView {
                 .child(
                     Button::new()
                         .id(ID_TASK_ADD_BUTTON)
-                        .style(STYLE_ICON_ONLY)
+                        .style(STYLE_BUTTON_ICON_ONLY)
                         .attach(Grid::row(4))
                         .attach(Grid::column(2))
                         .margin((0, 0, 4, 0))

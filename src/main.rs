@@ -25,7 +25,7 @@ fn theme() -> Theme {
 }
 
 fn main() {
-    Application::from_name("flovanco.doit")
+    Application::from_name(keys::APPLICATION)
         .theme(theme())
         .window(move |ctx| {
             Window::new()

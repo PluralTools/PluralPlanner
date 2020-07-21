@@ -1,4 +1,4 @@
-use orbtk::{prelude::*, widgets::behaviors::MouseBehavior};
+use orbtk::prelude::*;
 
 use crate::{data::TaskOverview, keys::*, overview_state::*};
 
@@ -7,7 +7,8 @@ widget!(
     OverviewView<OverviewState> {
         task_overview: TaskOverview,
         count: usize,
-        task_view: u32
+        task_view: u32,
+        list_dirty: bool
     }
 );
 
@@ -16,6 +17,7 @@ impl Template for OverviewView {
         // list of task lists
         let list_view = ListView::new()
             .id(ID_OVERVIEW_ITEMS_WIDGET)
+            .dirty(("list_dirty", id))
             .style(STYLE_LIST_VIEW_BORDER_LESS)
             .attach(Grid::row(2))
             .items_builder(move |ctx, index| {
@@ -29,26 +31,11 @@ impl Template for OverviewView {
                     text = task_overview.title.clone();
                 }
                 Grid::new()
-                    .columns(Columns::new().add("*").add(4).add(32))
                     .child(
                         TextBlock::new()
                             .style(STYLE_TITLE)
                             .text(text)
                             .v_align("center")
-                            .build(ctx),
-                    )
-                    .child(
-                        Button::new()
-                            .style("icon_only")
-                            .attach(Grid::column(2))
-                            .v_align("center")
-                            .icon(material_icons_font::MD_DELETE)
-                            .on_mouse_down(|_, _| true)
-                            .on_click(move |ctx, _| {
-                                ctx.get_mut::<OverviewState>(id)
-                                    .action(Action::RemoveEntry(index));
-                                true
-                            })
                             .build(ctx),
                     )
                     .build(ctx)
@@ -79,9 +66,10 @@ impl Template for OverviewView {
                                 Grid::new()
                                     .child(
                                         TextBlock::new()
+                                            .margin((36, 0, 0, 0))
                                             .style(STYLE_HEADER)
                                             .v_align("center")
-                                            .h_align("center")
+                                            .h_align("start")
                                             .text("Overview")
                                             .build(ctx),
                                     )
