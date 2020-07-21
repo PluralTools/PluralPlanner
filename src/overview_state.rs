@@ -12,7 +12,7 @@ pub enum Action {
     InputTextChanged(Entity),
     NewEntry(Entity),
     RemoveEntry(usize),
-    OpenTaskList,
+    OpenTaskList(usize),
 }
 
 /// Handles the requests of the `OverviewView`.
@@ -69,18 +69,8 @@ impl OverviewState {
     }
 
     // opens a task list.
-    fn open_task_list(&self, ctx: &mut Context) {
-        let mut index = None;
-        for i in &ctx
-            .get_widget(self.list_view)
-            .get::<SelectedIndices>("selected_indices")
-            .0
-        {
-            index = Some(*i);
-
-            // single selection
-            break;
-        }
+    fn open_task_list(&self, ctx: &mut Context, index: usize) {
+        let mut index = Some(index);
 
         ctx.get_widget(self.text_box)
             .set("text", String16::from(""));
@@ -127,8 +117,8 @@ impl State for OverviewState {
                     self.remove_entry(index, registry, ctx);
                 }
 
-                Action::OpenTaskList => {
-                    self.open_task_list(ctx);
+                Action::OpenTaskList(index) => {
+                    self.open_task_list(ctx, index);
                 }
             }
         }

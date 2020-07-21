@@ -56,9 +56,13 @@ impl Template for OverviewView {
             })
             .count((PROP_COUNT, id))
             // selection changed
-            .on_changed(move |ctx, _| {
+            .on_selection_changed(move |ctx, _, indices| {
+                if indices.is_empty() {
+                    return;
+                }
+
                 ctx.get_mut::<OverviewState>(id)
-                    .action(Action::OpenTaskList)
+                    .action(Action::OpenTaskList(indices[0]))
             })
             .build(ctx);
 
