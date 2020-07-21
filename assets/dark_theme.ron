@@ -22,6 +22,12 @@ Theme (
                 "font_size": "$FONT_SIZE_24",
             }
         ),
+        "title": (
+            base: "base",
+            properties: {
+                "foreground": "$PERIWINKLE_GRAY",
+            }
+        ),
         "text_box_inline": (
             base: "text_box",
             properties: {
@@ -52,11 +58,12 @@ Theme (
             }
         ),
         "icon_only": (
+            base: "button",
             properties: {
                 "icon_brush": "$LINK_WATER",
                 "background": "transparent",
                 "spacing": 0,
-                "width": 32,
+                "min_width": 32,
                 "height": 32
             },
             states: {
@@ -79,15 +86,15 @@ Theme (
              properties: {
                 "padding": 0,
                 "border_brush": "transparent",
-                 "background": "transparent",
+                "background": "transparent",
             }
         ),
         "list_view_item": (
              properties: {
-                "padding_left": 0,
-                "padding_right": 0,
-                "height": 62,
-                 "background": "transparent",
+                "padding_left": 8,
+                "padding_right": 8,
+                "height": 48,
+                "background": "transparent",
             }
         )
     }

@@ -5,6 +5,7 @@ pub static STYLE_HEADER: &str = "header";
 pub static STYLE_ICON_ONLY: &str = "icon_only";
 pub static STYLE_TRANSPARENT: &str = "transparent";
 pub static STYLE_ITEM_BUTTON: &str = "item_button";
+pub static STYLE_TITLE: &str = "title";
 
 // Ids
 pub static ID_OVERVIEW_ADD_BUTTON: &str = "overview_add_button";

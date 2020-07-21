@@ -12,9 +12,6 @@ pub enum Action {
     InputTextChanged(Entity),
     NewEntry(Entity),
     RemoveEntry(usize),
-    TextChanged(Entity, usize),
-    EditEntry(Entity),
-    RemoveFocus(Entity),
     OpenTaskList(usize),
 }
 
@@ -26,7 +23,6 @@ pub struct OverviewState {
     task_view: Entity,
     items_widget: Entity,
     text_box: Entity,
-    last_focused: Option<Entity>,
 }
 
 impl BaseState for OverviewState {}
@@ -80,30 +76,6 @@ impl OverviewState {
             .set("list_index", Some(index));
         self.navigate(self.task_view, ctx);
     }
-
-    /// Set the given text box to edit mode.
-    fn edit_entry(&self, text_box: Entity, ctx: &mut Context) {
-        // if *ctx.get_widget(text_box).get::<Visibility>("visibility") == Visibility::Visible {
-        //     ctx.push_event_by_window(FocusEvent::RemoveFocus(text_box));
-        //     return;
-        // }
-
-        // // ctx.get_widget(text_box)
-        // //     .set("visibility", Visibility::Visible);
-
-        // if let Some(old_focused_element) = ctx.window().get::<Global>("global").focused_widget {
-        //     ctx.push_event_by_window(FocusEvent::RemoveFocus(old_focused_element));
-        // }
-
-        // select all
-        ctx.get_widget(text_box)
-            .get_mut::<TextSelection>("text_selection")
-            .start_index = 0;
-        ctx.get_widget(text_box)
-            .get_mut::<TextSelection>("text_selection")
-            .length = ctx.get_widget(text_box).get::<String16>("text").len();
-        ctx.push_event_by_window(FocusEvent::RequestFocus(text_box));
-    }
 }
 
 impl State for OverviewState {
@@ -130,15 +102,6 @@ impl State for OverviewState {
     }
 
     fn update(&mut self, registry: &mut Registry, ctx: &mut Context) {
-        // clear focus on focus moved
-        if self.last_focused != ctx.window().get::<Global>("global").focused_widget {
-            if let Some(last_focused) = self.last_focused {
-                ctx.get_widget(last_focused).set("focused", false);
-                ctx.get_widget(last_focused)
-                    .set("visibility", Visibility::Collapsed);
-            }
-        }
-
         if let Some(action) = self.action {
             match action {
                 Action::InputTextChanged(text_box) => {
@@ -152,27 +115,7 @@ impl State for OverviewState {
                 Action::RemoveEntry(index) => {
                     self.remove_entry(index, registry, ctx);
                 }
-                Action::TextChanged(entity, index) => {
-                    let text: String16 = ctx.get_widget(entity).clone("text");
 
-                    if let Some(overview) = ctx
-                        .widget()
-                        .get_mut::<TaskOverview>("task_overview")
-                        .get_mut(index)
-                    {
-                        overview.title = text.to_string();
-                    }
-
-                    self.save(registry, ctx);
-                }
-                Action::EditEntry(text_box) => {
-                    self.last_focused = Some(text_box);
-                    self.edit_entry(text_box, ctx);
-                }
-                Action::RemoveFocus(text_box) => {
-                    self.last_focused = None;
-                    ctx.push_event_by_window(FocusEvent::RemoveFocus(text_box));
-                }
                 Action::OpenTaskList(index) => {
                     self.open_task_list(index, ctx);
                 }

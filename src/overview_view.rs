@@ -1,4 +1,4 @@
-use orbtk::prelude::*;
+use orbtk::{prelude::*, widgets::behaviors::MouseBehavior};
 
 use crate::{data::TaskOverview, keys::*, overview_state::*};
 
@@ -14,9 +14,11 @@ widget!(
 impl Template for OverviewView {
     fn template(self, id: Entity, ctx: &mut BuildContext) -> Self {
         // list of task lists
-        let items_widget = ItemsWidget::new()
+        let list_view = ListView::new()
             .id(ID_OVERVIEW_ITEMS_WIDGET)
-            .v_align("start")
+            .attach(Grid::column(0))
+            .attach(Grid::column_span(3))
+            .attach(Grid::row(2))
             .items_builder(move |ctx, index| {
                 let mut text = "".to_string();
 
@@ -27,59 +29,19 @@ impl Template for OverviewView {
                 {
                     text = task_overview.title.clone();
                 }
-
-                let helper_button = Button::new()
-                    .style(STYLE_ITEM_BUTTON)
-                    .attach(Grid::column(0))
-                    .attach(Grid::column_span(6))
-                    .on_click(move |ctx, _| {
-                        ctx.get_mut::<OverviewState>(id)
-                            .action(Action::OpenTaskList(index));
-                        false
-                    })
-                    .build(ctx);
-
-                let text_box = TextBox::new()
-                    .style("text_box_inline")
-                    .margin((8, 0, 0, 0))
-                    .v_align("center")
-                    .water_mark("Insert text...")
-                    .attach(Grid::column(0))
-                    .text(text)
-                    .on_changed(move |ctx, entity| {
-                        ctx.get_mut::<OverviewState>(id)
-                            .action(Action::TextChanged(entity, index));
-                    })
-                    .on_activate(move |ctx, entity| {
-                        ctx.get_mut::<OverviewState>(id)
-                            .action(Action::RemoveFocus(entity));
-                    })
-                    .build(ctx);
-
                 Grid::new()
-                    .height(48)
-                    .columns(Columns::new().add("*").add(8).add(32).add(4).add(32).add(8))
-                    .child(helper_button)
-                    .child(text_box)
+                    .columns(Columns::new().add("*").add(4).add(32))
                     .child(
-                        ToggleButton::new()
-                            .selected(("focused", text_box))
-                            .style(STYLE_ICON_ONLY)
-                            .attach(Grid::column(1))
+                        TextBlock::new()
+                            .style(STYLE_TITLE)
+                            .text(text)
                             .v_align("center")
-                            .icon(material_icons_font::MD_EDIT)
-                            .on_mouse_down(|_, _| true)
-                            .on_click(move |ctx, _| {
-                                ctx.get_mut::<OverviewState>(id)
-                                    .action(Action::EditEntry(text_box));
-                                true
-                            })
                             .build(ctx),
                     )
                     .child(
                         Button::new()
                             .style("icon_only")
-                            .attach(Grid::column(3))
+                            .attach(Grid::column(2))
                             .v_align("center")
                             .icon(material_icons_font::MD_DELETE)
                             .on_mouse_down(|_, _| true)
@@ -93,11 +55,6 @@ impl Template for OverviewView {
                     .build(ctx)
             })
             .count((PROP_COUNT, id))
-            .build(ctx);
-
-        let scroll_viewer = ScrollViewer::new()
-            .scroll_viewer_mode(("disabled", "auto"))
-            .child(items_widget)
             .build(ctx);
 
         let over_view_text_box = TextBox::new()
@@ -123,22 +80,6 @@ impl Template for OverviewView {
                 Grid::new()
                     .rows(Rows::new().add(52).add(1).add("*").add(1).add(40).build())
                     .columns(Columns::new().add("*").add(4).add(36).build())
-                    // Content
-                    .child(
-                        Container::new()
-                            .attach(Grid::row(2))
-                            .attach(Grid::column(0))
-                            .attach(Grid::column_span(3))
-                            .child(scroll_viewer)
-                            .child(
-                                ScrollIndicator::new()
-                                    .padding((0, 4, 0, 0))
-                                    .content_id(items_widget.0)
-                                    .scroll_offset(scroll_viewer)
-                                    .build(ctx),
-                            )
-                            .build(ctx),
-                    )
                     // Top Bar
                     .child(
                         Container::new()
@@ -167,6 +108,8 @@ impl Template for OverviewView {
                             .attach(Grid::column_span(3))
                             .build(ctx),
                     )
+                    // Content
+                    .child(list_view)
                     .child(
                         Container::new()
                             .style("separator")
@@ -184,13 +127,11 @@ impl Template for OverviewView {
                             .build(ctx),
                     )
                     .child(
-                        // workaround, todo fix scroll viewer mouse behavior in OrbTk
                         Button::new()
                             .attach(Grid::row(4))
                             .attach(Grid::column(0))
                             .attach(Grid::column_span(3))
                             .on_mouse_down(|_, _| true)
-                            //.on_mouse_up(|_, _| true)
                             .on_click(|_, _| true)
                             .style(STYLE_TRANSPARENT)
                             .build(ctx),
