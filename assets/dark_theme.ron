@@ -95,7 +95,12 @@ Theme (
                 "padding_right": 8,
                 "height": 48,
                 "background": "transparent",
+            },
+            states: {
+                "pressed": {
+                    "background": "$BLUE_BAYOUX"
+                }
             }
-        )
+        ),
     }
 )

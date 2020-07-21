@@ -12,7 +12,7 @@ pub enum Action {
     InputTextChanged(Entity),
     NewEntry(Entity),
     RemoveEntry(usize),
-    OpenTaskList(usize),
+    OpenTaskList,
 }
 
 /// Handles the requests of the `OverviewView`.
@@ -21,7 +21,7 @@ pub struct OverviewState {
     action: Option<Action>,
     add_button: Entity,
     task_view: Entity,
-    items_widget: Entity,
+    list_view: Entity,
     text_box: Entity,
 }
 
@@ -69,11 +69,22 @@ impl OverviewState {
     }
 
     // opens a task list.
-    fn open_task_list(&self, index: usize, ctx: &mut Context) {
+    fn open_task_list(&self, ctx: &mut Context) {
+        let mut index = None;
+        for i in &ctx
+            .get_widget(self.list_view)
+            .get::<SelectedIndices>("selected_indices")
+            .0
+        {
+            index = Some(*i);
+
+            // single selection
+            break;
+        }
+
         ctx.get_widget(self.text_box)
             .set("text", String16::from(""));
-        ctx.get_widget(self.task_view)
-            .set("list_index", Some(index));
+        ctx.get_widget(self.task_view).set("list_index", index);
         self.navigate(self.task_view, ctx);
     }
 }
@@ -86,7 +97,7 @@ impl State for OverviewState {
         self.add_button = ctx
             .entity_of_child(ID_OVERVIEW_ADD_BUTTON)
             .expect("OverviewState.init: Add button child could not be found.");
-        self.items_widget = ctx
+        self.list_view = ctx
             .entity_of_child(ID_OVERVIEW_ITEMS_WIDGET)
             .expect("OverviewState.init: Items widget child could not be found.");
         self.task_view = (*ctx.widget().get::<u32>("task_view")).into();
@@ -116,8 +127,8 @@ impl State for OverviewState {
                     self.remove_entry(index, registry, ctx);
                 }
 
-                Action::OpenTaskList(index) => {
-                    self.open_task_list(index, ctx);
+                Action::OpenTaskList => {
+                    self.open_task_list(ctx);
                 }
             }
         }

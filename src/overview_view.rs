@@ -55,6 +55,11 @@ impl Template for OverviewView {
                     .build(ctx)
             })
             .count((PROP_COUNT, id))
+            // selection changed
+            .on_changed(move |ctx, _| {
+                ctx.get_mut::<OverviewState>(id)
+                    .action(Action::OpenTaskList)
+            })
             .build(ctx);
 
         let over_view_text_box = TextBox::new()
