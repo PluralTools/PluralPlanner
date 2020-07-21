@@ -102,5 +102,30 @@ Theme (
                 }
             }
         ),
+        "button_float": (
+            base: "base",
+            properties: {
+                "width": 42,
+                "height": 42,
+                "foreground": "$LINK_WATER",
+                "icon_brush": "$LINK_WATER",
+                "background": "$LYNCH",
+                "border_radius": 21,
+                "spacing": 0
+            }, 
+            states: {
+                "pressed": {
+                    "background": "$BLUE_BAYOUX",
+                },
+                "selected": {
+                    "background": "$BLUE_BAYOUX",
+                },
+                "disabled": {
+                    "background": "$ROLLING_STONE",
+                    "foreground": "$BRIGHT_GRAY",
+                    "icon_brush": "$BRIGHT_GRAY",
+                },
+            },
+        )
     }
 )

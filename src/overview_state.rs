@@ -9,7 +9,6 @@ use crate::{
 /// Actions that can execute on the overview.
 #[derive(Debug, Copy, Clone)]
 pub enum Action {
-    InputTextChanged(Entity),
     NewEntry(Entity),
     RemoveEntry(usize),
     OpenTaskList(usize),
@@ -19,10 +18,8 @@ pub enum Action {
 #[derive(Default, AsAny)]
 pub struct OverviewState {
     action: Option<Action>,
-    add_button: Entity,
     task_view: Entity,
     list_view: Entity,
-    text_box: Entity,
 }
 
 impl BaseState for OverviewState {}
@@ -51,17 +48,6 @@ impl OverviewState {
         self.save(registry, ctx);
     }
 
-    // If input text is empty the add button is disabled, otherwise enabled.
-    fn adjust_add_button_enabled(&self, text_box: Entity, ctx: &mut Context) {
-        if ctx.get_widget(text_box).get::<String16>("text").is_empty() {
-            ctx.get_widget(self.add_button).set("enabled", false);
-        } else {
-            ctx.get_widget(self.add_button).set("enabled", true);
-        }
-
-        ctx.get_widget(self.add_button).update(true);
-    }
-
     // Adjusts the task list count.
     fn adjust_count(&self, ctx: &mut Context) {
         let count = ctx.widget().get::<TaskOverview>(PROP_TASK_OVERVIEW).len();
@@ -72,8 +58,6 @@ impl OverviewState {
     fn open_task_list(&self, ctx: &mut Context, index: usize) {
         let mut index = Some(index);
 
-        ctx.get_widget(self.text_box)
-            .set("text", String16::from(""));
         ctx.get_widget(self.task_view).set("list_index", index);
         self.navigate(self.task_view, ctx);
     }
@@ -81,12 +65,6 @@ impl OverviewState {
 
 impl State for OverviewState {
     fn init(&mut self, registry: &mut Registry, ctx: &mut Context) {
-        self.text_box = ctx
-            .entity_of_child(ID_OVERVIEW_TEXT_BOX)
-            .expect("OverviewState.init: Text box child could not be found.");
-        self.add_button = ctx
-            .entity_of_child(ID_OVERVIEW_ADD_BUTTON)
-            .expect("OverviewState.init: Add button child could not be found.");
         self.list_view = ctx
             .entity_of_child(ID_OVERVIEW_ITEMS_WIDGET)
             .expect("OverviewState.init: Items widget child could not be found.");
@@ -105,9 +83,6 @@ impl State for OverviewState {
     fn update(&mut self, registry: &mut Registry, ctx: &mut Context) {
         if let Some(action) = self.action {
             match action {
-                Action::InputTextChanged(text_box) => {
-                    self.adjust_add_button_enabled(text_box, ctx);
-                }
                 Action::NewEntry(entity) => {
                     if let Some(text) = self.fetch_text(ctx, entity) {
                         self.new_entry(text, registry, ctx);
