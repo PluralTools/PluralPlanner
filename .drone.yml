@@ -8,7 +8,7 @@ trigger:
     
 steps:
 - name: build
-  image: ubuntu
+  image: ubuntu:latest
   commands:
   - apt install libwayland-cursor0 libxkbcommon-dev libwayland-dev -y
   - cargo build
