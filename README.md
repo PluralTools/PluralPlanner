@@ -22,10 +22,16 @@ https://pages.codeberg.org/flovanco/apps/doit/index.html
 
 ## Run 
 
-You can start the editor by executing the following command:
+You can start the app by executing the following command:
 
 ```text
 cargo run --release
+```
+
+To start the app with the light theme execute following command:
+
+```shell
+cargo run --release --features light
 ```
 
 ## Run with cargo-node

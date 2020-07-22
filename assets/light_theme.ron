@@ -5,7 +5,7 @@ Theme (
                 "padding_left": 4,
                 "padding_right": 4,
                 "height": 52,
-                "background": "$FIORD"
+                "background": "$GRAY_NURSE"
             }
         ),
         "bottom_bar": (
@@ -13,20 +13,20 @@ Theme (
                 "padding_left": 4,
                 "padding_right": 4,
                 "height": 42,
-                "background": "$FIORD"
+                "background": "$GRAY_NURSE"
               }
         ),
         "header": (
             base: "base",
             properties: {
-                "foreground": "$LINK_WATER",
+                "foreground": "$BRIGHT_GRAY",
                 "font_size": "$FONT_SIZE_24",
             }
         ),
         "title": (
             base: "base",
             properties: {
-                "foreground": "$PERIWINKLE_GRAY",
+                "foreground": "$BRIGHT_GRAY",
             }
         ),
         "text_box_inline": (
@@ -61,7 +61,7 @@ Theme (
         "button_icon_only": (
             base: "button",
             properties: {
-                "icon_brush": "$LINK_WATER",
+                "icon_brush": "$BRIGHT_GRAY",
                 "background": "transparent",
                 "spacing": 0,
                 "min_width": 32,
@@ -116,14 +116,14 @@ Theme (
         ),
         "separator": (
             properties: {
-                "background": "$MINE_SHAFT"
+                "background": "$BRIGHT_GRAY"
             }
         ),
         "text_box_inline": (
             base: "base",
             properties: {
                 "height": 32,
-                "foreground": "$PERIWINKLE_GRAY",
+                "foreground": "$BRIGHT_GRAY",
                 "background": "transparent",
                 "border_brush": "transparent",
                 "border_width": 0,
@@ -153,7 +153,7 @@ Theme (
             },
             states: {
                 "empty": {
-                    "foreground": "$LINK_WATER",
+                    "foreground": "$BRIGHT_GRAY",
                 }
             }
         ),
@@ -165,9 +165,9 @@ Theme (
             },
             states: {
                 "pressed": {
-                    "background": "$BLUE_BAYOUX",
+                    "background": "$SILVER_CHALICE",
                 },
             },
-        )
+        ),
     }
 )

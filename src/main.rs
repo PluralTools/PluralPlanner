@@ -1,8 +1,14 @@
 use orbtk::{
     prelude::*,
-    theme::{COLORS_RON, DARK_THEME_RON, FONTS_RON},
+    theme::{COLORS_RON, FONTS_RON},
     theming::config::ThemeConfig,
 };
+
+#[cfg(not(feature = "light"))]
+use orbtk::theme::DARK_THEME_RON;
+
+#[cfg(feature = "light")]
+use orbtk::theme::LIGHT_THEME_RON;
 
 pub mod base_state;
 pub mod data;
@@ -13,8 +19,12 @@ pub mod overview_view;
 pub mod task_state;
 pub mod task_view;
 
+// --- THEME --
+
+#[cfg(not(feature = "light"))]
 static DARK_EXT: &'static str = include_str!("../assets/dark_theme.ron");
 
+#[cfg(not(feature = "light"))]
 fn theme() -> Theme {
     Theme::from_config(
         ThemeConfig::from(DARK_THEME_RON)
@@ -23,6 +33,21 @@ fn theme() -> Theme {
             .extend(ThemeConfig::from(FONTS_RON)),
     )
 }
+
+#[cfg(feature = "light")]
+static LIGHT_EXT: &'static str = include_str!("../assets/light_theme.ron");
+
+#[cfg(feature = "light")]
+fn theme() -> Theme {
+    Theme::from_config(
+        ThemeConfig::from(LIGHT_THEME_RON)
+            .extend(ThemeConfig::from(LIGHT_EXT))
+            .extend(ThemeConfig::from(COLORS_RON))
+            .extend(ThemeConfig::from(FONTS_RON)),
+    )
+}
+
+// --- THEME --
 
 fn main() {
     Application::from_name(keys::APPLICATION)

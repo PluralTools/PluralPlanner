@@ -15,10 +15,9 @@ widget!(
 impl Template for OverviewView {
     fn template(self, id: Entity, ctx: &mut BuildContext) -> Self {
         // list of task lists
-        let list_view = ListView::new()
+        let items_widget = ItemsWidget::new()
             .id(ID_OVERVIEW_ITEMS_WIDGET)
-            .dirty(("list_dirty", id))
-            .style(STYLE_LIST_VIEW_BORDER_LESS)
+            .request_update(("list_dirty", id))
             .attach(Grid::row(2))
             .items_builder(move |ctx, index| {
                 let mut text = "".to_string();
@@ -31,9 +30,22 @@ impl Template for OverviewView {
                     text = task_overview.title.clone();
                 }
                 Grid::new()
+                    .height(48)
+                    .child(
+                        Button::new()
+                            .height(48)
+                            .style(STYLE_BUTTON_TRANSPARENT)
+                            .on_click(move |ctx, _| {
+                                ctx.get_mut::<OverviewState>(id)
+                                    .action(Action::OpenTaskList(index));
+                                true
+                            })
+                            .build(ctx),
+                    )
                     .child(
                         TextBlock::new()
                             .style(STYLE_TITLE)
+                            .margin((36, 0, 8, 0))
                             .text(text)
                             .v_align("center")
                             .build(ctx),
@@ -41,14 +53,6 @@ impl Template for OverviewView {
                     .build(ctx)
             })
             .count((PROP_COUNT, id))
-            .on_selection_changed(move |ctx, _, indices| {
-                if indices.is_empty() {
-                    return;
-                }
-
-                ctx.get_mut::<OverviewState>(id)
-                    .action(Action::OpenTaskList(indices[0]))
-            })
             .build(ctx);
 
         self.name("Overview")
@@ -84,7 +88,7 @@ impl Template for OverviewView {
                             .build(ctx),
                     )
                     // Content
-                    .child(list_view)
+                    .child(items_widget)
                     .child(
                         Button::new()
                             .style(STYLE_BUTTON_FLOAT)
