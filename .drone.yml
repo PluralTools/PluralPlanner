@@ -10,6 +10,7 @@ steps:
 - name: build
   image: rust
   commands:
+  - apt install libwayland-cursor0 libxkbcommon-dev libwayland-dev -y
   - cargo build
   
 ---
