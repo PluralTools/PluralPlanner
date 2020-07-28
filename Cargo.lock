@@ -82,9 +82,9 @@ checksum = "2e8c087f005730276d1096a652e92a8bacee2e2472bcc9715a74d2bec38b5820"
 
 [[package]]
 name = "bytemuck"
-version = "1.2.0"
+version = "1.3.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "37fa13df2292ecb479ec23aa06f4507928bef07839be9ef15281411076629431"
+checksum = "db7a1029718df60331e557c9e83a55523c955e5dd2a7bfeffad6bbd50b538ae9"
 
 [[package]]
 name = "byteorder"
@@ -129,6 +129,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "cmake"
+version = "0.1.44"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "0e56268c17a6248366d66d4a47a3381369d068cce8409bb1716ed77ea32163bb"
+dependencies = [
+ "cc",
+]
+
+[[package]]
 name = "color_quant"
 version = "1.0.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -149,6 +158,46 @@ name = "constant_time_eq"
 version = "0.1.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "245097e9a4535ee1e3e3931fcfcd55a796a44c643e8596ff6566d68f09b87bbc"
+
+[[package]]
+name = "core-foundation"
+version = "0.7.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "57d24c7a13c43e870e37c1556b74555437870a04514f7685f5b354e090567171"
+dependencies = [
+ "core-foundation-sys",
+ "libc",
+]
+
+[[package]]
+name = "core-foundation-sys"
+version = "0.7.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b3a71ab494c0b5b860bdc8407ae08978052417070c2ced38573a9157ad75b8ac"
+
+[[package]]
+name = "core-graphics"
+version = "0.19.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b3889374e6ea6ab25dba90bb5d96202f61108058361f6dc72e8b03e6f8bbe923"
+dependencies = [
+ "bitflags",
+ "core-foundation",
+ "foreign-types",
+ "libc",
+]
+
+[[package]]
+name = "core-text"
+version = "15.0.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "131b3fd1f8bd5db9f2b398fa4fdb6008c64afc04d447c306ac2c7e98fba2a61d"
+dependencies = [
+ "core-foundation",
+ "core-graphics",
+ "foreign-types",
+ "libc",
+]
 
 [[package]]
 name = "crc32fast"
@@ -210,7 +259,7 @@ dependencies = [
 [[package]]
 name = "dces"
 version = "0.3.0"
-source = "git+https://gitlab.redox-os.org/redox-os/dces-rust.git?branch=develop#58f66adc80a32f28cf915ef07113db07941343bb"
+source = "git+https://gitlab.redox-os.org/redox-os/dces-rust.git?branch=develop#cb6e0892b8aedc00d898c30728ae743f97e153cd"
 
 [[package]]
 name = "deflate"
@@ -295,6 +344,18 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "9ea835d29036a4087793836fa931b08837ad5e957da9e23886b29586fb9b6650"
 
 [[package]]
+name = "dwrote"
+version = "0.10.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "bcdf488e3a52a7aa30a05732a3e58420e22acb4b2b75635a561fc6ffbcab59ef"
+dependencies = [
+ "lazy_static",
+ "libc",
+ "winapi",
+ "wio",
+]
+
+[[package]]
 name = "either"
 version = "1.5.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -307,6 +368,72 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "2bb7ef65b3777a325d1eeefefab5b6d4959da54747e33bd6258e789640f307ad"
 dependencies = [
  "num-traits",
+]
+
+[[package]]
+name = "expat-sys"
+version = "2.1.6"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "658f19728920138342f68408b7cf7644d90d4784353d8ebc32e7e8663dbe45fa"
+dependencies = [
+ "cmake",
+ "pkg-config",
+]
+
+[[package]]
+name = "float-ord"
+version = "0.2.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "7bad48618fdb549078c333a7a8528acb57af271d0433bdecd523eb620628364e"
+
+[[package]]
+name = "font-kit"
+version = "0.6.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "8f953474ebbe3460775ed2da52435477cc029493284d6ceb635598586a2c6298"
+dependencies = [
+ "bitflags",
+ "byteorder",
+ "core-foundation",
+ "core-graphics",
+ "core-text",
+ "dirs",
+ "dwrote",
+ "float-ord",
+ "freetype",
+ "lazy_static",
+ "libc",
+ "log",
+ "pathfinder_geometry",
+ "pathfinder_simd",
+ "servo-fontconfig",
+ "walkdir",
+ "winapi",
+]
+
+[[package]]
+name = "foreign-types"
+version = "0.3.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "f6f339eb8adc052cd2ca78910fda869aefa38d22d5cb648e6485e4d3fc06f3b1"
+dependencies = [
+ "foreign-types-shared",
+]
+
+[[package]]
+name = "foreign-types-shared"
+version = "0.1.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "00b0228411908ca8685dba7fc2cdd70ec9990a6e753e89b6ac91a84c40fbaf4b"
+
+[[package]]
+name = "freetype"
+version = "0.4.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "11926b2b410b469d0e9399eca4cbbe237a9ef02176c485803b29216307e8e028"
+dependencies = [
+ "libc",
+ "servo-freetype-sys",
 ]
 
 [[package]]
@@ -347,9 +474,9 @@ dependencies = [
 
 [[package]]
 name = "image"
-version = "0.23.7"
+version = "0.23.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a2397fc43bd5648b7117aabb3c5e62d0e62c194826ec77b0b4d0c41e62744635"
+checksum = "543904170510c1b5fb65140485d84de4a57fddb2ed685481e9020ce3d2c9f64c"
 dependencies = [
  "bytemuck",
  "byteorder",
@@ -572,7 +699,7 @@ dependencies = [
 [[package]]
 name = "orbtk"
 version = "0.3.1-alpha3"
-source = "git+https://github.com/redox-os/orbtk.git?branch=develop#f52cf9385af63cd350e4c7bfbf1688ad3efd4162"
+source = "git+https://github.com/redox-os/orbtk.git?branch=develop#e6262e2ef175fc45c13b321528877888a0dd6f42"
 dependencies = [
  "dces",
  "orbtk-api",
@@ -589,7 +716,7 @@ dependencies = [
 [[package]]
 name = "orbtk-api"
 version = "0.3.1-alpha3"
-source = "git+https://github.com/redox-os/orbtk.git?branch=develop#f52cf9385af63cd350e4c7bfbf1688ad3efd4162"
+source = "git+https://github.com/redox-os/orbtk.git?branch=develop#e6262e2ef175fc45c13b321528877888a0dd6f42"
 dependencies = [
  "dces",
  "derive_more",
@@ -611,7 +738,7 @@ dependencies = [
 [[package]]
 name = "orbtk-proc-macros"
 version = "0.3.1-alpha3"
-source = "git+https://github.com/redox-os/orbtk.git?branch=develop#f52cf9385af63cd350e4c7bfbf1688ad3efd4162"
+source = "git+https://github.com/redox-os/orbtk.git?branch=develop#e6262e2ef175fc45c13b321528877888a0dd6f42"
 dependencies = [
  "case",
  "proc-macro2",
@@ -622,8 +749,9 @@ dependencies = [
 [[package]]
 name = "orbtk-render"
 version = "0.3.1-alpha3"
-source = "git+https://github.com/redox-os/orbtk.git?branch=develop#f52cf9385af63cd350e4c7bfbf1688ad3efd4162"
+source = "git+https://github.com/redox-os/orbtk.git?branch=develop#e6262e2ef175fc45c13b321528877888a0dd6f42"
 dependencies = [
+ "font-kit",
  "image",
  "orbtk-utils",
  "raqote",
@@ -634,10 +762,11 @@ dependencies = [
 [[package]]
 name = "orbtk-shell"
 version = "0.3.1-alpha3"
-source = "git+https://github.com/redox-os/orbtk.git?branch=develop#f52cf9385af63cd350e4c7bfbf1688ad3efd4162"
+source = "git+https://github.com/redox-os/orbtk.git?branch=develop#e6262e2ef175fc45c13b321528877888a0dd6f42"
 dependencies = [
  "console_error_panic_hook",
  "derive_more",
+ "font-kit",
  "image",
  "lazy_static",
  "minifb",
@@ -651,7 +780,7 @@ dependencies = [
 [[package]]
 name = "orbtk-theme"
 version = "0.3.1-alpha3"
-source = "git+https://github.com/redox-os/orbtk.git?branch=develop#f52cf9385af63cd350e4c7bfbf1688ad3efd4162"
+source = "git+https://github.com/redox-os/orbtk.git?branch=develop#e6262e2ef175fc45c13b321528877888a0dd6f42"
 dependencies = [
  "lazy_static",
  "orbtk-theming",
@@ -660,7 +789,7 @@ dependencies = [
 [[package]]
 name = "orbtk-theming"
 version = "0.3.1-alpha3"
-source = "git+https://github.com/redox-os/orbtk.git?branch=develop#f52cf9385af63cd350e4c7bfbf1688ad3efd4162"
+source = "git+https://github.com/redox-os/orbtk.git?branch=develop#e6262e2ef175fc45c13b321528877888a0dd6f42"
 dependencies = [
  "ron",
  "serde",
@@ -670,7 +799,7 @@ dependencies = [
 [[package]]
 name = "orbtk-tree"
 version = "0.3.1-alpha3"
-source = "git+https://github.com/redox-os/orbtk.git?branch=develop#f52cf9385af63cd350e4c7bfbf1688ad3efd4162"
+source = "git+https://github.com/redox-os/orbtk.git?branch=develop#e6262e2ef175fc45c13b321528877888a0dd6f42"
 dependencies = [
  "dces",
 ]
@@ -678,7 +807,7 @@ dependencies = [
 [[package]]
 name = "orbtk-utils"
 version = "0.3.1-alpha3"
-source = "git+https://github.com/redox-os/orbtk.git?branch=develop#f52cf9385af63cd350e4c7bfbf1688ad3efd4162"
+source = "git+https://github.com/redox-os/orbtk.git?branch=develop#e6262e2ef175fc45c13b321528877888a0dd6f42"
 dependencies = [
  "ron",
  "serde",
@@ -687,7 +816,7 @@ dependencies = [
 [[package]]
 name = "orbtk-widgets"
 version = "0.3.1-alpha3"
-source = "git+https://github.com/redox-os/orbtk.git?branch=develop#f52cf9385af63cd350e4c7bfbf1688ad3efd4162"
+source = "git+https://github.com/redox-os/orbtk.git?branch=develop#e6262e2ef175fc45c13b321528877888a0dd6f42"
 dependencies = [
  "dces",
  "lazy_static",
@@ -708,6 +837,25 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "3741934be594d77de1c8461ebcbbe866f585ea616a9753aa78f2bdc69f0e4579"
 dependencies = [
  "num-traits",
+]
+
+[[package]]
+name = "pathfinder_geometry"
+version = "0.5.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "0b7b7e7b4ea703700ce73ebf128e1450eb69c3a8329199ffbfb9b2a0418e5ad3"
+dependencies = [
+ "log",
+ "pathfinder_simd",
+]
+
+[[package]]
+name = "pathfinder_simd"
+version = "0.5.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b451513912d6b3440e443aa75a73ab22203afedc4a90df8526d008c0f86f7cb3"
+dependencies = [
+ "rustc_version",
 ]
 
 [[package]]
@@ -1053,6 +1201,15 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "71d301d4193d031abdd79ff7e3dd721168a9572ef3fe51a1517aba235bd8f86e"
 
 [[package]]
+name = "same-file"
+version = "1.0.6"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "93fc1dc3aaa9bfed95e02e6eadabb4baf7e3078b0bd1b4d7b6b0b68378900502"
+dependencies = [
+ "winapi-util",
+]
+
+[[package]]
 name = "scoped-tls"
 version = "1.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1131,13 +1288,44 @@ dependencies = [
 
 [[package]]
 name = "serde_json"
-version = "1.0.56"
+version = "1.0.57"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3433e879a558dde8b5e8feb2a04899cf34fdde1fafb894687e52105fc1162ac3"
+checksum = "164eacbdb13512ec2745fb09d51fd5b22b0d65ed294a1dcf7285a360c80a675c"
 dependencies = [
  "itoa",
  "ryu",
  "serde",
+]
+
+[[package]]
+name = "servo-fontconfig"
+version = "0.4.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a088f8d775a5c5314aae09bd77340bc9c67d72b9a45258be34c83548b4814cd9"
+dependencies = [
+ "libc",
+ "servo-fontconfig-sys",
+]
+
+[[package]]
+name = "servo-fontconfig-sys"
+version = "4.0.9"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "62b3e166450f523f4db06c14f02a2d39e76d49b5d8cbd224338d93e3595c156c"
+dependencies = [
+ "expat-sys",
+ "pkg-config",
+ "servo-freetype-sys",
+]
+
+[[package]]
+name = "servo-freetype-sys"
+version = "4.0.5"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "2c4ccb6d0d32d277d3ef7dea86203d8210945eb7a45fba89dd445b3595dd0dfc"
+dependencies = [
+ "cmake",
+ "pkg-config",
 ]
 
 [[package]]
@@ -1230,9 +1418,9 @@ checksum = "1f414e0c648cea54e6aa44f044a70ffc51fb9a5c6684bcfca89a70f74dde2dff"
 
 [[package]]
 name = "syn"
-version = "1.0.35"
+version = "1.0.36"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "fb7f4c519df8c117855e19dd8cc851e89eb746fe7a73f0157e0d95fdec5369b0"
+checksum = "4cdb98bcb1f9d81d07b536179c269ea15999b5d14ea958196413869445bb5250"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -1281,6 +1469,17 @@ name = "void"
 version = "1.0.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "6a02e4885ed3bc0f2de90ea6dd45ebcbb66dacffe03547fadbb0eeae2770887d"
+
+[[package]]
+name = "walkdir"
+version = "2.3.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "777182bc735b6424e1a57516d35ed72cb8019d85c8c9bf536dccb3445c1a2f7d"
+dependencies = [
+ "same-file",
+ "winapi",
+ "winapi-util",
+]
 
 [[package]]
 name = "wasi"
@@ -1429,10 +1628,28 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "ac3b87c63620426dd9b991e5ce0329eff545bccbbb34f3be09ff6fb6ab51b7b6"
 
 [[package]]
+name = "winapi-util"
+version = "0.1.5"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "70ec6ce85bb158151cae5e5c87f95a8e97d2c0c4b001223f33a334e3ce5de178"
+dependencies = [
+ "winapi",
+]
+
+[[package]]
 name = "winapi-x86_64-pc-windows-gnu"
 version = "0.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "712e227841d057c1ee1cd2fb22fa7e5a5461ae8e48fa2ca79ec42cfc1931183f"
+
+[[package]]
+name = "wio"
+version = "0.2.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "5d129932f4644ac2396cb456385cbf9e63b5b30c6e8dc4820bdca4eb082037a5"
+dependencies = [
+ "winapi",
+]
 
 [[package]]
 name = "x11-dl"

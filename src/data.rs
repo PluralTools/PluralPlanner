@@ -2,7 +2,7 @@ use orbtk::prelude::*;
 
 use serde_derive::{Deserialize, Serialize};
 
-#[derive(Default, Clone, Debug, Serialize, Deserialize)]
+#[derive(Default, Clone, Debug, Serialize, Deserialize, PartialEq)]
 pub struct TaskOverview {
     pub task_lists: Vec<TaskList>,
 }
@@ -37,14 +37,14 @@ impl TaskOverview {
     }
 }
 
-#[derive(Default, Clone, Debug, Serialize, Deserialize)]
+#[derive(Default, Clone, Debug, Serialize, Deserialize, PartialEq)]
 pub struct Task {
     pub text: String,
 
     pub selected: bool,
 }
 
-#[derive(Default, Clone, Debug, Serialize, Deserialize)]
+#[derive(Default, Clone, Debug, Serialize, Deserialize, PartialEq)]
 pub struct TaskList {
     pub title: String,
 

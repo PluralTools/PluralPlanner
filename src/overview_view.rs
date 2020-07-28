@@ -17,8 +17,8 @@ impl Template for OverviewView {
         // list of task lists
         let items_widget = ItemsWidget::new()
             .id(ID_OVERVIEW_ITEMS_WIDGET)
+            .v_align("start")
             .request_update(("list_dirty", id))
-            .attach(Grid::row(2))
             .items_builder(move |ctx, index| {
                 let mut text = "".to_string();
 
@@ -55,6 +55,12 @@ impl Template for OverviewView {
             .count((PROP_COUNT, id))
             .build(ctx);
 
+        let scroll_viewer = ScrollViewer::new()
+            .attach(Grid::row(2))
+            .mode(("disabled", "auto"))
+            .child(items_widget)
+            .build(ctx);
+
         self.name("Overview")
             .task_overview(TaskOverview::default())
             .count(0)
@@ -88,7 +94,17 @@ impl Template for OverviewView {
                             .build(ctx),
                     )
                     // Content
-                    .child(items_widget)
+                    .child(scroll_viewer)
+                    .child(
+                        ScrollIndicator::new()
+                            .attach(Grid::row(2))
+                            .padding((0, 4, 4, 0))
+                            .content_bounds(("bounds", items_widget))
+                            .view_port_bounds(("bounds", scroll_viewer))
+                            .scroll_padding(("padding", scroll_viewer))
+                            .mode(scroll_viewer)
+                            .build(ctx),
+                    )
                     .child(
                         Button::new()
                             .style(STYLE_BUTTON_FLOAT)

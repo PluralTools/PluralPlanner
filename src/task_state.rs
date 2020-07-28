@@ -106,6 +106,8 @@ impl TaskState {
     ) {
         let selected: bool = *ctx.get_widget(entry).get("selected");
 
+        println!("en: {}, sel{}", entry.0, selected);
+
         if let Some(idx) = ctx.widget().clone::<Option<usize>>("list_index") {
             if let Some(task_list) = ctx
                 .widget()

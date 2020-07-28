@@ -48,9 +48,11 @@ impl Template for TaskView {
                         CheckBox::new()
                             .v_align("center")
                             .selected(selected)
-                            .on_changed(move |ctx, entity| {
-                                ctx.get_mut::<TaskState>(id)
-                                    .action(Action::SelectionChanged(entity, index));
+                            .on_changed(move |ctx, entity, key| {
+                                if key == "selected" {
+                                    ctx.get_mut::<TaskState>(id)
+                                        .action(Action::SelectionChanged(entity, index));
+                                }
                             })
                             .build(ctx),
                     )
@@ -87,7 +89,7 @@ impl Template for TaskView {
             .build(ctx);
 
         let scroll_viewer = ScrollViewer::new()
-            .scroll_viewer_mode(("disabled", "auto"))
+            .mode(("disabled", "auto"))
             .child(items_widget)
             .build(ctx);
 
@@ -101,9 +103,11 @@ impl Template for TaskView {
                 ctx.get_mut::<TaskState>(id)
                     .action(Action::NewEntry(entity));
             })
-            .on_changed(move |ctx, entity| {
-                ctx.get_mut::<TaskState>(id)
-                    .action(Action::InputTextChanged(entity));
+            .on_changed(move |ctx, entity, key| {
+                if key == "text" {
+                    ctx.get_mut::<TaskState>(id)
+                        .action(Action::InputTextChanged(entity));
+                }
             })
             .build(ctx);
 
@@ -128,9 +132,11 @@ impl Template for TaskView {
                         .child(scroll_viewer)
                         .child(
                             ScrollIndicator::new()
-                                .padding((0, 4, 0, 0))
-                                .content_id(items_widget.0)
-                                .scroll_offset(scroll_viewer)
+                                .padding((0, 4, 4, 0))
+                                .content_bounds(("bounds", items_widget))
+                                .view_port_bounds(("bounds", scroll_viewer))
+                                .scroll_padding(("padding", scroll_viewer))
+                                .mode(scroll_viewer)
                                 .build(ctx),
                         )
                         .build(ctx),
