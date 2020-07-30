@@ -1,10 +1,10 @@
 [package]
-name = "doit"
+name = "plural_tasks"
 version = "0.1.0"
 authors = ["Florian Blasius <flovanpt@posteo.de>"]
 edition = "2018"
 description = "Task app based on OrbTk."
-repository = "https://codeberg.org/pinhead-galaxy/doit"
+repository = "https://codeberg.org/PluralTools/PluralTasks"
 readme = "README.md"
 license = "GPLv3"
 keywords = [
@@ -25,6 +25,6 @@ serde = "1.0.114"
 serde_derive = "1.0.114"
 
 [package.metadata.bundle]
-name = "Doit"
-identifier = "flovanco.doit"
+name = "PluralTasks"
+identifier = "flovanco.PluralTasks"
 short_description = "Task app based on OrbTk."
