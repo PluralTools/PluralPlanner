@@ -26,5 +26,5 @@ serde_derive = "1.0.114"
 
 [package.metadata.bundle]
 name = "PluralTasks"
-identifier = "flovanco.PluralTasks"
+identifier = "pluraltools.pluraltasks"
 short_description = "Task app based on OrbTk."
