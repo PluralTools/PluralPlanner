@@ -66,6 +66,8 @@ jobs:
         with:
           toolchain: nightly
           override: true
+      - name: install fuse
+        run: sudo apt install libfuse-dev  
       - name: cargo install redoxer
         uses: actions-rs/cargo@v1
         with:
