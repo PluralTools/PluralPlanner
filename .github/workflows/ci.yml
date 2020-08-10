@@ -73,8 +73,6 @@ jobs:
         with:
           command: install
           args: redoxer
-      - name: curl hack
-        run: git config --global http.sslVerify false
       - name: redoxer toolchain
         run: redoxer toolchain
       - name: redoxer build
