@@ -22,7 +22,7 @@ pub mod task_view;
 // --- THEME --
 
 #[cfg(not(feature = "light"))]
-static DARK_EXT: &'static str = include_str!("../assets/dark_theme.ron");
+static DARK_EXT = include_str!("../assets/dark_theme.ron");
 
 #[cfg(not(feature = "light"))]
 fn theme() -> Theme {
@@ -35,7 +35,7 @@ fn theme() -> Theme {
 }
 
 #[cfg(feature = "light")]
-static LIGHT_EXT: &'static str = include_str!("../assets/light_theme.ron");
+static LIGHT_EXT = include_str!("../assets/light_theme.ron");
 
 #[cfg(feature = "light")]
 fn theme() -> Theme {
