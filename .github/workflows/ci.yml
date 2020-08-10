@@ -62,6 +62,18 @@ jobs:
     runs-on: ubuntu-latest
     container: redoxos/redoxer 
     steps:
+      - uses: actions/checkout@v1
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          override: true
+      - name: cargo install redoxer
+        uses: actions-rs/cargo@v1
+        with:
+          command: install
+          args: redoxer
+      - name: redoxer toolchain
+        run: redoxer toolchain
       - name: redoxer build
         run: redoxer build
       - name: redoxer test
