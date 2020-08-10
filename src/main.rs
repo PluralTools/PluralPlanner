@@ -48,7 +48,7 @@ fn theme() -> Theme {
 }
 
 // --- THEME --
-
+ 
 fn main() {
     Application::from_name(keys::APPLICATION)
         .theme(theme())

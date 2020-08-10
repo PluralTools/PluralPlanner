@@ -85,7 +85,7 @@ impl Template for TaskView {
                     )
                     .build(ctx)
             })
-            .count((PROP_COUNT, id))
+            .count(id)
             .build(ctx);
 
         let scroll_viewer = ScrollViewer::new()

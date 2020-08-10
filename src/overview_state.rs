@@ -45,7 +45,7 @@ impl OverviewState {
     // Adjusts the task list count.
     fn adjust_count(&self, ctx: &mut Context) {
         let count = ctx.widget().get::<TaskOverview>(PROP_TASK_OVERVIEW).len();
-        ctx.widget().set(PROP_COUNT, count);
+        ctx.widget().set("count", count);
     }
 
     // opens a task list.

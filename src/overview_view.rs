@@ -16,6 +16,7 @@ impl Template for OverviewView {
     fn template(self, id: Entity, ctx: &mut BuildContext) -> Self {
         // list of task lists
         let items_widget = ItemsWidget::new()
+            .count(id)
             .id(ID_OVERVIEW_ITEMS_WIDGET)
             .v_align("start")
             .request_update(("list_dirty", id))
@@ -52,7 +53,6 @@ impl Template for OverviewView {
                     )
                     .build(ctx)
             })
-            .count((PROP_COUNT, id))
             .build(ctx);
 
         let scroll_viewer = ScrollViewer::new()

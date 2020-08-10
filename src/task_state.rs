@@ -106,8 +106,6 @@ impl TaskState {
     ) {
         let selected: bool = *ctx.get_widget(entry).get("selected");
 
-        println!("en: {}, sel{}", entry.0, selected);
-
         if let Some(idx) = ctx.widget().clone::<Option<usize>>("list_index") {
             if let Some(task_list) = ctx
                 .widget()
@@ -146,26 +144,30 @@ impl TaskState {
             {
                 task_list.remove(index);
             }
-        }
 
-        self.adjust_count(ctx);
-        self.save(registry, ctx);
+            self.adjust_count(ctx);
+            self.save(registry, ctx);
+        }
     }
 
     // removes a task list.
     fn remove_list(&mut self, registry: &mut Registry, ctx: &mut Context) {
-        let index = ctx.widget().get::<Option<usize>>("list_index").unwrap();
-        ctx.widget()
-            .get_mut::<TaskOverview>(PROP_TASK_OVERVIEW)
-            .remove(index);
-        self.save(registry, ctx);
+        if let Some(index) = ctx.widget().clone::<Option<usize>>("list_index") {
+            ctx.get_widget(self.overview)
+                .get_mut::<TaskOverview>(PROP_TASK_OVERVIEW)
+                .remove(index);
 
-        let count = ctx
-            .get_widget(self.overview)
-            .get::<TaskOverview>(PROP_TASK_OVERVIEW)
-            .len();
-        ctx.get_widget(self.overview).set(PROP_COUNT, count);
-        ctx.send_window_request(shell::WindowRequest::Redraw);
+            let count = ctx
+                .get_widget(self.overview)
+                .get::<TaskOverview>(PROP_TASK_OVERVIEW)
+                .len();
+
+            ctx.get_widget(self.overview).set("count", count);
+            ctx.get_widget(self.overview).set("list_dirty", true);
+
+            self.save(registry, ctx);
+        }
+
         self.navigate_back(ctx);
     }
 
