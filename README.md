@@ -1,5 +1,5 @@
 # PluralTasks
-[![Build Status](https://h2869596.stratoserver.net/api/badges/flovanco/PluralTasks/status.svg)](https://h2869596.stratoserver.net/flovanco/PluralTasks)
+[![Build and test](https://github.com/PluralTools/PluralTasks/workflows/build/badge.svg)](https://github.com/PluralTools/PluralTasks/actions)
 [![GPL 3 licensed](https://img.shields.io/badge/license-GPL3-darkgreen.svg)](./LICENSE)
 
 Task app based on OrbTk https://github.com/redox-os/orbtk.
