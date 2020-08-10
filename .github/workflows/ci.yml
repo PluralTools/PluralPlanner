@@ -20,6 +20,12 @@ jobs:
         with:
           command: fmt
           args: -- --check --color always
+          
+      - run: rustup component add clippy
+      - name: check clippy
+        uses: actions-rs/cargo@v1
+        with:
+          command: clippy
 
   build_and_test:
     name: Test
