@@ -20,7 +20,8 @@ jobs:
         with:
           command: fmt
           args: -- --check --color always
-          
+
+      - run: sudo apt install libwayland-cursor0 libxkbcommon-dev libwayland-dev
       - run: rustup component add clippy
       - name: check clippy
         uses: actions-rs/cargo@v1
