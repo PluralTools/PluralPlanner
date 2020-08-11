@@ -73,6 +73,8 @@ jobs:
         with:
           command: install
           args: redoxer
+      - name: install libc6
+        run: sudo apt install libc6
       - name: redoxer toolchain
         run: redoxer toolchain
       - name: redoxer build
