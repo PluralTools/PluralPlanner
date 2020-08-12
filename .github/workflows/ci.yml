@@ -60,23 +60,14 @@ jobs:
   build_and_test_redox:
     name: Test Redox
     runs-on: ubuntu-latest
+    container: redoxos/redoxer 
     steps:
-      - uses: actions/checkout@v1
-      - uses: actions-rs/toolchain@v1
-        with:
-          toolchain: nightly
-          override: true
-      - name: install fuse
-        run: sudo apt install libfuse-dev  
-      - name: cargo install redoxer
-        uses: actions-rs/cargo@v1
-        with:
-          command: install
-          args: redoxer
-      - name: install libc6
-        run: sudo apt install libc6
-      - name: redoxer toolchain
-        run: redoxer toolchain
+      - run: apt-get update -qq
+      - run: apt-get install -qq build-essential curl git
+      - run: git clone --single-branch --branch=add-redox-support --depth=1 https://github.com/AdminXVII/nix
+      - run: mkdir .cargo
+      - run: echo 'paths = [ "nix" ]' >> .cargo/config
+      - run: cargo clean
       - name: redoxer build
         run: redoxer build
       - name: redoxer test
