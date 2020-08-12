@@ -57,8 +57,8 @@ jobs:
         with:
           command: test
           
-  build_and_test_redox:
-    name: Test redox
+  build_redox:
+    name: Build (redox)
     runs-on: ubuntu-latest
     container: redoxos/redoxer
     steps:
@@ -69,7 +69,7 @@ jobs:
         run: redoxer test
         
   build_web:
-    name: Build web
+    name: Build (web)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
