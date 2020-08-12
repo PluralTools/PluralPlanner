@@ -67,6 +67,8 @@ jobs:
         run: rustup toolchain install nightly
       - name: rustup add redox target
         run: rustup target add x86_64-unknown-redox --toolchain nightly
+      - name: install cmake
+        run: sudo apt install cmake
       - name: cargo test build
         run: cargo +nightly build --tests --target=x86_64-unknown-redox 
       - name: cargo test
