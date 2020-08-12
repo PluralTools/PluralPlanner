@@ -67,6 +67,8 @@ jobs:
       - run: git clone --single-branch --branch=add-redox-support --depth=1 https://github.com/AdminXVII/nix
       - run: mkdir .cargo
       - run: echo 'paths = [ "nix" ]' >> .cargo/config
+      - run: rustup install nightly
+      - run: rustup default nightly
       - run: cargo clean
       - name: redoxer build
         run: redoxer build
