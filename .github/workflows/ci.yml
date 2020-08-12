@@ -60,18 +60,8 @@ jobs:
   build_and_test_redox:
     name: Test Redox
     runs-on: ubuntu-latest
-    container: rust:latest
+    container: redoxos/redoxer
     steps:
       - uses: actions/checkout@v1
-      - name: rustup toolchain install nightly
-        run: rustup toolchain install nightly
-      - name: rustup add redox target
-        run: rustup target add x86_64-unknown-redox --toolchain nightly
-      - name: apt-get update
-        run: apt-get update -y
-      - name: install cmake
-        run: apt-get install cmake -y
-      - name: cargo test build
-        run: cargo +nightly build --tests --target=x86_64-unknown-redox 
-      - name: cargo test
-        run: cargo +nightly test --target=x86_64-unknown-redox 
+      - name: redoxer build
+        run: redoxer build
