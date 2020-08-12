@@ -65,8 +65,6 @@ jobs:
       - uses: actions/checkout@v1
       - name: redoxer build
         run: redoxer build
-      - name: redoxer test
-        run: redoxer test
         
   build_web:
     name: Build (web)
