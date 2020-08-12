@@ -58,10 +58,22 @@ jobs:
           command: test
           
   build_and_test_redox:
-    name: Test Redox
+    name: Test redox
     runs-on: ubuntu-latest
     container: redoxos/redoxer
     steps:
       - uses: actions/checkout@v1
       - name: redoxer build
         run: redoxer build
+      - name: redoxer test
+        run: redoxer test
+        
+  build_web:
+    name: Build web
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Install cargo-web
+        run: cargo install --force cargo-web
+      - name: Build
+        run: cargo web build
