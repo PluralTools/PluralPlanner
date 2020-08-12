@@ -60,30 +60,12 @@ jobs:
   build_and_test_redox:
     name: Test Redox
     runs-on: ubuntu-latest
+    container: rust:latest
     steps:
       - uses: actions/checkout@v1
-      - uses: actions-rs/toolchain@v1
-        with:
-          toolchain: nightly
-          override: true
-      - name: cargo fetch
-        uses: actions-rs/cargo@v1
-        with:
-          command: fetch  
-      - name: cargo install xcargo cargo-config
-        uses: actions-rs/cargo@v1
-        with:
-          command: install
-          args: xargo cargo-config
       - name: rustup add redox target
         run: rustup target add x86_64-unknown-redox --toolchain nightly
       - name: cargo test build
-        uses: actions-rs/cargo@v1
-        with:
-          command: build
-          args: --target=x86_64-unknown-redox --tests
+        run: cargo +nightly build --tests --target=x86_64-unknown-redox 
       - name: cargo test
-        uses: actions-rs/cargo@v1
-        with:
-          command: test
-          args: --target=x86_64-unknown-redox 
+        run: cargo +nightly test --target=x86_64-unknown-redox 
