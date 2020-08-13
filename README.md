@@ -4,11 +4,6 @@
 
 Task app based on OrbTk https://github.com/redox-os/orbtk.
 
-## Live Demo
-
-https://pages.codeberg.org/flovanco/apps/PluralTasks/index.html
-
-
 ## Platforms
 
 * Redox OS (native)
