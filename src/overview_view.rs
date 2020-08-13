@@ -66,7 +66,7 @@ impl Template for OverviewView {
             .count(0)
             .child(
                 Grid::new()
-                    .rows(Rows::new().add(52).add(1).add("*").add(25))
+                    .rows(Rows::create().push(52).push(1).push("*").push(25))
                     // Top Bar
                     .child(
                         Container::new()

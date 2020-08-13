@@ -43,7 +43,14 @@ impl Template for TaskView {
                 Grid::new()
                     .height(48)
                     .margin((8, 0))
-                    .columns(Columns::new().add(24).add(4).add("*").add(4).add(32))
+                    .columns(
+                        Columns::create()
+                            .push(24)
+                            .push(4)
+                            .push("*")
+                            .push(4)
+                            .push(32),
+                    )
                     .child(
                         CheckBox::new()
                             .v_align("center")
@@ -114,15 +121,14 @@ impl Template for TaskView {
         self.name("TaskView").child(
             Grid::new()
                 .rows(
-                    Rows::new()
-                        .add(52)
-                        .add(1)
-                        .add("*")
-                        .add(1)
-                        .add("auto")
-                        .build(),
+                    Rows::create()
+                        .push(52)
+                        .push(1)
+                        .push("*")
+                        .push(1)
+                        .push("auto"),
                 )
-                .columns(Columns::new().add("*").add(4).add(36))
+                .columns(Columns::create().push("*").push(4).push(36))
                 // Content
                 .child(
                     Container::new()
@@ -151,7 +157,14 @@ impl Template for TaskView {
                         .child(
                             Grid::new()
                                 .margin((4, 0))
-                                .columns(Columns::new().add(32).add(4).add("*").add(4).add(32))
+                                .columns(
+                                    Columns::create()
+                                        .push(32)
+                                        .push(4)
+                                        .push("*")
+                                        .push(4)
+                                        .push(32),
+                                )
                                 .child(
                                     Button::new()
                                         .style(STYLE_BUTTON_ICON_ONLY)
