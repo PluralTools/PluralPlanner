@@ -55,11 +55,9 @@ impl Template for TaskView {
                         CheckBox::new()
                             .v_align("center")
                             .selected(selected)
-                            .on_changed(move |ctx, entity, key| {
-                                if key == "selected" {
-                                    ctx.get_mut::<TaskState>(id)
-                                        .action(Action::SelectionChanged(entity, index));
-                                }
+                            .on_changed("selected", move |ctx, entity| {
+                                ctx.get_mut::<TaskState>(id)
+                                    .action(Action::SelectionChanged(entity, index));
                             })
                             .build(ctx),
                     )
@@ -110,11 +108,9 @@ impl Template for TaskView {
                 ctx.get_mut::<TaskState>(id)
                     .action(Action::NewEntry(entity));
             })
-            .on_changed(move |ctx, entity, key| {
-                if key == "text" {
-                    ctx.get_mut::<TaskState>(id)
-                        .action(Action::InputTextChanged(entity));
-                }
+            .on_changed("text", move |ctx, entity| {
+                ctx.get_mut::<TaskState>(id)
+                    .action(Action::InputTextChanged(entity));
             })
             .build(ctx);
 
