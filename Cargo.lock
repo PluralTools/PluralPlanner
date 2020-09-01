@@ -418,7 +418,7 @@ checksum = "260e51e7efe62b592207e9e13a68e43692a7a279171d6ba57abd208bf23645ad"
 [[package]]
 name = "orbclient"
 version = "0.3.28"
-source = "git+https://gitlab.redox-os.org/redox-os/orbclient.git#28cc3dce4503bafb9d85ed57f711b316dcb37956"
+source = "git+https://gitlab.redox-os.org/redox-os/orbclient.git#40d8681b9340e5a84885884327848ce3963f2ad0"
 dependencies = [
  "libc",
  "raw-window-handle",
@@ -430,7 +430,7 @@ dependencies = [
 [[package]]
 name = "orbtk"
 version = "0.3.1-alpha4"
-source = "git+https://github.com/redox-os/orbtk.git?branch=develop#460029e3466988107969c5e4624e23200f403389"
+source = "git+https://github.com/redox-os/orbtk.git?branch=develop#efe83384f0de17f8809eeb4d356584d629cddbf1"
 dependencies = [
  "dces",
  "orbtk_api",
@@ -447,7 +447,7 @@ dependencies = [
 [[package]]
 name = "orbtk_api"
 version = "0.3.1-alpha4"
-source = "git+https://github.com/redox-os/orbtk.git?branch=develop#460029e3466988107969c5e4624e23200f403389"
+source = "git+https://github.com/redox-os/orbtk.git?branch=develop#efe83384f0de17f8809eeb4d356584d629cddbf1"
 dependencies = [
  "dces",
  "derive_more",
@@ -469,7 +469,7 @@ dependencies = [
 [[package]]
 name = "orbtk_proc_macros"
 version = "0.3.1-alpha4"
-source = "git+https://github.com/redox-os/orbtk.git?branch=develop#460029e3466988107969c5e4624e23200f403389"
+source = "git+https://github.com/redox-os/orbtk.git?branch=develop#efe83384f0de17f8809eeb4d356584d629cddbf1"
 dependencies = [
  "case",
  "proc-macro2",
@@ -480,7 +480,7 @@ dependencies = [
 [[package]]
 name = "orbtk_render"
 version = "0.3.1-alpha4"
-source = "git+https://github.com/redox-os/orbtk.git?branch=develop#460029e3466988107969c5e4624e23200f403389"
+source = "git+https://github.com/redox-os/orbtk.git?branch=develop#efe83384f0de17f8809eeb4d356584d629cddbf1"
 dependencies = [
  "image",
  "orbtk_utils",
@@ -493,7 +493,7 @@ dependencies = [
 [[package]]
 name = "orbtk_shell"
 version = "0.3.1-alpha4"
-source = "git+https://github.com/redox-os/orbtk.git?branch=develop#460029e3466988107969c5e4624e23200f403389"
+source = "git+https://github.com/redox-os/orbtk.git?branch=develop#efe83384f0de17f8809eeb4d356584d629cddbf1"
 dependencies = [
  "console_error_panic_hook",
  "image",
@@ -509,7 +509,7 @@ dependencies = [
 [[package]]
 name = "orbtk_theme"
 version = "0.3.1-alpha4"
-source = "git+https://github.com/redox-os/orbtk.git?branch=develop#460029e3466988107969c5e4624e23200f403389"
+source = "git+https://github.com/redox-os/orbtk.git?branch=develop#efe83384f0de17f8809eeb4d356584d629cddbf1"
 dependencies = [
  "lazy_static",
  "orbtk_theming",
@@ -518,7 +518,7 @@ dependencies = [
 [[package]]
 name = "orbtk_theming"
 version = "0.3.1-alpha4"
-source = "git+https://github.com/redox-os/orbtk.git?branch=develop#460029e3466988107969c5e4624e23200f403389"
+source = "git+https://github.com/redox-os/orbtk.git?branch=develop#efe83384f0de17f8809eeb4d356584d629cddbf1"
 dependencies = [
  "ron",
  "serde",
@@ -528,7 +528,7 @@ dependencies = [
 [[package]]
 name = "orbtk_tree"
 version = "0.3.1-alpha4"
-source = "git+https://github.com/redox-os/orbtk.git?branch=develop#460029e3466988107969c5e4624e23200f403389"
+source = "git+https://github.com/redox-os/orbtk.git?branch=develop#efe83384f0de17f8809eeb4d356584d629cddbf1"
 dependencies = [
  "dces",
 ]
@@ -536,7 +536,7 @@ dependencies = [
 [[package]]
 name = "orbtk_utils"
 version = "0.3.1-alpha4"
-source = "git+https://github.com/redox-os/orbtk.git?branch=develop#460029e3466988107969c5e4624e23200f403389"
+source = "git+https://github.com/redox-os/orbtk.git?branch=develop#efe83384f0de17f8809eeb4d356584d629cddbf1"
 dependencies = [
  "derive_more",
  "lexical-core",
@@ -549,7 +549,7 @@ dependencies = [
 [[package]]
 name = "orbtk_widgets"
 version = "0.3.1-alpha4"
-source = "git+https://github.com/redox-os/orbtk.git?branch=develop#460029e3466988107969c5e4624e23200f403389"
+source = "git+https://github.com/redox-os/orbtk.git?branch=develop#efe83384f0de17f8809eeb4d356584d629cddbf1"
 dependencies = [
  "dces",
  "lazy_static",
@@ -1019,9 +1019,9 @@ dependencies = [
 
 [[package]]
 name = "tar"
-version = "0.4.29"
+version = "0.4.30"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c8a4c1d0bee3230179544336c15eefb563cf0302955d962e456542323e8c2e8a"
+checksum = "489997b7557e9a43e192c527face4feacc78bfbe6eed67fd55c4c9e381cba290"
 dependencies = [
  "filetime",
  "libc",
