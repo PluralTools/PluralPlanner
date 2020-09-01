@@ -1,10 +1,10 @@
 [package]
-name = "plural_tasks"
+name = "plural_planner"
 version = "0.1.0"
 authors = ["Florian Blasius <flovanpt@posteo.de>"]
 edition = "2018"
 description = "Task app based on OrbTk."
-repository = "https://github.com/PluralTools/PluralTasks"
+repository = "https://github.com/PluralTools/PluralPlanner"
 readme = "README.md"
 license = "GPLv3"
 keywords = [
@@ -25,6 +25,6 @@ serde = "1.0.114"
 serde_derive = "1.0.114"
 
 [package.metadata.bundle]
-name = "PluralTasks"
-identifier = "pluraltools.pluraltasks"
+name = "PluralPlanner"
+identifier = "pluraltools.pluralplanner"
 short_description = "Task app based on OrbTk."

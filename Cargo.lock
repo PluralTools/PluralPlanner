@@ -610,7 +610,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "plural_tasks"
+name = "plural_planner"
 version = "0.1.0"
 dependencies = [
  "orbtk",

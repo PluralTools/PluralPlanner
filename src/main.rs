@@ -54,7 +54,7 @@ fn main() {
         .theme(theme())
         .window(move |ctx| {
             Window::new()
-                .title("PluralTasks")
+                .title("PluralPlanner")
                 .position((100, 100))
                 .size(372, 768)
                 .resizeable(true)

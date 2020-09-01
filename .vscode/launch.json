@@ -8,7 +8,7 @@
             "type": "lldb",
             "request": "launch",
             "name": "Debug",
-            "program": "${workspaceFolder}/target/debug/plural_tasks",
+            "program": "${workspaceFolder}/target/debug/plural_planner",
             "cwd": "${workspaceFolder}",
             "preLaunchTask": "build",
             "sourceLanguages": [
@@ -19,7 +19,7 @@
             "type": "lldb",
             "request": "launch",
             "name": "Release",
-            "program": "${workspaceFolder}/target/release/plural_tasks",
+            "program": "${workspaceFolder}/target/release/plural_planner",
             "cwd": "${workspaceFolder}",
             "preLaunchTask": "build release",
             "args": [

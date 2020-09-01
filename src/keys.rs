@@ -27,7 +27,7 @@ pub static PROP_COUNT: &str = "count";
 
 // Key for application settings
 #[cfg(debug_assertions)]
-pub static APPLICATION: &str = "pluraltools.debug.pluraltasks";
+pub static APPLICATION: &str = "pluraltools.debug.pluralplanner";
 
 #[cfg(not(debug_assertions))]
-pub static APPLICATION: &str = "pluraltools.pluraltasks";
+pub static APPLICATION: &str = "pluraltools.pluralplanner";
