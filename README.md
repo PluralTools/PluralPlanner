@@ -7,9 +7,9 @@ Task app based on OrbTk https://github.com/redox-os/orbtk.
 ## Platforms
 
 * Redox OS (native)
-* Linux (native | cargo-node wip)
-* macOS (native | cargo-node wip)
-* Windows (native | cargo-node wip)
+* Linux (native | cargo-node)
+* macOS (native | cargo-node)
+* Windows (native | cargo-node)
 * openBSD (not tested, but should work)
 * Web
 
@@ -52,6 +52,13 @@ cargo node run --browser
 ```text
 cargo node run --electron
 ```
+
+## Screenshots
+
+<img alt="OrbTk" width="167" src="https://github.com/PluralTools/Assets/raw/master/pluralplanner_overview_dark.png">
+<img alt="OrbTk" width="166" src="https://github.com/PluralTools/Assets/raw/master/pluralplanner_tasks_dark.png">
+<img alt="OrbTk" width="166" src="https://github.com/PluralTools/Assets/raw/master/pluralplanner_overview_light.png">
+<img alt="OrbTk" width="166" src="https://github.com/PluralTools/Assets/raw/master/pluralplanner_tasks_light.png">
 
 ## License
 
