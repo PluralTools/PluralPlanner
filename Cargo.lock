@@ -2,9 +2,9 @@
 # It is not intended for manual editing.
 [[package]]
 name = "ab_glyph_rasterizer"
-version = "0.1.2"
+version = "0.1.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2b7e4e8cf778db814365e46839949ca74df4efb10e87ba4913e6ec5967ef0285"
+checksum = "2692800d602527d2b8fea50036119c37df74ab565b10e285706a3dcec0ec3e16"
 
 [[package]]
 name = "adler"
@@ -158,17 +158,7 @@ dependencies = [
 [[package]]
 name = "dces"
 version = "0.3.1"
-source = "git+https://gitlab.redox-os.org/redox-os/dces-rust.git?branch=develop#562c72e5ade8e9734ab6caa5379644a692054f7f"
-
-[[package]]
-name = "deflate"
-version = "0.7.20"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "707b6a7b384888a70c8d2e8650b3e60170dfc6a67bb4aa67b6dfca57af4bedb4"
-dependencies = [
- "adler32",
- "byteorder",
-]
+source = "git+https://gitlab.redox-os.org/redox-os/dces-rust.git?branch=develop#697f4751d199e53359a89ff498a20375d071a90d"
 
 [[package]]
 name = "deflate"
@@ -281,16 +271,7 @@ dependencies = [
  "num-iter",
  "num-rational",
  "num-traits",
- "png 0.16.7",
-]
-
-[[package]]
-name = "inflate"
-version = "0.4.5"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1cdb29978cc5797bd8dcc8e5bf7de604891df2a8dc576973d71a281e916db2ff"
-dependencies = [
- "adler32",
+ "png",
 ]
 
 [[package]]
@@ -410,15 +391,9 @@ dependencies = [
 ]
 
 [[package]]
-name = "once_cell"
-version = "1.4.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "260e51e7efe62b592207e9e13a68e43692a7a279171d6ba57abd208bf23645ad"
-
-[[package]]
 name = "orbclient"
 version = "0.3.28"
-source = "git+https://gitlab.redox-os.org/redox-os/orbclient.git#40d8681b9340e5a84885884327848ce3963f2ad0"
+source = "git+https://gitlab.redox-os.org/redox-os/orbclient.git#43e5a265a81d4c19d36784a4e1a0eafc05ad5b65"
 dependencies = [
  "libc",
  "raw-window-handle",
@@ -430,7 +405,7 @@ dependencies = [
 [[package]]
 name = "orbtk"
 version = "0.3.1-alpha4"
-source = "git+https://github.com/redox-os/orbtk.git?branch=develop#aa26117e63e8eb42c99eb3666259c762f7746052"
+source = "git+https://github.com/redox-os/orbtk.git?branch=develop#7d7b12cdc1ca1d689c694ddf695525eee5af0edb"
 dependencies = [
  "dces",
  "orbtk_api",
@@ -447,11 +422,12 @@ dependencies = [
 [[package]]
 name = "orbtk_api"
 version = "0.3.1-alpha4"
-source = "git+https://github.com/redox-os/orbtk.git?branch=develop#aa26117e63e8eb42c99eb3666259c762f7746052"
+source = "git+https://github.com/redox-os/orbtk.git?branch=develop#7d7b12cdc1ca1d689c694ddf695525eee5af0edb"
 dependencies = [
  "dces",
  "derive_more",
  "dirs",
+ "memchr",
  "orbtk_proc_macros",
  "orbtk_render",
  "orbtk_shell",
@@ -469,7 +445,7 @@ dependencies = [
 [[package]]
 name = "orbtk_proc_macros"
 version = "0.3.1-alpha4"
-source = "git+https://github.com/redox-os/orbtk.git?branch=develop#aa26117e63e8eb42c99eb3666259c762f7746052"
+source = "git+https://github.com/redox-os/orbtk.git?branch=develop#7d7b12cdc1ca1d689c694ddf695525eee5af0edb"
 dependencies = [
  "case",
  "proc-macro2",
@@ -480,7 +456,7 @@ dependencies = [
 [[package]]
 name = "orbtk_render"
 version = "0.3.1-alpha4"
-source = "git+https://github.com/redox-os/orbtk.git?branch=develop#aa26117e63e8eb42c99eb3666259c762f7746052"
+source = "git+https://github.com/redox-os/orbtk.git?branch=develop#7d7b12cdc1ca1d689c694ddf695525eee5af0edb"
 dependencies = [
  "image",
  "orbtk_utils",
@@ -493,7 +469,7 @@ dependencies = [
 [[package]]
 name = "orbtk_shell"
 version = "0.3.1-alpha4"
-source = "git+https://github.com/redox-os/orbtk.git?branch=develop#aa26117e63e8eb42c99eb3666259c762f7746052"
+source = "git+https://github.com/redox-os/orbtk.git?branch=develop#7d7b12cdc1ca1d689c694ddf695525eee5af0edb"
 dependencies = [
  "console_error_panic_hook",
  "image",
@@ -502,14 +478,14 @@ dependencies = [
  "orbtk_render",
  "orbtk_utils",
  "raw-window-handle",
- "spin_sleep",
+ "sdl2",
  "stdweb",
 ]
 
 [[package]]
 name = "orbtk_theme"
 version = "0.3.1-alpha4"
-source = "git+https://github.com/redox-os/orbtk.git?branch=develop#aa26117e63e8eb42c99eb3666259c762f7746052"
+source = "git+https://github.com/redox-os/orbtk.git?branch=develop#7d7b12cdc1ca1d689c694ddf695525eee5af0edb"
 dependencies = [
  "lazy_static",
  "orbtk_theming",
@@ -518,7 +494,7 @@ dependencies = [
 [[package]]
 name = "orbtk_theming"
 version = "0.3.1-alpha4"
-source = "git+https://github.com/redox-os/orbtk.git?branch=develop#aa26117e63e8eb42c99eb3666259c762f7746052"
+source = "git+https://github.com/redox-os/orbtk.git?branch=develop#7d7b12cdc1ca1d689c694ddf695525eee5af0edb"
 dependencies = [
  "ron",
  "serde",
@@ -528,7 +504,7 @@ dependencies = [
 [[package]]
 name = "orbtk_tree"
 version = "0.3.1-alpha4"
-source = "git+https://github.com/redox-os/orbtk.git?branch=develop#aa26117e63e8eb42c99eb3666259c762f7746052"
+source = "git+https://github.com/redox-os/orbtk.git?branch=develop#7d7b12cdc1ca1d689c694ddf695525eee5af0edb"
 dependencies = [
  "dces",
 ]
@@ -536,7 +512,7 @@ dependencies = [
 [[package]]
 name = "orbtk_utils"
 version = "0.3.1-alpha4"
-source = "git+https://github.com/redox-os/orbtk.git?branch=develop#aa26117e63e8eb42c99eb3666259c762f7746052"
+source = "git+https://github.com/redox-os/orbtk.git?branch=develop#7d7b12cdc1ca1d689c694ddf695525eee5af0edb"
 dependencies = [
  "derive_more",
  "lexical-core",
@@ -549,7 +525,7 @@ dependencies = [
 [[package]]
 name = "orbtk_widgets"
 version = "0.3.1-alpha4"
-source = "git+https://github.com/redox-os/orbtk.git?branch=develop#aa26117e63e8eb42c99eb3666259c762f7746052"
+source = "git+https://github.com/redox-os/orbtk.git?branch=develop#7d7b12cdc1ca1d689c694ddf695525eee5af0edb"
 dependencies = [
  "dces",
  "lazy_static",
@@ -620,25 +596,13 @@ dependencies = [
 
 [[package]]
 name = "png"
-version = "0.15.3"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ef859a23054bbfee7811284275ae522f0434a3c8e7f4b74bd4a35ae7e1c4a283"
-dependencies = [
- "bitflags",
- "crc32fast",
- "deflate 0.7.20",
- "inflate",
-]
-
-[[package]]
-name = "png"
 version = "0.16.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "dfe7f9f1c730833200b134370e1d5098964231af8450bce9b78ee3ab5278b970"
 dependencies = [
  "bitflags",
  "crc32fast",
- "deflate 0.8.6",
+ "deflate",
  "miniz_oxide 0.3.7",
 ]
 
@@ -650,9 +614,9 @@ checksum = "c36fa947111f5c62a733b652544dd0016a43ce89619538a8ef92724a6f501a20"
 
 [[package]]
 name = "proc-macro2"
-version = "1.0.19"
+version = "1.0.20"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "04f5f085b5d71e2188cb8271e5da0161ad52c3f227a661a3c135fdf28e258b12"
+checksum = "175c513d55719db99da20232b06cda8bab6b83ec2d04e3283edf0213c37c1a29"
 dependencies = [
  "unicode-xid",
 ]
@@ -719,13 +683,12 @@ dependencies = [
 
 [[package]]
 name = "raqote"
-version = "0.8.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "501c19caa439857ed7bea975fa4c3c10ee9a24e33c2640030c3ac14b58f39f77"
+version = "0.8.1-alpha.0"
+source = "git+https://github.com/jrmuizel/raqote.git#2f5ce264670423da5ca1eb215278824616e7e00f"
 dependencies = [
  "euclid",
  "lyon_geom",
- "png 0.15.3",
+ "png",
  "sw-composite",
  "typed-arena",
 ]
@@ -934,16 +897,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "fbee7696b84bbf3d89a1c2eccff0850e3047ed46bfcd2e92c29a2d074d57e252"
 
 [[package]]
-name = "spin_sleep"
-version = "1.0.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2a98101bdc3833e192713c2af0b0dd2614f50d1cf1f7a97c5221b7aac052acc7"
-dependencies = [
- "once_cell",
- "winapi",
-]
-
-[[package]]
 name = "static_assertions"
 version = "1.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1002,15 +955,15 @@ checksum = "213701ba3370744dcd1a12960caa4843b3d68b4d1c0a5d575e0d65b2ee9d16c0"
 
 [[package]]
 name = "sw-composite"
-version = "0.7.12"
+version = "0.7.13"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a042aba3c316feb8b9624ba0369240b84ecdf1b2eff58b2c8987ba2dfa22ac4d"
+checksum = "9ff0d5b66785ccea8a4486f7b2e2dc6002fd6ed47d8ec2cbfc17974baa48da47"
 
 [[package]]
 name = "syn"
-version = "1.0.39"
+version = "1.0.40"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "891d8d6567fe7c7f8835a3a98af4208f3846fba258c1bc3c31d6e506239f11f9"
+checksum = "963f7d3cc59b59b9325165add223142bbf1df27655d07789f109896d353d8350"
 dependencies = [
  "proc-macro2",
  "quote",
