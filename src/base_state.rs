@@ -20,7 +20,7 @@ pub trait BaseState {
     fn fetch_text(&self, ctx: &mut Context, entity: Entity) -> Option<String> {
         let mut widget = ctx.get_widget(entity);
 
-        let entry = widget.get_mut::<String16>("text");
+        let entry = widget.get_mut::<String>("text");
         if entry.is_empty() {
             return None;
         }

@@ -13,7 +13,7 @@ widget!(TaskView<TaskState> {
     list_index: ListIndex,
     task_overview: TaskOverview,
     count: usize,
-    title: String16,
+    title: String,
     create: bool
 });
 

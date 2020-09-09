@@ -73,8 +73,7 @@ impl TaskState {
     }
 
     fn navigate_back(&mut self, ctx: &mut Context) {
-        ctx.get_widget(self.text_box)
-            .set("text", String16::from(""));
+        ctx.get_widget(self.text_box).set("text", String::from(""));
         self.open = false;
         ctx.widget().set::<Option<usize>>("list_index", None);
         ctx.widget().set("count", 0 as usize);
@@ -88,7 +87,7 @@ impl TaskState {
 
     // If input text is empty the add button is disabled, otherwise enabled.
     fn adjust_add_button_enabled(&self, text_box: Entity, ctx: &mut Context) {
-        if ctx.get_widget(text_box).get::<String16>("text").is_empty() {
+        if ctx.get_widget(text_box).get::<String>("text").is_empty() {
             ctx.get_widget(self.add_button).set("enabled", false);
         } else {
             ctx.get_widget(self.add_button).set("enabled", true);
@@ -123,10 +122,10 @@ impl TaskState {
 
     pub fn open(&mut self, ctx: &mut Context) {
         if let Some(index) = ctx.widget().clone::<Option<usize>>("list_index") {
-            let mut title: String16 = "".into();
+            let mut title: String = "".into();
             let mut count = 0;
             if let Some(task_list) = ctx.widget().get::<TaskOverview>("task_overview").get(index) {
-                title = String16::from(task_list.title.as_str());
+                title = String::from(task_list.title.as_str());
                 count = task_list.len();
             }
             ctx.widget().set("title", title);
@@ -178,7 +177,7 @@ impl TaskState {
         registry: &mut Registry,
         ctx: &mut Context,
     ) {
-        let text: String16 = ctx.get_widget(text_box).clone("text");
+        let text: String = ctx.get_widget(text_box).clone("text");
 
         if let Some(idx) = ctx.widget().clone::<Option<usize>>("list_index") {
             if let Some(task_list) = ctx
@@ -198,7 +197,7 @@ impl TaskState {
     fn rename(&self, registry: &mut Registry, ctx: &mut Context) {
         let title = ctx
             .get_widget(self.header_text_box)
-            .get::<String16>("text")
+            .get::<String>("text")
             .to_string();
 
         if let Some(idx) = ctx.widget().clone::<Option<usize>>("list_index") {
