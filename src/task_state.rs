@@ -179,6 +179,7 @@ impl TaskState {
         ctx: &mut Context,
     ) {
         let text: String = ctx.get_widget(text_box).clone("text");
+        //TextBox::selection_set(&mut ctx.get_widget(text_box), TextSelection::default());
 
         if let Some(idx) = ctx.widget().clone::<Option<usize>>("list_index") {
             if let Some(task_list) = ctx

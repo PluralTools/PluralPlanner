@@ -67,6 +67,7 @@ impl Template for TaskView {
                             .text(text)
                             .v_align("center")
                             .water_mark("Insert text...")
+                            .lost_focus_on_activation(true)
                             .attach(Grid::column(2))
                             .on_activate(move |ctx, entity| {
                                 ctx.get_mut::<TaskState>(id)
