@@ -27,6 +27,7 @@ pub struct TaskState {
     add_button: Entity,
     overview: Entity,
     header_text_box: Entity,
+    items_widget: Entity,
     pub text_box: Entity,
     open: bool,
 }
@@ -114,9 +115,20 @@ impl TaskState {
                 if let Some(task) = task_list.get_mut(index) {
                     task.selected = selected;
                 }
+
+                task_list.list.sort_by(|t1, t2| {
+                    if t1.selected == t2.selected {
+                        std::cmp::Ordering::Equal
+                    } else if t1.selected && !t2.selected {
+                        std::cmp::Ordering::Greater
+                    } else {
+                        std::cmp::Ordering::Less
+                    }
+                });
             }
         }
 
+        ItemsWidget::request_update_set(&mut ctx.get_widget(self.items_widget), true);
         self.save(registry, ctx);
     }
 
@@ -230,6 +242,9 @@ impl State for TaskState {
         self.header_text_box = ctx
             .entity_of_child(ID_TASK_HEADER_TEXT_BOX)
             .expect("TaskState.init: Header text box could not be found.");
+        self.items_widget = ctx
+            .entity_of_child(ID_TASK_ITEMS_WIDGET)
+            .expect("TaskState.init: Items widget could not be found.");
     }
 
     fn update(&mut self, registry: &mut Registry, ctx: &mut Context) {
