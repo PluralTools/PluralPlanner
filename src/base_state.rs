@@ -18,16 +18,14 @@ pub trait BaseState {
 
     /// Fetches the text of a widget.
     fn fetch_text(&self, ctx: &mut Context, entity: Entity) -> Option<String> {
-        let mut widget = ctx.get_widget(entity);
+        let text = TextBox::text_clone(&ctx.get_widget(entity));
 
-        let entry = widget.get_mut::<String>("text");
-        if entry.is_empty() {
+        if text.is_empty() {
             return None;
         }
 
-        let copy = entry.to_string();
-        entry.clear();
-        Some(copy)
+        TextBox::text_set(&mut ctx.get_widget(entity), String::default());
+        Some(text)
     }
 
     // Save the data.
