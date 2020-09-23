@@ -130,6 +130,7 @@ impl TaskState {
             }
             ctx.widget().set("title", title);
             ctx.widget().set("count", count);
+            ctx.push_event_by_window(FocusEvent::RequestFocus(self.header_text_box));
             self.open = true;
         }
     }

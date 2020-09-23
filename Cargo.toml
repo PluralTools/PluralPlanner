@@ -20,7 +20,7 @@ light = []
 
 [dependencies]
 orbtk = { git = "https://github.com/redox-os/orbtk.git", branch= "develop" }
-# orbtk = { path = "../orbtk" }
+#orbtk = { path = "../orbtk" }
 serde = "1.0.114"
 serde_derive = "1.0.114"
 

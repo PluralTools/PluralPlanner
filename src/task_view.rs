@@ -177,6 +177,7 @@ impl Template for TaskView {
                                     TextBox::new()
                                         .id(ID_TASK_HEADER_TEXT_BOX)
                                         .style(STYLE_TEXT_BOX_HEADER)
+                                        .lost_focus_on_activation(true)
                                         .attach(Grid::column(2))
                                         .v_align("center")
                                         .text(("title", id))

@@ -145,17 +145,32 @@ Theme (
                 }
             },
         ),
-        "text_box_header": (
-            base: "text_box_inline",
+         "text_box_header": (
+            base: "base",
             properties: {
                 "font_size": "$FONT_SIZE_24",
-                "height": 40
+                "height": 32,
+                "foreground": "$PERIWINKLE_GRAY",
+                "background": "transparent",
+                "border_brush": "transparent",
+                "border_width": 0,
+                "border_radius": 3,
+                "padding": 2,
             },
             states: {
+                "focused": {
+                    "border_brush": "$GOLDEN_DREAM",
+                    "border_width": 1,
+                },
                 "empty": {
                     "foreground": "$LINK_WATER",
+                },
+                "empty_focused": {
+                    "foreground": "$SILVER_CHALICE",
+                    "border_brush": "$GOLDEN_DREAM",
+                    "border_width": 1,
                 }
-            }
+            },
         ),
         "button_transparent": (
             base: "base",
