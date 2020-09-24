@@ -199,7 +199,7 @@ impl TaskState {
                 .get_mut(idx)
             {
                 if let Some(task) = task_list.get_mut(index) {
-                    task.text = text.to_string();
+                    task.text = text;
                 }
             }
         }
@@ -208,10 +208,7 @@ impl TaskState {
     }
 
     fn rename(&self, registry: &mut Registry, ctx: &mut Context) {
-        let title = ctx
-            .get_widget(self.header_text_box)
-            .get::<String>("text")
-            .to_string();
+        let title = ctx.get_widget(self.header_text_box).clone::<String>("text");
 
         if let Some(idx) = ctx.widget().clone::<Option<usize>>("list_index") {
             if let Some(task_list) = ctx
