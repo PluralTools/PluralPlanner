@@ -142,7 +142,6 @@ impl TaskState {
             }
             ctx.widget().set("title", title);
             ctx.widget().set("count", count);
-            ctx.push_event_by_window(FocusEvent::RequestFocus(self.header_text_box));
             self.open = true;
         }
     }
@@ -255,8 +254,7 @@ impl State for TaskState {
         // create new item
         if *ctx.widget().get::<bool>("create") {
             ctx.widget().set("create", false);
-            ctx.get_widget(self.header_text_box)
-                .set("request_focus", true);
+            ctx.push_event_by_window(FocusEvent::RequestFocus(self.header_text_box));
         }
 
         if let Some(action) = self.action {
