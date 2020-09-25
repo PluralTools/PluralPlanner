@@ -14,7 +14,9 @@ widget!(TaskView<TaskState> {
     task_overview: TaskOverview,
     count: usize,
     title: String,
-    create: bool
+    create: bool,
+    master_detail: u32,
+    back_visibility: Visibility
 });
 
 impl Template for TaskView {
@@ -115,137 +117,143 @@ impl Template for TaskView {
             })
             .build(ctx);
 
-        self.name("TaskView").child(
-            Grid::new()
-                .rows(
-                    Rows::create()
-                        .push(52)
-                        .push(1)
-                        .push("*")
-                        .push(1)
-                        .push("auto"),
-                )
-                .columns(Columns::create().push("*").push(4).push(36))
-                // Content
-                .child(
-                    Container::new()
-                        .attach(Grid::row(2))
-                        .attach(Grid::column(0))
-                        .attach(Grid::column_span(3))
-                        .child(scroll_viewer)
-                        .child(
-                            ScrollIndicator::new()
-                                .padding((0, 4, 4, 0))
-                                .content_bounds(("bounds", items_widget))
-                                .view_port_bounds(("bounds", scroll_viewer))
-                                .scroll_padding(("padding", scroll_viewer))
-                                .mode(scroll_viewer)
-                                .build(ctx),
-                        )
-                        .build(ctx),
-                )
-                // Top Bar
-                .child(
-                    Container::new()
-                        .style(STYLE_TOP_BAR)
-                        .attach(Grid::row(0))
-                        .attach(Grid::column(0))
-                        .attach(Grid::column_span(3))
-                        .child(
-                            Grid::new()
-                                .margin((4, 0))
-                                .columns(
-                                    Columns::create()
-                                        .push(32)
-                                        .push(4)
-                                        .push("*")
-                                        .push(4)
-                                        .push(32),
-                                )
-                                .child(
-                                    Button::new()
-                                        .style(STYLE_BUTTON_ICON_ONLY)
-                                        .icon(material_icons_font::MD_ARROW_BACK)
-                                        .v_align("center")
-                                        .on_click(move |ctx, _| {
-                                            ctx.get_mut::<TaskState>(id)
-                                                .action(Action::NavigateBack);
-                                            true
-                                        })
-                                        .build(ctx),
-                                )
-                                .child(
-                                    TextBox::new()
-                                        .id(ID_TASK_HEADER_TEXT_BOX)
-                                        .style(STYLE_TEXT_BOX_HEADER)
-                                        .lost_focus_on_activation(true)
-                                        .attach(Grid::column(2))
-                                        .v_align("center")
-                                        .text(("title", id))
-                                        .on_activate(move |ctx, _| {
-                                            ctx.get_mut::<TaskState>(id).action(Action::Rename);
-                                        })
-                                        .build(ctx),
-                                )
-                                .child(
-                                    Button::new()
-                                        .attach(Grid::column(4))
-                                        .style(STYLE_BUTTON_ICON_ONLY)
-                                        .icon(material_icons_font::MD_DELETE)
-                                        .v_align("center")
-                                        .on_click(move |ctx, _| {
-                                            ctx.get_mut::<TaskState>(id).action(Action::RemoteList);
-                                            true
-                                        })
-                                        .build(ctx),
-                                )
-                                .build(ctx),
-                        )
-                        .build(ctx),
-                )
-                .child(
-                    Container::new()
-                        .style("separator")
-                        .attach(Grid::row(1))
-                        .attach(Grid::column_span(3))
-                        .build(ctx),
-                )
-                .child(
-                    Container::new()
-                        .style("separator")
-                        .attach(Grid::row(3))
-                        .attach(Grid::column_span(3))
-                        .build(ctx),
-                )
-                // Bottom bar
-                .child(
-                    Container::new()
-                        .style(STYLE_BOTTOM_BAR)
-                        .attach(Grid::row(4))
-                        .attach(Grid::column(0))
-                        .attach(Grid::column_span(3))
-                        .build(ctx),
-                )
-                .child(task_text_box)
-                .child(
-                    Button::new()
-                        .id(ID_TASK_ADD_BUTTON)
-                        .style(STYLE_BUTTON_ICON_ONLY)
-                        .attach(Grid::row(4))
-                        .attach(Grid::column(2))
-                        .margin((0, 0, 4, 0))
-                        .enabled(false)
-                        .min_size(32, 32)
-                        .v_align("center")
-                        .icon(material_icons_font::MD_ADD)
-                        .on_click(move |ctx, _| {
-                            ctx.get_mut::<TaskState>(id)
-                                .action(Action::NewEntry(task_text_box));
-                            true
-                        })
-                        .build(ctx),
-                )
-                .build(ctx),
-        )
+        self.name("TaskView")
+            .child(
+                Grid::new()
+                    .rows(
+                        Rows::create()
+                            .push(52)
+                            .push(1)
+                            .push("*")
+                            .push(1)
+                            .push("auto"),
+                    )
+                    .columns(Columns::create().push("*").push(4).push(36))
+                    // Content
+                    .child(
+                        Container::new()
+                            .attach(Grid::row(2))
+                            .attach(Grid::column(0))
+                            .attach(Grid::column_span(3))
+                            .child(scroll_viewer)
+                            .child(
+                                ScrollIndicator::new()
+                                    .padding((0, 4, 4, 0))
+                                    .content_bounds(("bounds", items_widget))
+                                    .view_port_bounds(("bounds", scroll_viewer))
+                                    .scroll_padding(("padding", scroll_viewer))
+                                    .mode(scroll_viewer)
+                                    .build(ctx),
+                            )
+                            .build(ctx),
+                    )
+                    // Top Bar
+                    .child(
+                        Container::new()
+                            .style(STYLE_TOP_BAR)
+                            .attach(Grid::row(0))
+                            .attach(Grid::column(0))
+                            .attach(Grid::column_span(3))
+                            .child(
+                                Grid::new()
+                                    .margin((4, 0))
+                                    .columns(
+                                        Columns::create()
+                                            .push(32)
+                                            .push(4)
+                                            .push("*")
+                                            .push(4)
+                                            .push(32),
+                                    )
+                                    .child(
+                                        Button::new()
+                                            .style(STYLE_BUTTON_ICON_ONLY)
+                                            .icon(material_icons_font::MD_ARROW_BACK)
+                                            .visibility(("back_visibility", id))
+                                            .v_align("center")
+                                            .on_click(move |ctx, _| {
+                                                ctx.get_mut::<TaskState>(id)
+                                                    .action(Action::NavigateBack);
+                                                true
+                                            })
+                                            .build(ctx),
+                                    )
+                                    .child(
+                                        TextBox::new()
+                                            .id(ID_TASK_HEADER_TEXT_BOX)
+                                            .style(STYLE_TEXT_BOX_HEADER)
+                                            .lost_focus_on_activation(true)
+                                            .attach(Grid::column(2))
+                                            .v_align("center")
+                                            .text(("title", id))
+                                            .on_activate(move |ctx, _| {
+                                                ctx.get_mut::<TaskState>(id).action(Action::Rename);
+                                            })
+                                            .build(ctx),
+                                    )
+                                    .child(
+                                        Button::new()
+                                            .attach(Grid::column(4))
+                                            .style(STYLE_BUTTON_ICON_ONLY)
+                                            .icon(material_icons_font::MD_DELETE)
+                                            .v_align("center")
+                                            .on_click(move |ctx, _| {
+                                                ctx.get_mut::<TaskState>(id)
+                                                    .action(Action::RemoteList);
+                                                true
+                                            })
+                                            .build(ctx),
+                                    )
+                                    .build(ctx),
+                            )
+                            .build(ctx),
+                    )
+                    .child(
+                        Container::new()
+                            .style("separator")
+                            .attach(Grid::row(1))
+                            .attach(Grid::column_span(3))
+                            .build(ctx),
+                    )
+                    .child(
+                        Container::new()
+                            .style("separator")
+                            .attach(Grid::row(3))
+                            .attach(Grid::column_span(3))
+                            .build(ctx),
+                    )
+                    // Bottom bar
+                    .child(
+                        Container::new()
+                            .style(STYLE_BOTTOM_BAR)
+                            .attach(Grid::row(4))
+                            .attach(Grid::column(0))
+                            .attach(Grid::column_span(3))
+                            .build(ctx),
+                    )
+                    .child(task_text_box)
+                    .child(
+                        Button::new()
+                            .id(ID_TASK_ADD_BUTTON)
+                            .style(STYLE_BUTTON_ICON_ONLY)
+                            .attach(Grid::row(4))
+                            .attach(Grid::column(2))
+                            .margin((0, 0, 4, 0))
+                            .enabled(false)
+                            .min_size(32, 32)
+                            .v_align("center")
+                            .icon(material_icons_font::MD_ADD)
+                            .on_click(move |ctx, _| {
+                                ctx.get_mut::<TaskState>(id)
+                                    .action(Action::NewEntry(task_text_box));
+                                true
+                            })
+                            .build(ctx),
+                    )
+                    .build(ctx),
+            )
+            .on_changed("list_index", move |ctx, _| {
+                ctx.get_mut::<TaskState>(id).action(Action::Open)
+            })
     }
 }
