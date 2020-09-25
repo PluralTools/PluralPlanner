@@ -2,7 +2,13 @@
 [![Build and test](https://github.com/PluralTools/PluralPlanner/workflows/CI/badge.svg)](https://github.com/PluralTools/PluralPlanner/actions)
 [![GPL 3 licensed](https://img.shields.io/badge/license-GPL3-darkgreen.svg)](./LICENSE)
 
-Task app based on OrbTk https://github.com/redox-os/orbtk.
+Convergent task app based on OrbTk https://github.com/redox-os/orbtk.
+
+## Features
+
+* Convergence switch between on column and two column layout
+* Multiple task lists
+* Stores task list in user settings dir
 
 ## Screenshots
 
