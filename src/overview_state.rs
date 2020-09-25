@@ -4,6 +4,8 @@ use crate::{
     base_state::BaseState,
     data::{TaskList, TaskOverview},
     keys::*,
+    overview_view::OverviewView,
+    task_view::TaskView,
 };
 
 /// Actions that can execute on the overview.
@@ -31,43 +33,42 @@ impl OverviewState {
 
     // news a new task list.
     fn new_entry(&self, registry: &mut Registry, ctx: &mut Context) {
-        ctx.widget()
-            .get_mut::<TaskOverview>(PROP_TASK_OVERVIEW)
-            .push(TaskList::new("New entry"));
+        OverviewView::task_overview_mut(&mut ctx.widget()).push(TaskList::new("New entry"));
+
         self.adjust_count(ctx);
         self.save(registry, ctx);
 
-        let index = ctx.widget().get::<TaskOverview>(PROP_TASK_OVERVIEW).len() - 1;
-        ctx.get_widget(self.task_view).set("create", true);
+        let index = OverviewView::task_overview_ref(&ctx.widget()).len() - 1;
+        // todo select new entry
+
         self.open_task_list(ctx, index);
     }
 
     // Adjusts the task list count.
     fn adjust_count(&self, ctx: &mut Context) {
-        let count = ctx.widget().get::<TaskOverview>(PROP_TASK_OVERVIEW).len();
-        ctx.widget().set("count", count);
+        let count = OverviewView::task_overview_ref(&ctx.widget()).len();
+        OverviewView::count_set(&mut ctx.widget(), count);
+        ListView::request_update_set(&mut ctx.get_widget(self.list_view), true);
     }
 
     // opens a task list.
     fn open_task_list(&self, ctx: &mut Context, index: usize) {
-        ctx.get_widget(self.task_view)
-            .set("list_index", Some(index));
-        self.navigate(self.task_view, ctx);
+        TaskView::list_index_set(&mut ctx.get_widget(self.task_view), Some(index));
+        let master_detail = *OverviewView::master_detail_ref(&ctx.widget());
+        MasterDetail::show_detail(ctx, master_detail.into());
     }
 }
 
 impl State for OverviewState {
     fn init(&mut self, registry: &mut Registry, ctx: &mut Context) {
-        self.list_view = ctx
-            .entity_of_child(ID_OVERVIEW_ITEMS_WIDGET)
-            .expect("OverviewState.init: Items widget child could not be found.");
+        self.list_view = ctx.child(ID_OVERVIEW_LIST_VIEW).entity();
         self.task_view = (*ctx.widget().get::<u32>("task_view")).into();
 
         if let Ok(tasks) = registry
             .get::<Settings>("settings")
             .load::<TaskOverview>(PROP_TASK_OVERVIEW)
         {
-            ctx.widget().set(PROP_TASK_OVERVIEW, tasks);
+            OverviewView::task_overview_set(&mut ctx.widget(), tasks);
         }
 
         self.adjust_count(ctx);

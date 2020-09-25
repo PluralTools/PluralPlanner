@@ -8,6 +8,7 @@ widget!(
         task_overview: TaskOverview,
         count: usize,
         task_view: u32,
+        master_detail: u32,
         list_dirty: bool
     }
 );
@@ -15,10 +16,10 @@ widget!(
 impl Template for OverviewView {
     fn template(self, id: Entity, ctx: &mut BuildContext) -> Self {
         // list of task lists
-        let items_widget = ItemsWidget::new()
+        let list_view = ListView::new()
+            .id(ID_OVERVIEW_LIST_VIEW)
             .count(id)
-            .id(ID_OVERVIEW_ITEMS_WIDGET)
-            .v_align("start")
+            .attach(Grid::row(2))
             .request_update(("list_dirty", id))
             .items_builder(move |ctx, index| {
                 let mut text = "".to_string();
@@ -30,35 +31,13 @@ impl Template for OverviewView {
                 {
                     text = task_overview.title.clone();
                 }
-                Grid::new()
-                    .height(48)
-                    .child(
-                        Button::new()
-                            .height(48)
-                            .style(STYLE_BUTTON_TRANSPARENT)
-                            .on_click(move |ctx, _| {
-                                ctx.get_mut::<OverviewState>(id)
-                                    .action(Action::OpenTaskList(index));
-                                true
-                            })
-                            .build(ctx),
-                    )
-                    .child(
-                        TextBlock::new()
-                            .style(STYLE_TITLE)
-                            .margin((36, 0, 8, 0))
-                            .text(text)
-                            .v_align("center")
-                            .build(ctx),
-                    )
-                    .build(ctx)
-            })
-            .build(ctx);
 
-        let scroll_viewer = ScrollViewer::new()
-            .attach(Grid::row(2))
-            .mode(("disabled", "auto"))
-            .child(items_widget)
+                TextBlock::new().text(text).v_align("center").build(ctx)
+            })
+            .on_selection_changed(move |ctx, _, selected| {
+                ctx.get_mut::<OverviewState>(id)
+                    .action(Action::OpenTaskList(selected[0]));
+            })
             .build(ctx);
 
         self.name("Overview")
@@ -94,17 +73,7 @@ impl Template for OverviewView {
                             .build(ctx),
                     )
                     // Content
-                    .child(scroll_viewer)
-                    .child(
-                        ScrollIndicator::new()
-                            .attach(Grid::row(2))
-                            .padding((0, 4, 4, 0))
-                            .content_bounds(("bounds", items_widget))
-                            .view_port_bounds(("bounds", scroll_viewer))
-                            .scroll_padding(("padding", scroll_viewer))
-                            .mode(scroll_viewer)
-                            .build(ctx),
-                    )
+                    .child(list_view)
                     .child(
                         Button::new()
                             .style(STYLE_BUTTON_FLOAT)
@@ -119,6 +88,15 @@ impl Template for OverviewView {
                                 ctx.get_mut::<OverviewState>(id).action(Action::NewEntry);
                                 true
                             })
+                            .build(ctx),
+                    )
+                    .child(
+                        Container::new()
+                            .width(1)
+                            .h_align("end")
+                            .style(STYLE_SEPARATOR)
+                            .attach(Grid::row(0))
+                            .attach(Grid::row_span(4))
                             .build(ctx),
                     )
                     .build(ctx),

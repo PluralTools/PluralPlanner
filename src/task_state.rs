@@ -4,6 +4,7 @@ use crate::{
     base_state::BaseState,
     data::{Task, TaskOverview},
     keys::*,
+    task_view::TaskView,
 };
 
 /// Actions that can execute on the task view.
@@ -18,6 +19,7 @@ pub enum Action {
     SelectionChanged(Entity, usize),
     NavigateBack,
     Rename,
+    Open,
 }
 
 /// Handles the requests of the `OverviewView`.
@@ -29,7 +31,6 @@ pub struct TaskState {
     header_text_box: Entity,
     items_widget: Entity,
     pub text_box: Entity,
-    open: bool,
 }
 
 impl BaseState for TaskState {}
@@ -74,16 +75,9 @@ impl TaskState {
     }
 
     fn navigate_back(&mut self, ctx: &mut Context) {
-        ctx.get_widget(self.text_box).set("text", String::from(""));
-        self.open = false;
-        ctx.widget().set::<Option<usize>>("list_index", None);
-        ctx.widget().set("count", 0 as usize);
         ctx.push_event_by_window(FocusEvent::RemoveFocus(self.header_text_box));
-        ctx.get_widget(self.header_text_box)
-            .get_mut::<Selector>("selector")
-            .clear_state();
-        ctx.get_widget(self.text_box).update(false);
-        self.navigate(self.overview, ctx);
+        let master_detail = *TaskView::master_detail_ref(&ctx.widget());
+        MasterDetail::show_master(ctx, master_detail.into());
     }
 
     // If input text is empty the add button is disabled, otherwise enabled.
@@ -142,7 +136,6 @@ impl TaskState {
             }
             ctx.widget().set("title", title);
             ctx.widget().set("count", count);
-            self.open = true;
         }
     }
 
@@ -244,16 +237,6 @@ impl State for TaskState {
     }
 
     fn update(&mut self, registry: &mut Registry, ctx: &mut Context) {
-        if !self.open {
-            self.open(ctx);
-        }
-
-        // create new item
-        if *ctx.widget().get::<bool>("create") {
-            ctx.widget().set("create", false);
-            ctx.push_event_by_window(FocusEvent::RequestFocus(self.header_text_box));
-        }
-
         if let Some(action) = self.action {
             match action {
                 Action::InputTextChanged(text_box) => {
@@ -286,6 +269,7 @@ impl State for TaskState {
                 Action::Rename => {
                     self.rename(registry, ctx);
                 }
+                Action::Open => self.open(ctx),
             }
         }
 

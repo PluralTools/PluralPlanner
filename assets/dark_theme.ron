@@ -90,6 +90,35 @@ Theme (
                 "background": "transparent",
             }
         ),
+        "list_view": (
+            base: "base",
+            properties: {
+                "background": "transparent",
+                "border_width": 0,
+                "padding": 0
+            },
+        ),
+        "list_view_item": (
+            properties: {
+                "font_size": "$FONT_SIZE_16",
+                "font": "$MEDIUM_FONT",
+                "foreground": "#ccdeed",
+                "background": "transparent",
+                "height": 48,
+                "padding_left": 36,
+                "padding_right": 8,
+            },
+            states: {
+                "selected": {
+                    "foreground": "$BRIGHT_GRAY",
+                    "background": "$SUNFLOWER",
+                },
+                "pressed": {
+                    "foreground": "$BRIGHT_GRAY",
+                    "background": "$SUNFLOWER",
+                },
+            },
+        ),
         "button_float": (
             base: "base",
             properties: {

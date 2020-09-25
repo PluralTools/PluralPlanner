@@ -13,13 +13,13 @@ pub static STYLE_TEXT_BOX_INLINE: &str = "text_box_inline";
 pub static STYLE_TEXT_BOX_HEADER: &str = "text_box_header";
 
 // Ids
-pub static ID_OVERVIEW_ADD_BUTTON: &str = "overview_add_button";
-pub static ID_OVERVIEW_ITEMS_WIDGET: &str = "overview_items_widget";
-pub static ID_OVERVIEW_TEXT_BOX: &str = "overview_text_box";
-pub static ID_TASK_ITEMS_WIDGET: &str = "task_items_widget";
-pub static ID_TASK_ADD_BUTTON: &str = "task_add_button";
-pub static ID_TASK_TEXT_BOX: &str = "task_text_box";
-pub static ID_TASK_HEADER_TEXT_BOX: &str = "task_header_text_box";
+pub static ID_OVERVIEW_ADD_BUTTON: &str = "id_overview_add_button";
+pub static ID_OVERVIEW_LIST_VIEW: &str = "id_overview_list_view";
+pub static ID_OVERVIEW_TEXT_BOX: &str = "id_overview_text_box";
+pub static ID_TASK_ITEMS_WIDGET: &str = "id_task_items_widget";
+pub static ID_TASK_ADD_BUTTON: &str = "id_task_add_button";
+pub static ID_TASK_TEXT_BOX: &str = "id_task_text_box";
+pub static ID_TASK_HEADER_TEXT_BOX: &str = "id_task_header_text_box";
 
 // Properties
 pub static PROP_TASK_OVERVIEW: &str = "task_overview";

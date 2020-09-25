@@ -55,8 +55,8 @@ fn main() {
         .window(move |ctx| {
             Window::new()
                 .title("PluralPlanner")
-                .position((100, 100))
-                .size(372, 768)
+                .position((200, 200))
+                .size(1000, 768)
                 .resizeable(true)
                 .child(main_view::MainView::new().build(ctx))
                 .build(ctx)
