@@ -54,7 +54,7 @@ Theme (
             properties: {
                 "background": "transparent",
                 "border_brush": "transparent"
-            }
+            },
         ),
         "inplace": (
             base: "text_box",

@@ -36,6 +36,17 @@
         {
             "type": "lldb",
             "request": "launch",
+            "name": "Debug light",
+            "program": "${workspaceFolder}/target/debug/plural_planner",
+            "cwd": "${workspaceFolder}",
+            "preLaunchTask": "build light",
+            "sourceLanguages": [
+                "rust"
+            ]
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
             "name": "Debug web",
             "program": "cargo-node",
             "cwd": "${workspaceFolder}",

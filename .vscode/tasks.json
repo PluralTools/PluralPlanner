@@ -20,6 +20,24 @@
             }
         },
         {
+            "label": "build light",
+            "command": "cargo",
+            "type": "shell",
+            "args": [
+                "build",
+                "--features",
+                "light"
+            ],
+            "presentation": {
+                "reveal": "always",
+                "panel": "new",
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
             "label": "build release",
             "command": "cargo",
             "type": "shell",
