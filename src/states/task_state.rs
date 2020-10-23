@@ -1,15 +1,15 @@
 use orbtk::prelude::*;
 
 use crate::{
-    base_state::BaseState,
     data::{Task, TaskOverview},
     keys::*,
-    task_view::TaskView,
+    states::BaseState,
+    views::TaskView,
 };
 
-/// Actions that can execute on the task view.
+/// TaskActions that can execute on the task view.
 #[derive(Debug, Copy, Clone)]
-pub enum Action {
+pub enum TaskAction {
     InputTextChanged(Entity),
     NewEntry(Entity),
     RemoveEntry(usize),
@@ -25,7 +25,7 @@ pub enum Action {
 /// Handles the requests of the `OverviewView`.
 #[derive(Default, AsAny)]
 pub struct TaskState {
-    action: Option<Action>,
+    action: Option<TaskAction>,
     add_button: Entity,
     overview: Entity,
     header_text_box: Entity,
@@ -38,7 +38,7 @@ impl BaseState for TaskState {}
 
 impl TaskState {
     /// Sets a new action.
-    pub fn action(&mut self, action: Action) {
+    pub fn action(&mut self, action: TaskAction) {
         self.action = action.into();
     }
 
@@ -242,38 +242,38 @@ impl State for TaskState {
     fn update(&mut self, registry: &mut Registry, ctx: &mut Context) {
         if let Some(action) = self.action {
             match action {
-                Action::InputTextChanged(text_box) => {
+                TaskAction::InputTextChanged(text_box) => {
                     self.adjust_add_button_enabled(text_box, ctx);
                 }
-                Action::NewEntry(entity) => {
+                TaskAction::NewEntry(entity) => {
                     if let Some(text) = self.fetch_text(ctx, entity) {
                         self.new_entry(text, registry, ctx);
                     }
                 }
-                Action::RemoveEntry(index) => {
+                TaskAction::RemoveEntry(index) => {
                     self.remove_entry(index, registry, ctx);
                 }
-                Action::SelectionChanged(entity, index) => {
+                TaskAction::SelectionChanged(entity, index) => {
                     self.toggle_selection(entity, index, registry, ctx);
                 }
-                Action::UpdateEntry(entity, index) => {
+                TaskAction::UpdateEntry(entity, index) => {
                     self.update_entry(entity, index, registry, ctx);
                 }
-                Action::RemoveFocus(text_box) => {
+                TaskAction::RemoveFocus(text_box) => {
                     ctx.get_widget(text_box).set("enabled", false);
                     ctx.event_adapter()
                         .push_event_direct(self.window, FocusEvent::RemoveFocus(text_box));
                 }
-                Action::NavigateBack => {
+                TaskAction::NavigateBack => {
                     self.navigate_back(ctx);
                 }
-                Action::RemoteList => {
+                TaskAction::RemoteList => {
                     self.remove_list(registry, ctx);
                 }
-                Action::Rename => {
+                TaskAction::Rename => {
                     self.rename(registry, ctx);
                 }
-                Action::Open => self.open(ctx),
+                TaskAction::Open => self.open(ctx),
             }
         }
 

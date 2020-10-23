@@ -5,50 +5,33 @@ use orbtk::{
 };
 
 #[cfg(not(feature = "light"))]
-use orbtk::theme_default::THEME_DEFAULT_COLORS_DARK;
+use orbtk::theme_default::THEME_DEFAULT_COLORS_DARK as THEME_DEFAULT_COLORS;
 
 #[cfg(feature = "light")]
-use orbtk::theme_default::THEME_DEFAULT_COLORS_LIGHT;
+use orbtk::theme_default::THEME_DEFAULT_COLORS_LIGHT as THEME_DEFAULT_COLORS;
 
-pub mod base_state;
 pub mod data;
 pub mod keys;
-pub mod main_view;
-pub mod overview_state;
-pub mod overview_view;
-pub mod task_state;
-pub mod task_view;
+pub mod states;
+pub mod views;
 
 // --- THEME --
 
 static THEME_DEFAULT_EXT: &str = include_str!("../assets/theme_default_ext.ron");
 
 #[cfg(not(feature = "light"))]
-static THEME_DEFAULT_COLORS_DARK_EXT: &str =
-    include_str!("../assets/theme_default_colors_dark_ext.ron");
+static THEME_DEFAULT_COLORS_EXT: &str = include_str!("../assets/theme_default_colors_dark_ext.ron");
 
-#[cfg(not(feature = "light"))]
+#[cfg(feature = "light")]
+static THEME_DEFAULT_COLORS_EXT: &str =
+    include_str!("../assets/theme_default_colors_light_ext.ron");
+
 fn theme() -> Theme {
     register_default_fonts(Theme::from_config(
         ThemeConfig::from(THEME_DEFAULT)
             .extend(ThemeConfig::from(THEME_DEFAULT_EXT))
-            .extend(ThemeConfig::from(THEME_DEFAULT_COLORS_DARK))
-            .extend(ThemeConfig::from(THEME_DEFAULT_COLORS_DARK_EXT))
-            .extend(ThemeConfig::from(THEME_DEFAULT_FONTS)),
-    ))
-}
-
-#[cfg(feature = "light")]
-static THEME_DEFAULT_COLORS_LIGHT_EXT: &str =
-    include_str!("../assets/theme_default_colors_light_ext.ron");
-
-#[cfg(feature = "light")]
-fn theme() -> Theme {
-    register_default_fonts(Theme::from_config(
-        ThemeConfig::from(THEME_DEFAULT_EXT)
-            .extend(ThemeConfig::from(THEME_DEFAULT))
-            .extend(ThemeConfig::from(THEME_DEFAULT_COLORS_DARK))
-            .extend(ThemeConfig::from(THEME_DEFAULT_COLORS_LIGHT_EXT))
+            .extend(ThemeConfig::from(THEME_DEFAULT_COLORS))
+            .extend(ThemeConfig::from(THEME_DEFAULT_COLORS_EXT))
             .extend(ThemeConfig::from(THEME_DEFAULT_FONTS)),
     ))
 }
@@ -64,7 +47,7 @@ fn main() {
                 .position((200, 200))
                 .size(1000, 768)
                 .resizeable(true)
-                .child(main_view::MainView::new().build(ctx))
+                .child(views::MainView::new().build(ctx))
                 .build(ctx)
         })
         .run();

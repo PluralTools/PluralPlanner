@@ -1,11 +1,10 @@
 use orbtk::prelude::*;
 
 use crate::{
-    base_state::BaseState,
     data::{TaskList, TaskOverview},
     keys::*,
-    overview_view::OverviewView,
-    task_view::TaskView,
+    states::BaseState,
+    views::{OverviewView, TaskView},
 };
 
 /// Actions that can execute on the overview.

@@ -3,7 +3,7 @@ use orbtk::prelude::*;
 use crate::{
     data::TaskOverview,
     keys::*,
-    task_state::{Action, TaskState},
+    states::{TaskAction, TaskState},
 };
 
 type ListIndex = Option<usize>;
@@ -59,7 +59,7 @@ impl Template for TaskView {
                             .selected(selected)
                             .on_changed("selected", move |ctx, entity| {
                                 ctx.get_mut::<TaskState>(id)
-                                    .action(Action::SelectionChanged(entity, index));
+                                    .action(TaskAction::SelectionChanged(entity, index));
                             })
                             .build(ctx),
                     )
@@ -73,7 +73,7 @@ impl Template for TaskView {
                             .attach(Grid::column(2))
                             .on_activate(move |ctx, entity| {
                                 ctx.get_mut::<TaskState>(id)
-                                    .action(Action::UpdateEntry(entity, index));
+                                    .action(TaskAction::UpdateEntry(entity, index));
                             })
                             .build(ctx),
                     )
@@ -86,7 +86,7 @@ impl Template for TaskView {
                             .on_mouse_down(|_, _| true)
                             .on_click(move |ctx, _| {
                                 ctx.get_mut::<TaskState>(id)
-                                    .action(Action::RemoveEntry(index));
+                                    .action(TaskAction::RemoveEntry(index));
                                 true
                             })
                             .build(ctx),
@@ -110,11 +110,11 @@ impl Template for TaskView {
             .lose_focus_on_activation(false)
             .on_activate(move |ctx, entity| {
                 ctx.get_mut::<TaskState>(id)
-                    .action(Action::NewEntry(entity));
+                    .action(TaskAction::NewEntry(entity));
             })
             .on_changed("text", move |ctx, entity| {
                 ctx.get_mut::<TaskState>(id)
-                    .action(Action::InputTextChanged(entity));
+                    .action(TaskAction::InputTextChanged(entity));
             })
             .build(ctx);
 
@@ -175,7 +175,7 @@ impl Template for TaskView {
                                             .v_align("center")
                                             .on_click(move |ctx, _| {
                                                 ctx.get_mut::<TaskState>(id)
-                                                    .action(Action::NavigateBack);
+                                                    .action(TaskAction::NavigateBack);
                                                 true
                                             })
                                             .build(ctx),
@@ -189,7 +189,8 @@ impl Template for TaskView {
                                             .v_align("center")
                                             .text(("title", id))
                                             .on_activate(move |ctx, _| {
-                                                ctx.get_mut::<TaskState>(id).action(Action::Rename);
+                                                ctx.get_mut::<TaskState>(id)
+                                                    .action(TaskAction::Rename);
                                             })
                                             .build(ctx),
                                     )
@@ -201,7 +202,7 @@ impl Template for TaskView {
                                             .v_align("center")
                                             .on_click(move |ctx, _| {
                                                 ctx.get_mut::<TaskState>(id)
-                                                    .action(Action::RemoteList);
+                                                    .action(TaskAction::RemoteList);
                                                 true
                                             })
                                             .build(ctx),
@@ -237,7 +238,7 @@ impl Template for TaskView {
                     .child(
                         Button::new()
                             .id(ID_TASK_ADD_BUTTON)
-                            .style(STYLE_BUTTON_ICON_ONLY)
+                            .style("button_single_content")
                             .attach(Grid::row(4))
                             .attach(Grid::column(2))
                             .margin((0, 0, 4, 0))
@@ -247,7 +248,7 @@ impl Template for TaskView {
                             .icon(material_icons_font::MD_SEND)
                             .on_click(move |ctx, _| {
                                 ctx.get_mut::<TaskState>(id)
-                                    .action(Action::NewEntry(task_text_box));
+                                    .action(TaskAction::NewEntry(task_text_box));
                                 true
                             })
                             .build(ctx),
@@ -255,7 +256,7 @@ impl Template for TaskView {
                     .build(ctx),
             )
             .on_changed("list_index", move |ctx, _| {
-                ctx.get_mut::<TaskState>(id).action(Action::Open)
+                ctx.get_mut::<TaskState>(id).action(TaskAction::Open)
             })
     }
 }

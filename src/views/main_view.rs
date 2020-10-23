@@ -1,6 +1,9 @@
 use orbtk::prelude::*;
 
-use crate::{data::TaskOverview, overview_view::OverviewView, task_view::TaskView};
+use crate::{
+    data::TaskOverview,
+    views::{task_view::TaskView, OverviewView},
+};
 
 widget!(MainView {
     task_overview: TaskOverview,

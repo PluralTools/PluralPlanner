@@ -143,7 +143,33 @@ Theme (
                 "background": "transparent",
                 "border_brush": "transparent"
             }
-        )
+        ),
+        "list_view_item": (
+            properties: {
+                "font_size": "$FONT_SIZE_16",
+                "foreground": "$CONTENT_FOREGROUND",
+                "background": "transparent",
+                "padding_left": 8,
+                "padding_right": 8,
+                "height": 32
+            },
+            states: [
+                (
+                    key: "selected",
+                    properties: {
+                        "foreground": "$CONTENT_FOREGROUND_INVERTED",
+                        "background": "$ACCENT_COLOR",
+                    }
+                ),
+                (
+                    key: "pressed",
+                    properties: {
+                        "foreground": "$CONTENT_FOREGROUND_INVERTED",
+                        "background": "$ACCENT_COLOR",
+                    }
+                )
+            ]
+        ),
 
         // -- [END] Items --
     }
