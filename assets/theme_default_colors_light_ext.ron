@@ -1,0 +1,9 @@
+Theme (
+    resources: {
+        "BAR_BACKGROUND": "#EDEEED",
+        "OVERVIEW_GRID_BACKGROUND": "green",
+
+        // todo
+        "SEPARATOR_COLOR": "#212121",
+    }
+)

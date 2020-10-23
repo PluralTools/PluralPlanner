@@ -31,6 +31,7 @@ pub struct TaskState {
     header_text_box: Entity,
     items_widget: Entity,
     pub text_box: Entity,
+    window: Entity,
 }
 
 impl BaseState for TaskState {}
@@ -75,7 +76,8 @@ impl TaskState {
     }
 
     fn navigate_back(&mut self, ctx: &mut Context) {
-        ctx.push_event_by_window(FocusEvent::RemoveFocus(self.header_text_box));
+        ctx.event_adapter()
+            .push_event_direct(self.window, FocusEvent::RemoveFocus(self.header_text_box));
         let master_detail = *TaskView::master_detail_ref(&ctx.widget());
         MasterDetail::show_master(ctx, master_detail.into());
     }
@@ -234,6 +236,7 @@ impl State for TaskState {
         self.items_widget = ctx
             .entity_of_child(ID_TASK_ITEMS_WIDGET)
             .expect("TaskState.init: Items widget could not be found.");
+        self.window = ctx.entity_of_window();
     }
 
     fn update(&mut self, registry: &mut Registry, ctx: &mut Context) {
@@ -258,7 +261,8 @@ impl State for TaskState {
                 }
                 Action::RemoveFocus(text_box) => {
                     ctx.get_widget(text_box).set("enabled", false);
-                    ctx.push_event_by_window(FocusEvent::RemoveFocus(text_box));
+                    ctx.event_adapter()
+                        .push_event_direct(self.window, FocusEvent::RemoveFocus(text_box));
                 }
                 Action::NavigateBack => {
                     self.navigate_back(ctx);

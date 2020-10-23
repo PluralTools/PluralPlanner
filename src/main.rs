@@ -1,14 +1,14 @@
 use orbtk::{
     prelude::*,
-    theme::{COLORS_RON, FONTS_RON},
+    theme_default::{THEME_DEFAULT, THEME_DEFAULT_FONTS},
     theming::config::ThemeConfig,
 };
 
 #[cfg(not(feature = "light"))]
-use orbtk::theme::DARK_THEME_RON;
+use orbtk::theme_default::THEME_DEFAULT_COLORS_DARK;
 
 #[cfg(feature = "light")]
-use orbtk::theme::LIGHT_THEME_RON;
+use orbtk::theme_default::THEME_DEFAULT_COLORS_LIGHT;
 
 pub mod base_state;
 pub mod data;
@@ -21,30 +21,36 @@ pub mod task_view;
 
 // --- THEME --
 
+static THEME_DEFAULT_EXT: &str = include_str!("../assets/theme_default_ext.ron");
+
 #[cfg(not(feature = "light"))]
-static DARK_EXT: &str = include_str!("../assets/dark_theme.ron");
+static THEME_DEFAULT_COLORS_DARK_EXT: &str =
+    include_str!("../assets/theme_default_colors_dark_ext.ron");
 
 #[cfg(not(feature = "light"))]
 fn theme() -> Theme {
-    Theme::from_config(
-        ThemeConfig::from(DARK_THEME_RON)
-            .extend(ThemeConfig::from(DARK_EXT))
-            .extend(ThemeConfig::from(COLORS_RON))
-            .extend(ThemeConfig::from(FONTS_RON)),
-    )
+    register_default_fonts(Theme::from_config(
+        ThemeConfig::from(THEME_DEFAULT)
+            .extend(ThemeConfig::from(THEME_DEFAULT_EXT))
+            .extend(ThemeConfig::from(THEME_DEFAULT_COLORS_DARK))
+            .extend(ThemeConfig::from(THEME_DEFAULT_COLORS_DARK_EXT))
+            .extend(ThemeConfig::from(THEME_DEFAULT_FONTS)),
+    ))
 }
 
 #[cfg(feature = "light")]
-static LIGHT_EXT: &str = include_str!("../assets/light_theme.ron");
+static THEME_DEFAULT_COLORS_LIGHT_EXT: &str =
+    include_str!("../assets/theme_default_colors_light_ext.ron");
 
 #[cfg(feature = "light")]
 fn theme() -> Theme {
-    Theme::from_config(
-        ThemeConfig::from(LIGHT_THEME_RON)
-            .extend(ThemeConfig::from(LIGHT_EXT))
-            .extend(ThemeConfig::from(COLORS_RON))
-            .extend(ThemeConfig::from(FONTS_RON)),
-    )
+    register_default_fonts(Theme::from_config(
+        ThemeConfig::from(THEME_DEFAULT_EXT)
+            .extend(ThemeConfig::from(THEME_DEFAULT))
+            .extend(ThemeConfig::from(THEME_DEFAULT_COLORS_DARK))
+            .extend(ThemeConfig::from(THEME_DEFAULT_COLORS_LIGHT_EXT))
+            .extend(ThemeConfig::from(THEME_DEFAULT_FONTS)),
+    ))
 }
 
 // --- THEME --

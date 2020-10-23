@@ -11,6 +11,8 @@ pub static STYLE_LIST_VIEW_BORDER_LESS: &str = "list_view_border_less";
 pub static STYLE_SEPARATOR: &str = "separator";
 pub static STYLE_TEXT_BOX_INLINE: &str = "text_box_inline";
 pub static STYLE_TEXT_BOX_HEADER: &str = "text_box_header";
+pub static STYLE_OVERVIEW_GRID: &str = "overview_grid";
+pub static STYLE_TASK_VIEW_GRID: &str = "task_view_grid";
 
 // Ids
 pub static ID_OVERVIEW_ADD_BUTTON: &str = "id_overview_add_button";

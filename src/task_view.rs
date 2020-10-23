@@ -69,7 +69,7 @@ impl Template for TaskView {
                             .text(text)
                             .v_align("center")
                             .water_mark("Insert text...")
-                            .lost_focus_on_activation(true)
+                            .lose_focus_on_activation(true)
                             .attach(Grid::column(2))
                             .on_activate(move |ctx, entity| {
                                 ctx.get_mut::<TaskState>(id)
@@ -103,10 +103,11 @@ impl Template for TaskView {
 
         let task_text_box = TextBox::new()
             .id(ID_TASK_TEXT_BOX)
+            .water_mark("Add new task...")
             .attach(Grid::row(4))
             .v_align("center")
             .margin((8, 0, 0, 0))
-            .lost_focus_on_activation(false)
+            .lose_focus_on_activation(false)
             .on_activate(move |ctx, entity| {
                 ctx.get_mut::<TaskState>(id)
                     .action(Action::NewEntry(entity));
@@ -120,6 +121,7 @@ impl Template for TaskView {
         self.name("TaskView")
             .child(
                 Grid::new()
+                    .style(STYLE_TASK_VIEW_GRID)
                     .rows(
                         Rows::create()
                             .push(52)
@@ -182,7 +184,7 @@ impl Template for TaskView {
                                         TextBox::new()
                                             .id(ID_TASK_HEADER_TEXT_BOX)
                                             .style(STYLE_TEXT_BOX_HEADER)
-                                            .lost_focus_on_activation(true)
+                                            .lose_focus_on_activation(true)
                                             .attach(Grid::column(2))
                                             .v_align("center")
                                             .text(("title", id))
@@ -242,7 +244,7 @@ impl Template for TaskView {
                             .enabled(false)
                             .min_size(32, 32)
                             .v_align("center")
-                            .icon(material_icons_font::MD_ADD)
+                            .icon(material_icons_font::MD_SEND)
                             .on_click(move |ctx, _| {
                                 ctx.get_mut::<TaskState>(id)
                                     .action(Action::NewEntry(task_text_box));
