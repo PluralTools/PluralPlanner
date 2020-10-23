@@ -4,15 +4,6 @@
 
 Task app based on OrbTk https://github.com/redox-os/orbtk.
 
-## Platforms
-
-* Redox OS (native)
-* Linux (native | cargo-node)
-* macOS (native | cargo-node)
-* Windows (native | cargo-node)
-* openBSD (not tested, but should work)
-* Web
-
 ## Screenshots
 
 <p float="left">
@@ -21,6 +12,15 @@ Task app based on OrbTk https://github.com/redox-os/orbtk.
     <img alt="OrbTk" width="166" src="https://github.com/PluralTools/Assets/raw/master/pluralplanner_overview_light.png">
     <img alt="OrbTk" width="166" src="https://github.com/PluralTools/Assets/raw/master/pluralplanner_tasks_light.png">
 </p>
+
+## Platforms
+
+* Redox OS (native)
+* Linux (native | cargo-node)
+* macOS (native | cargo-node)
+* Windows (native | cargo-node)
+* openBSD (not tested, but should work)
+* Web
 
 ## Run 
 
