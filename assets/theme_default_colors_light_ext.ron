@@ -1,8 +1,8 @@
 Theme (
     resources: {
-        "BAR_BACKGROUND": "#475B6E",
-        "OVERVIEW_GRID_BACKGROUND": "#3B3E3F",
-        "TASK_VIEW_GRID_BACKGROUND": "#41464A",
-        "SEPARATOR_COLOR": "#212121",
+        "BAR_BACKGROUND": "#EDEEED",
+        "OVERVIEW_GRID_BACKGROUND": "#ECEDEB",
+        "TASK_VIEW_GRID_BACKGROUND": "#FAFAFA",
+        "SEPARATOR_COLOR": "#3B434A",
     }
 )

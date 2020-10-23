@@ -41,12 +41,7 @@ Theme (
             base: "base",
             properties: {
                 "font_size": "$FONT_SIZE_24",
-            }
-        ),
-        "title": (
-            base: "base",
-            properties: {
-                "foreground": "$PERIWINKLE_GRAY",
+                "foreground": "$CONTENT_FOREGROUND"
             }
         ),
         "text_box_inline": (
@@ -84,6 +79,7 @@ Theme (
                 "height": 32,
                 "background": "transparent",
                 "border_brush": "transparent",
+                "foreground": "$CONTENT_FOREGROUND",
                 "border_width": 0,
                 "border_radius": 3,
                 "padding": 2,

@@ -4,7 +4,6 @@ pub static STYLE_BOTTOM_BAR: &str = "bottom_bar";
 pub static STYLE_HEADER: &str = "header";
 pub static STYLE_BUTTON_ICON_ONLY: &str = "button_icon_only";
 pub static STYLE_TRANSPARENT: &str = "transparent";
-pub static STYLE_TITLE: &str = "title";
 pub static STYLE_BUTTON_FLOAT: &str = "button_float";
 pub static STYLE_BUTTON_TRANSPARENT: &str = "button_transparent";
 pub static STYLE_LIST_VIEW_BORDER_LESS: &str = "list_view_border_less";
