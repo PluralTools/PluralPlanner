@@ -13,6 +13,15 @@ Task app based on OrbTk https://github.com/redox-os/orbtk.
 * openBSD (not tested, but should work)
 * Web
 
+## Screenshots
+
+<p float="left">
+    <img alt="OrbTk" width="167" src="https://github.com/PluralTools/Assets/raw/master/pluralplanner_overview_dark.png">
+    <img alt="OrbTk" width="166" src="https://github.com/PluralTools/Assets/raw/master/pluralplanner_tasks_dark.png">
+    <img alt="OrbTk" width="166" src="https://github.com/PluralTools/Assets/raw/master/pluralplanner_overview_light.png">
+    <img alt="OrbTk" width="166" src="https://github.com/PluralTools/Assets/raw/master/pluralplanner_tasks_light.png">
+</p>
+
 ## Run 
 
 You can start the app by executing the following command:
@@ -52,13 +61,6 @@ cargo node run --browser
 ```text
 cargo node run --electron
 ```
-
-## Screenshots
-
-<img alt="OrbTk" width="167" src="https://github.com/PluralTools/Assets/raw/master/pluralplanner_overview_dark.png">
-<img alt="OrbTk" width="166" src="https://github.com/PluralTools/Assets/raw/master/pluralplanner_tasks_dark.png">
-<img alt="OrbTk" width="166" src="https://github.com/PluralTools/Assets/raw/master/pluralplanner_overview_light.png">
-<img alt="OrbTk" width="166" src="https://github.com/PluralTools/Assets/raw/master/pluralplanner_tasks_light.png">
 
 ## License
 
