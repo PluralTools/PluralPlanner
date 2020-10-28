@@ -5,14 +5,22 @@ use crate::{
     views::{task_view::TaskView, OverviewView},
 };
 
-widget!(MainView {
-    task_overview: TaskOverview,
-    count: usize,
-    overview_view: u32,
-    task_view: u32,
-    master_detail: u32,
-    back_visibility: Visibility
-});
+widget!(
+    /// Represents the entry point (view) of the application.
+    MainView {
+        /// Contains the list of tasks.
+        task_overview: TaskOverview,
+
+        /// Number of task lists.
+        count: usize,
+
+        /// Represents the id of the `OverViewView`.
+        overview_view: u32,
+        task_view: u32,
+        master_detail: u32,
+        back_visibility: Visibility
+    }
+);
 
 impl Template for MainView {
     fn template(self, id: Entity, ctx: &mut BuildContext) -> Self {

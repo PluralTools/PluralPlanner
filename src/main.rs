@@ -10,7 +10,7 @@ pub mod views;
 
 fn main() {
     Application::from_name(keys::APPLICATION)
-        .theme(planner_theme_default())
+        .theme(planner_theme_redox())
         .window(move |ctx| {
             Window::new()
                 .title("PluralPlanner")
