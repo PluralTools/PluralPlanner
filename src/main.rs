@@ -1,46 +1,16 @@
-use orbtk::{
-    prelude::*,
-    theme_default::{THEME_DEFAULT, THEME_DEFAULT_FONTS},
-    theming::config::ThemeConfig,
-};
+use orbtk::prelude::*;
 
-#[cfg(not(feature = "light"))]
-use orbtk::theme_default::THEME_DEFAULT_COLORS_DARK as THEME_DEFAULT_COLORS;
-
-#[cfg(feature = "light")]
-use orbtk::theme_default::THEME_DEFAULT_COLORS_LIGHT as THEME_DEFAULT_COLORS;
+pub use self::theme::*;
 
 pub mod data;
 pub mod keys;
 pub mod states;
+pub mod theme;
 pub mod views;
-
-// --- THEME --
-
-static THEME_DEFAULT_EXT: &str = include_str!("../assets/theme_default_ext.ron");
-
-#[cfg(not(feature = "light"))]
-static THEME_DEFAULT_COLORS_EXT: &str = include_str!("../assets/theme_default_colors_dark_ext.ron");
-
-#[cfg(feature = "light")]
-static THEME_DEFAULT_COLORS_EXT: &str =
-    include_str!("../assets/theme_default_colors_light_ext.ron");
-
-fn theme() -> Theme {
-    register_default_fonts(Theme::from_config(
-        ThemeConfig::from(THEME_DEFAULT)
-            .extend(ThemeConfig::from(THEME_DEFAULT_EXT))
-            .extend(ThemeConfig::from(THEME_DEFAULT_COLORS))
-            .extend(ThemeConfig::from(THEME_DEFAULT_COLORS_EXT))
-            .extend(ThemeConfig::from(THEME_DEFAULT_FONTS)),
-    ))
-}
-
-// --- THEME --
 
 fn main() {
     Application::from_name(keys::APPLICATION)
-        .theme(theme())
+        .theme(planner_theme_default())
         .window(move |ctx| {
             Window::new()
                 .title("PluralPlanner")

@@ -1,6 +1,7 @@
 Theme (
     styles: {
         // -- [START] Base --
+        
         "top_bar": (
             properties: {
                 "padding_left": 4,
@@ -37,13 +38,6 @@ Theme (
 
         // -- [START] Text --
 
-        "header": (
-            base: "base",
-            properties: {
-                "font_size": "$FONT_SIZE_24",
-                "foreground": "$CONTENT_FOREGROUND"
-            }
-        ),
         "text_box_inline": (
             base: "base",
             properties: {

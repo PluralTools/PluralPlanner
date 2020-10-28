@@ -1,0 +1,166 @@
+Theme (
+    styles: {
+        // -- [START] Base --
+        
+        "top_bar": (
+            properties: {
+                "padding_left": 4,
+                "padding_right": 4,
+                "height": 52,
+                "background": "$BAR_BACKGROUND"
+            }
+        ),
+        "bottom_bar": (
+              properties: {
+                "padding_left": 4,
+                "padding_right": 4,
+                "height": 42,
+                "background": "$BAR_BACKGROUND"
+              }
+        ),
+        "overview_grid": (
+            properties: {
+                "background": "$OVERVIEW_GRID_BACKGROUND"
+            }
+        ),
+        "task_view_grid": (
+            properties: {
+                "background": "$TASK_VIEW_GRID_BACKGROUND"
+            }
+        ),
+        "separator": (
+            properties: {
+                "background": "$SEPARATOR_COLOR"
+            }
+        ),
+
+        // -- [END] Base --
+
+        // -- [START] Text --
+
+        "text_box_inline": (
+            base: "base",
+            properties: {
+                "background": "transparent",
+                "border_brush": "transparent"
+            },
+        ),
+        "inplace": (
+            base: "text_box",
+            properties: {
+                "background": "transparent",
+                "border_brush": "transparent",
+                "border_thickness": 1,
+                "border_radius": 2,
+                "padding": 6
+            },
+        ),
+        "text_box_inline": (
+            base: "text_box",
+            properties: {
+                "height": 32,
+                "background": "transparent",
+                "border_brush": "transparent",
+                "border_width": 0,
+                "border_radius": 3,
+                "padding": 6,
+            },
+        ),
+        "text_box_header": (
+            base: "base",
+            properties: {
+                "font_size": "$FONT_SIZE_24",
+                "height": 32,
+                "background": "transparent",
+                "border_brush": "transparent",
+                "foreground": "$CONTENT_FOREGROUND",
+                "border_width": 0,
+                "border_radius": 3,
+                "padding": 2,
+            },
+        ),
+
+        // -- [END] Text --
+
+        // -- [START] Buttons --
+       
+        "button_icon_only": (
+            base: "button",
+            properties: {
+                "background": "transparent",
+                "spacing": 0,
+                "min_width": 32,
+                "height": 32
+            }
+        ),
+        "item_button": (
+             properties: {
+                "background": "transparent",
+                "border_radius": 0,
+                "height": 48
+            }
+        ),
+        "button_float": (
+            base: "button_primary",
+            properties: {
+                "width": 42,
+                "height": 42,
+                "border_radius": 21,
+                "spacing": 0,
+            }, 
+        ),
+        "button_transparent": (
+            base: "base",
+            properties: {
+                "background": "transparent",
+                "border_radius": 0
+            }
+        ),
+
+        // -- [END] Buttons --
+
+        // -- [START] Items --
+
+        "items_widget": (
+             properties: {
+                "padding": 0,
+                "border_brush": "transparent",
+                "background": "transparent",
+            }
+        ),
+        "list_view": (
+            properties: {
+                "background": "transparent",
+                "border_brush": "transparent"
+            }
+        ),
+        "list_view_item": (
+            properties: {
+                "font_size": "$FONT_SIZE_16",
+                "foreground": "$CONTENT_FOREGROUND",
+                "background": "transparent",
+                "padding_left": 8,
+                "padding_right": 8,
+                "height": 32
+            },
+            states: [
+                (
+                    key: "selected",
+                    properties: {
+                        "foreground": "$CONTENT_FOREGROUND_INVERTED",
+                        "background": "$ACCENT_COLOR",
+                    }
+                ),
+                (
+                    key: "pressed",
+                    properties: {
+                        "foreground": "$CONTENT_FOREGROUND_INVERTED",
+                        "background": "$ACCENT_COLOR",
+                    }
+                )
+            ]
+        ),
+
+        // -- [END] Items --
+    }
+)
